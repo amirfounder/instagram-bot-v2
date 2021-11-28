@@ -15,10 +15,10 @@ class InteractionProxy():
     monitor_2_screenshot_1 = self.__screen.screenshot(2)
 
     self.__keyboard.press_and_release('windows')
-    sleep(.1)
+    sleep(.2)
     self.__keyboard.write('brave')
     self.__keyboard.press_and_release('enter')
-    sleep(.9)
+    sleep(.8)
 
     monitor_1_screenshot_2 = self.__screen.screenshot(1)
     monitor_2_screenshot_2 = self.__screen.screenshot(2)
@@ -39,17 +39,24 @@ class InteractionProxy():
       self.__keyboard.release('windows')
 
     sleep(.3)
-
-  def research_hashtags(self):
-    self.setup_browser()
-
+  
+  def visit_url(self, url):
     self.__keyboard.press('ctrl')
     self.__keyboard.press_and_release('l')
     self.__keyboard.release('ctrl')
-    self.__keyboard.write('https://instagram.com')
+    self.__keyboard.write(url)
     self.__keyboard.press_and_release('enter')
 
-    sleep(1)
+  def close__current_tab(self):
+    self.__keyboard.press('ctrl')
+    self.__keyboard.press_and_release('w')
+    self.__keyboard.release('ctrl')
+
+  def research_hashtags(self):
+    self.setup_browser()
+    self.visit_url('https://instagram.com')
+
+    sleep(3)
     
     box = self.__screen.find_text('search')
     if box is None:
@@ -60,7 +67,4 @@ class InteractionProxy():
     self.__keyboard.write('#blue')
     
     sleep(2)
-
-    self.__keyboard.press('ctrl')
-    self.__keyboard.press_and_release('w')
-    self.__keyboard.release('ctrl')
+    self.close__current_tab()

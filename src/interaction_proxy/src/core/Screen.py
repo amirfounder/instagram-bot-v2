@@ -77,5 +77,5 @@ class Screen:
   
   def process_image_to_black_and_white(self, image):
     gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    _, black_and_white = cv.threshold(gray_image, 238, 255, cv.THRESH_BINARY)
+    _, black_and_white = cv.threshold(gray_image, 230, 255, cv.THRESH_BINARY)
     return black_and_white
