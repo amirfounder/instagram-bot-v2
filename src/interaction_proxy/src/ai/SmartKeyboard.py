@@ -1,0 +1,2 @@
+class SmartKeyboard:
+  pass
