@@ -1,3 +1,4 @@
 from src import ApplicationRunner
 
-ApplicationRunner.run()
+if __name__ == '__main__':
+  ApplicationRunner.run()

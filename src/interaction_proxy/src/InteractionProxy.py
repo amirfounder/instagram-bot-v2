@@ -18,7 +18,7 @@ class InteractionProxy():
     sleep(.1)
     self.__keyboard.write('brave')
     self.__keyboard.press_and_release('enter')
-    sleep(.7)
+    sleep(.9)
 
     monitor_1_screenshot_2 = self.__screen.screenshot(1)
     monitor_2_screenshot_2 = self.__screen.screenshot(2)
