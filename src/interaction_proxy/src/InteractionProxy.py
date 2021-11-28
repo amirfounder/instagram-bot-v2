@@ -64,7 +64,16 @@ class InteractionProxy():
     
     self.__mouse.move_to_box(box)
     self.__mouse.click()
+    sleep(1)
     self.__keyboard.write('#blue')
+    sleep(2)
+    self.__keyboard.backspace(len("#blue"))
+
+    for word in ['#green', '#purple', "love"]:
+      self.__keyboard.write(word)
+      sleep(2)
+      self.__keyboard.backspace(len(word))
+      sleep(1)
     
     sleep(2)
     self.close__current_tab()

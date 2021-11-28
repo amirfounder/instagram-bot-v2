@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import cast
 from src.data_manager import FileManager
 from src.http_proxy.src.FlowUtils import FlowUtils
 import json
@@ -37,7 +36,8 @@ class InstagramResponseHandler():
   def build_meta(self, flow):
     return {
       'id': self.__prev_response_id + 1,
-      'url': flow.request.pretty_url
+      'url': flow.request.pretty_url,
+      'timestamp': datetime.now().strftime('%Y%m%d_%H%M%S.%f')
     }
     
   def handle_image(self, flow):
