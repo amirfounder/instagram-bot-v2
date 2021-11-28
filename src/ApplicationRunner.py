@@ -7,7 +7,8 @@ class ApplicationRunner():
   @staticmethod
   def run():
     # ApplicationRunner.run_sandbox()
-    ApplicationRunner.run_http_proxy()
+    # ApplicationRunner.run_http_proxy()
+    ApplicationRunner.run_content_builder()
 
   @staticmethod
   def run_http_proxy():
@@ -21,6 +22,10 @@ class ApplicationRunner():
   def run_bot_builder():
     bot_builder = BotBuilder()
     bot_builder.build_bots()
+
+  @staticmethod
+  def run_content_builder():
+    os.system('npm start')
 
   @staticmethod
   def run_interaction_proxy():

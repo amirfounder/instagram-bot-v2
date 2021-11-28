@@ -140,7 +140,8 @@ checkBrowsers(paths.appPath, isInteractive)
       }
 
       console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
+      // openBrowser(urls.localUrlForBrowser);
+      openBrowser('http://192.168.56.1:3000/amirfounder-automation');
     });
 
     ['SIGINT', 'SIGTERM'].forEach(function (sig) {
