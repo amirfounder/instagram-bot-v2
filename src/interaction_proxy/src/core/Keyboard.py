@@ -7,10 +7,9 @@ class Keyboard:
   def __init__(self) -> None:
     self.pressed = []
 
-  def write(self, value:str, delays:list[int]=None):
+  def write(self, value:str, delay=.05):
     for i in range(len(value)):
       char = value[i]
-      delay = .05
       keyboard.write(char, delay=delay)
 
   def press_and_release(self, value, interval=0.03):

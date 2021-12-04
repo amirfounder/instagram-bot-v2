@@ -15,8 +15,9 @@ class Screen:
 
   def find_text(self, text, expected_occurences=1):
     image = self.screenshot()
-    processed = self.process_image_to_black_and_white(image)
-    boxes = self.find_text_from_image(processed, text)
+    # processed = self.process_image_to_black_and_white(image)
+    self.save_numpy_image('image.png', image)
+    boxes = self.find_text_from_image(image, text)
 
     if len(boxes) != expected_occurences:
       self.handle_unexpected_image_occurences(text, expected_occurences, len(boxes))

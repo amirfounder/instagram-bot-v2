@@ -8,8 +8,9 @@ class ApplicationRunner():
   @staticmethod
   def run():
     ApplicationRunner.run_multiple([
-      ApplicationRunner.run_interaction_proxy,
-      ApplicationRunner.run_http_proxy
+      # ApplicationRunner.run_interaction_proxy,
+      # ApplicationRunner.run_http_proxy,
+      ApplicationRunner.run_content_builder
     ])
 
   @staticmethod

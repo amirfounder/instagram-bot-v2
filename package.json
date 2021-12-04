@@ -17,7 +17,6 @@
   "bugs": {
     "url": "https://github.com/amirfounder-automation/x/issues"
   },
-  "homepage": "https://github.com/amirfounder-automation/x#readme",
   "dependencies": {
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",

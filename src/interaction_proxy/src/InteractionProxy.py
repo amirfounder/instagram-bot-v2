@@ -10,6 +10,34 @@ class InteractionProxy():
     self.__mouse = Mouse()
     self.__screen = Screen(2)
 
+  def open_browser_dev_tools(self):
+    self.__keyboard.press('ctrl')
+    self.__keyboard.press('shift')
+    self.__keyboard.press_and_release('j')
+    self.__keyboard.release('shift')
+    self.__keyboard.release('ctrl')
+    sleep(1)
+
+    self.__keyboard.press('ctrl')
+    self.__keyboard.press_and_release('`')
+    self.__keyboard.release('ctrl')
+
+  def write_script_to_modify_instagram_search_text_input(self):
+    codeblock = \
+    "Array.from(document.querySelectorAll('*'))" + \
+    ".filter(x => x.textContent.toLowerCase().includes('search'))" + \
+    ".filter(x => !['html', 'body'].includes(x.tagName.toLowerCase()))" + \
+    ".slice(3)" + \
+    ".forEach(x => {" + \
+    "    x.style.fontWeight = '500';" + \
+    "    x.style.color = 'black';" + \
+    "    x.style.fontSize = '20px';" + \
+    "})"
+
+    self.__keyboard.write(codeblock, 0.01)
+    self.__keyboard.press_and_release('enter')
+    print('pressed enter')
+
   def setup_browser(self):
     monitor_1_screenshot_1 = self.__screen.screenshot(1)
     monitor_2_screenshot_1 = self.__screen.screenshot(2)
@@ -44,7 +72,7 @@ class InteractionProxy():
     self.__keyboard.press('ctrl')
     self.__keyboard.press_and_release('l')
     self.__keyboard.release('ctrl')
-    self.__keyboard.write(url)
+    self.__keyboard.write(url, 0.01)
     self.__keyboard.press_and_release('enter')
 
   def close__current_tab(self):
@@ -56,7 +84,12 @@ class InteractionProxy():
     self.setup_browser()
     self.visit_url('https://instagram.com')
 
-    sleep(3)
+    sleep(2)
+
+    self.open_browser_dev_tools()
+    self.write_script_to_modify_instagram_search_text_input()
+    
+    sleep(1)
     
     box = self.__screen.find_text('search')
     if box is None:
@@ -69,11 +102,16 @@ class InteractionProxy():
     sleep(2)
     self.__keyboard.backspace(len("#blue"))
 
-    for word in ['#green', '#purple', "love"]:
-      self.__keyboard.write(word)
-      sleep(2)
-      self.__keyboard.backspace(len(word))
-      sleep(1)
+    # for word in ['#green', '#purple', "#love"]:
+    #   self.__keyboard.write(word)
+    #   sleep(2)
+    #   self.__keyboard.backspace(len(word))
+    #   sleep(1)
+    
+    self.__mouse.click("middle")
+    self.__mouse.move((0, 20))
+    sleep(2)
+    self.__mouse.click("middle")
     
     sleep(2)
     self.close__current_tab()
