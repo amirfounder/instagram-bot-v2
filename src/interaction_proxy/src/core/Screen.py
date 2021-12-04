@@ -11,11 +11,10 @@ class Screen:
 
   def __init__(self, target_monitor=1) -> None:
     self.__sct = mss.mss()
-    self.__target_monitor = target_monitor
+    self._target_monitor = target_monitor
 
   def find_text(self, text, expected_occurences=1):
     image = self.screenshot()
-    # processed = self.process_image_to_black_and_white(image)
     self.save_numpy_image('image.png', image)
     boxes = self.find_text_from_image(image, text)
 
@@ -23,14 +22,14 @@ class Screen:
       self.handle_unexpected_image_occurences(text, expected_occurences, len(boxes))
       return
     
-    if self.__target_monitor == 1:
+    if self._target_monitor == 1:
       if expected_occurences == 1:
         return boxes[0]
       return boxes
     
     new_boxes = []
 
-    target_monitor_dimensions = self.__sct.monitors[self.__target_monitor]
+    target_monitor_dimensions = self.__sct.monitors[self._target_monitor]
     left_offset = target_monitor_dimensions['left']
     top_offset = target_monitor_dimensions['top']
 
@@ -65,7 +64,7 @@ class Screen:
 
   def screenshot(self, target_monitor=None):
     if target_monitor is None:
-      target_monitor = self.__target_monitor
+      target_monitor = self._target_monitor
     
     raw_pixels = self.__sct.grab(self.__sct.monitors[target_monitor])
     numpy_image = np.array(raw_pixels)

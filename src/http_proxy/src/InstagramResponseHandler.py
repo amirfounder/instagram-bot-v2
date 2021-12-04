@@ -14,12 +14,12 @@ class InstagramResponseHandler():
     print(f"instagram response : {flow.request.pretty_url}")
 
     if FlowUtils.content_type_is_json(flow):
-      self.handle_json(flow)
+      self.save_json(flow)
     
     if FlowUtils.content_type_is_image(flow):
-      self.handle_image(flow)
+      self.save_image(flow)
 
-  def handle_json(self, flow):
+  def save_json(self, flow):
     data = flow.response.text
 
     try:
@@ -33,15 +33,15 @@ class InstagramResponseHandler():
     self.__response_file_manager.write_to_directory(str(data))
     self.__prev_response_id += 1
 
+  def save_image(self, flow):
+    data = flow.response.content
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S.%f')
+    images_directory = 'C:/x/logs/mitm-proxy/instagram/images'
+    self.__image_file_manager.write_bytearray_to_file(data, f'{images_directory}/{timestamp}.png')
+  
   def build_meta(self, flow):
     return {
       'id': self.__prev_response_id + 1,
       'url': flow.request.pretty_url,
       'timestamp': datetime.now().strftime('%Y%m%d_%H%M%S.%f')
     }
-    
-  def handle_image(self, flow):
-    data = flow.response.content
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S.%f')
-    images_directory = 'C:/x/logs/mitm-proxy/instagram/images'
-    self.__image_file_manager.write_bytearray_to_file(data, f'{images_directory}/{timestamp}.png')

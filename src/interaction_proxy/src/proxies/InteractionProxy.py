@@ -29,9 +29,9 @@ class InteractionProxy():
     ".filter(x => !['html', 'body'].includes(x.tagName.toLowerCase()))" + \
     ".slice(3)" + \
     ".forEach(x => {" + \
-    "    x.style.fontWeight = '500';" + \
-    "    x.style.color = 'black';" + \
-    "    x.style.fontSize = '20px';" + \
+    "x.style.fontWeight = '500';" + \
+    "x.style.color = 'black';" + \
+    "x.style.fontSize = '20px';" + \
     "})"
 
     self.__keyboard.write(codeblock, 0.01)

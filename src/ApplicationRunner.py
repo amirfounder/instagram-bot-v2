@@ -1,6 +1,10 @@
 import os
 from src import BotBuilder, FileManager, InteractionProxy
 from multiprocessing import Process
+from src.interaction_proxy.src import proxies
+
+from src.interaction_proxy.src.proxies.base.BrowserProxy import BrowserProxy
+from src.interaction_proxy.src.proxies.specialized import InstagramProxy
 
 
 class ApplicationRunner():
@@ -10,7 +14,8 @@ class ApplicationRunner():
     ApplicationRunner.run_multiple([
       # ApplicationRunner.run_interaction_proxy,
       # ApplicationRunner.run_http_proxy,
-      ApplicationRunner.run_content_builder
+      # ApplicationRunner.run_content_builder
+      ApplicationRunner.run_sandbox()
     ])
 
   @staticmethod
@@ -37,8 +42,8 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    file_manager = FileManager(target_directory='C:/x/logs/mitm-proxy/instagram/json')
-    file_manager.write_to_directory('hello')
+    proxy = InstagramProxy()
+    proxy.run()
   
   @staticmethod
   def run_multiple(processes):
