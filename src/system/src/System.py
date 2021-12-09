@@ -1,5 +1,6 @@
 import win32gui
 import win32con
+import os
 
 
 class System:
@@ -55,3 +56,6 @@ class System:
   
   def set_window_monitor(self, hwnd):
     pass
+
+  def open_app(self, executeable_path):
+    os.startfile('C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe')
