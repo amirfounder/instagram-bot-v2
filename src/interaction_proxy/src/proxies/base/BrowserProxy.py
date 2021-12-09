@@ -26,8 +26,8 @@ class BrowserProxy(BaseProxy):
     
     monitor_1_screenshot_2 = self._screen.screenshot(1)
     monitor_2_screenshot_2 = self._screen.screenshot(2)
-    monitor_1_similarity_score = self._screen.build_similarity_score(monitor_1_screenshot_1, monitor_1_screenshot_2)
-    monitor_2_similarity_score = self._screen.build_similarity_score(monitor_2_screenshot_1, monitor_2_screenshot_2)
+    monitor_1_similarity_score = self._screen.build_similarity_score_between_images(monitor_1_screenshot_1, monitor_1_screenshot_2)
+    monitor_2_similarity_score = self._screen.build_similarity_score_between_images(monitor_2_screenshot_1, monitor_2_screenshot_2)
     
     current_browser_monitor = 1 if monitor_2_similarity_score > monitor_1_similarity_score else 2
 

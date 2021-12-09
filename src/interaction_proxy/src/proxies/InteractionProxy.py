@@ -51,8 +51,8 @@ class InteractionProxy():
     monitor_1_screenshot_2 = self.__screen.screenshot(1)
     monitor_2_screenshot_2 = self.__screen.screenshot(2)
 
-    monitor_1_score = self.__screen.build_similarity_score(monitor_1_screenshot_1, monitor_1_screenshot_2)
-    monitor_2_score = self.__screen.build_similarity_score(monitor_2_screenshot_1, monitor_2_screenshot_2)
+    monitor_1_score = self.__screen.build_similarity_score_between_images(monitor_1_screenshot_1, monitor_1_screenshot_2)
+    monitor_2_score = self.__screen.build_similarity_score_between_images(monitor_2_screenshot_1, monitor_2_screenshot_2)
 
     browser_monitor = 1 if monitor_2_score > monitor_1_score else 2
 
