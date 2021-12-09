@@ -43,9 +43,15 @@ class System:
   def show_window_maximized(self, hwnd):
     win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
   
-  def get_window_box(self, hwnd):
+  def get_window_pos(self, hwnd):
     return win32gui.GetWindowRect(hwnd)
   
+  def set_window_pos(self, hwnd, box):
+    return
+
   def get_window_monitor(self, hwnd):
-    box = self.get_window_box(hwnd)
+    box = self.get_window_pos(hwnd)
     print(box)
+  
+  def set_window_monitor(self, hwnd):
+    pass
