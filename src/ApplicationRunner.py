@@ -1,5 +1,6 @@
 import os
-from src import BotBuilder, FileManager, InteractionProxy
+from time import sleep
+from src import BotBuilder, FileManager, InteractionProxy, System
 from multiprocessing import Process
 from src.interaction_proxy.src import proxies
 
@@ -17,6 +18,10 @@ class ApplicationRunner():
       # ApplicationRunner.run_content_builder
       ApplicationRunner.run_sandbox()
     ])
+  
+  @staticmethod
+  def run_assistant():
+    pass
 
   @staticmethod
   def run_http_proxy():
@@ -42,8 +47,18 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    proxy = InstagramProxy()
-    proxy.run()
+    system = System()
+    apps = system.get_open_apps()
+    lotro = None
+    for app in apps:
+      _, name = app
+      if name == 'The Lord of the Rings Online™':
+        lotro = app
+        break
+    if lotro is None:
+      return
+    system.show_window_normal(lotro[0])
+    sleep(1)
   
   @staticmethod
   def run_multiple(processes):
