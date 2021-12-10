@@ -31,3 +31,15 @@ class Keyboard:
 
   def is_pressed(self, value):
     return value in self.pressed
+  
+  def hotkey(self, keys: list, interval: int=.03):
+    keys_reverse = keys.copy()
+    keys_reverse.reverse()
+    
+    for key in keys:
+      self.press(key)
+      time.sleep(interval)
+    
+    for key in keys_reverse:
+      self.release(key)
+      time.sleep(interval)

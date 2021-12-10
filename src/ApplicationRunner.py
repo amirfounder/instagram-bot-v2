@@ -1,6 +1,6 @@
 import os
 
-from src import BotBuilder, InteractionProxy, InstagramProxy
+from src import BotBuilder, InteractionProxy, InstagramProxy, Keyboard
 from multiprocessing import Process
 from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
 
@@ -40,10 +40,12 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
+    k = Keyboard()
     proxy = InstagramProxy()
     proxy.start()
-    proxy.research_hashtags()
-    proxy._close_browser()
+    k.hotkey(['ctrl', 'shift', 'n'])
+    # proxy.research_hashtags()
+    # proxy._close_browser()
 
   @staticmethod
   def run_multiple(processes):
