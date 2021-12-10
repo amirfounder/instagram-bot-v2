@@ -28,11 +28,11 @@ class JavascriptBuilder():
 
   def __build_find_element_matching_class(self, css_class):
     js_variable = self.__build_unique_js_variable_name()
-    return f'{js_variable} = document.querySelector(".{css_class}");'
+    return f'{js_variable}=document.querySelector(".{css_class}");'
   
   def __build_find_element_matching_id(self, css_id):
     js_variable = self.__build_unique_js_variable_name()
-    return f'{js_variable} = document.querySelector("#{css_id}");'
+    return f'{js_variable}=document.querySelector("#{css_id}");'
 
   def build_modify_instagram_search_box_styles_script(self):
     class_selector = self.instagram_search_element_class_selector
@@ -48,3 +48,6 @@ class JavascriptBuilder():
                   '})'
     
     return style_change_script
+
+  def build_get_loading_state_script(self, timeout_duration=1000):
+    return f'setTimeout(async()=>await window.navigator.clipboard.writeText(document.readyState),{timeout_duration})'

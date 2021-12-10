@@ -1,6 +1,8 @@
+from time import sleep
 import win32gui
 import win32con
 import win32api
+import win32process
 import os
 
 
@@ -57,9 +59,6 @@ class System:
   def move_app_to_front(self, hwnd):
     win32gui.SetForegroundWindow(hwnd)
   
-  def focus_app(self, hwnd):
-    win32gui.SetFocus(hwnd)
-
   def open_app(self, executeable_path):
     os.startfile(executeable_path)
 
@@ -78,6 +77,11 @@ class System:
   def move_app_to_monitor(self, hwnd, monitor_id, maximize=False):
     current_monitor = self.get_app_monitor(hwnd)
     target_monitor = self.get_monitor(monitor_id)
+
+    if current_monitor is None:
+      x, y, w, h = target_monitor['rect']
+      win32gui.MoveWindow(hwnd, x, y, w, h, True)
+      return
 
     if current_monitor['display'] == target_monitor['display']:
       return
@@ -135,3 +139,27 @@ class System:
   def get_foreground_app(self):
     app = win32gui.GetForegroundWindow()
     return (app, win32gui.GetWindowText(app))
+
+  def close_all_browsers(self, browser):
+    browser_name_extension = None
+
+    if browser == 'brave':
+      browser_name_extension = ' - Brave'
+    if browser == 'chrome':
+      browser_name_extension = ' - Google Chrome'
+
+    if browser_name_extension is None:
+      print('Could not identify browser: {browser}')    
+
+    apps = self.get_open_apps()
+    browser_apps = [x for x in apps if x[1].endswith(browser_name_extension)]
+
+    print(apps)
+    print(browser_apps)
+
+    for browser_app in browser_apps:
+      self.move_app_to_front(browser_app[0])
+      self.show_app_maximized(browser_app[0])
+      self.move_app_to_monitor(browser_app[0], 2)
+      sleep(.1)
+      self.close_app(browser_app[0])

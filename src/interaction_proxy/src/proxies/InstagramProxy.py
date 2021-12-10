@@ -11,10 +11,13 @@ class InstagramProxy(BrowserProxy):
   def start(self):
     self._open_browser(2)
     self._navigate_to_url('https://instagram.com')
-    sleep(.5)
+    self._wait_until_webpage_loaded()
 
-  def research_hashtags():
-    pass
+  def research_hashtags(self):
+    script = self._script_builder.build_modify_instagram_search_box_styles_script()
+    self._open_dev_tools_console()
+    self._execute_dev_tools_console_script(script)
+    self._close_dev_tools_console()
 
   def click_search_input(self):
     box = self._screen.find_text('search')

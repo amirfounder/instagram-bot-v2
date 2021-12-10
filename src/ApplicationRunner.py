@@ -1,9 +1,7 @@
 import os
-from time import sleep
 
-from src import BotBuilder, InteractionProxy, System, InstagramProxy, builders
+from src import BotBuilder, InteractionProxy, InstagramProxy
 from multiprocessing import Process
-from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
 from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
 
 
@@ -42,9 +40,10 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    builder = JavascriptBuilder()
-    script = builder.build_modify_instagram_search_box_styles_script()
-    print(script)
+    proxy = InstagramProxy()
+    proxy.start()
+    proxy.research_hashtags()
+    proxy._close_browser()
 
   @staticmethod
   def run_multiple(processes):
