@@ -1,1 +1,0 @@
-from src.interaction_proxy.src.proxies.specialized.InstagramProxy import *

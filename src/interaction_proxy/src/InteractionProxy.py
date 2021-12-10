@@ -2,8 +2,9 @@ from time import sleep
 from src.interaction_proxy.src.core import Keyboard
 from src.interaction_proxy.src.core import Mouse
 from src.interaction_proxy.src.core import Screen
+from src.interaction_proxy.src.proxies import InstagramProxy
 
-class InteractionProxy():
+class InteractionProxy(InstagramProxy):
 
   def __init__(self):
     self.__keyboard = Keyboard()

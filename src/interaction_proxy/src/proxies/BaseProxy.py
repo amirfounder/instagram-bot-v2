@@ -1,4 +1,5 @@
 from src.interaction_proxy.src.core import Keyboard, Screen, Mouse
+from src.system import System
 
 
 class BaseProxy():
@@ -6,3 +7,4 @@ class BaseProxy():
     self._keyboard = Keyboard()
     self._mouse = Mouse()
     self._screen = Screen()
+    self._system = System()

@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from src.interaction_proxy.src.proxies.base import BrowserProxy
+from src.interaction_proxy.src.proxies import BrowserProxy
 
 
 class InstagramProxy(BrowserProxy):

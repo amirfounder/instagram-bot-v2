@@ -1,21 +1,14 @@
-from src.interaction_proxy.src.proxies.base import BaseProxy
 from time import sleep
+from src.interaction_proxy.src.proxies import BaseProxy
+from src.utils.constants import *
 
 
 class BrowserProxy(BaseProxy):
-  def __init__(
-    self,
-    browser_name='brave'
-  ):
+  def __init__(self):
     super().__init__()
-    self._browser_name = browser_name
 
   def open_browser(self):
-    self._keyboard.press_and_release('windows')
-    sleep(.3)
-    self._keyboard.write(self._browser_name, 0.01)
-    sleep(.2)
-    self._keyboard.press_and_release('enter')
+    self._system.open_app(BRAVE_EXECUTEABLE)
 
   def open_browser_on_monitor(self, target_monitor=None):
     monitor_1_screenshot_1 = self._screen.screenshot(1)
@@ -35,9 +28,9 @@ class BrowserProxy(BaseProxy):
       current_browser_monitor == target_monitor:
       return
     
-    self.move_browser_to_window(current_browser_monitor, target_monitor)
+    self.move_browser_to_monitor(current_browser_monitor, target_monitor)
 
-  def move_browser_to_window(self, current_monitor, target_monitor):
+  def move_browser_to_monitor(self, current_monitor, target_monitor):
     # TODO Check the system to identify the order of the monitors
     # TODO Extend support beyond two monitors
 
@@ -79,15 +72,3 @@ class BrowserProxy(BaseProxy):
   def run_dev_tools_console_script(self, script):
     self._keyboard.write(script, 0.001)
     self._keyboard.press_and_release('enter')
-
-  def build_script_to_modify_instagram_search_input(self):
-    return \
-    "Array.from(document.querySelectorAll('*'))" + \
-    ".filter(x => x.textContent.toLowerCase().includes('search'))" + \
-    ".filter(x => !['html', 'body'].includes(x.tagName.toLowerCase()))" + \
-    ".slice(3)" + \
-    ".forEach(x => {" + \
-    "x.style.fontWeight = '500';" + \
-    "x.style.color = 'black';" + \
-    "x.style.fontSize = '20px';" + \
-    "})"
