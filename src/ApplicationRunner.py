@@ -2,6 +2,7 @@ import os
 from src import BotBuilder, InteractionProxy, System
 from multiprocessing import Process
 from src.interaction_proxy.src import proxies
+from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
 
 
 class ApplicationRunner():
@@ -15,10 +16,6 @@ class ApplicationRunner():
       ApplicationRunner.run_sandbox()
     ])
   
-  @staticmethod
-  def run_assistant():
-    pass
-
   @staticmethod
   def run_http_proxy():
     os.system("mitmdump -s src/http_proxy/src/app.py --set console_eventlog_verbosity=error termlog_verbosity=error")
@@ -44,8 +41,12 @@ class ApplicationRunner():
   @staticmethod
   def run_sandbox():
     system = System()
-    system.open_app()
-  
+    lotro = system.get_open_app(LOTRO_APP_NAME)
+    system.move_app_to_front(lotro)
+    system.get_app_monitor(lotro)
+    system.move_app_to_monitor(lotro, 1)
+
+
   @staticmethod
   def run_multiple(processes):
     runners = []

@@ -1,8 +1,6 @@
 from time import sleep
-from src.interaction_proxy.src.core import Keyboard
-from src.interaction_proxy.src.core import Mouse
-from src.interaction_proxy.src.core import Screen
-from src.interaction_proxy.src.proxies import InstagramProxy
+from src.interaction_proxy.src.core import *
+from src.interaction_proxy.src.proxies.InstagramProxy import InstagramProxy
 
 class InteractionProxy(InstagramProxy):
 
