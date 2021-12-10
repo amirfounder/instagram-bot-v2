@@ -1,10 +1,8 @@
 import os
 from time import sleep
 
-from win32api import Sleep
 from src import BotBuilder, InteractionProxy, System
 from multiprocessing import Process
-from src.interaction_proxy.src import proxies
 from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
 
 
@@ -43,7 +41,6 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    sleep(2)
     system = System()
     open_apps = system.get_open_apps()
     first_named_app = [x for x in open_apps if x[1] != ''][0][1]
@@ -54,8 +51,10 @@ class ApplicationRunner():
     system.move_app_to_monitor(target_app, 2)
     sleep(1)
     system.move_app_to_monitor(target_app, 3)
-    # sleep(1)
-    # system.move_app_to_monitor(target_app, 2)
+    sleep(1)
+    system.move_app_to_monitor(target_app, 2)
+    sleep(1)
+    system.move_app_to_monitor(target_app, 1)
 
 
   @staticmethod
