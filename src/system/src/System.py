@@ -15,8 +15,20 @@ class System:
 
     for h_monitor, _, _ in win32api.EnumDisplayMonitors():
       monitor_info = win32api.GetMonitorInfo(h_monitor)
+
+      x, y, right, bottom = monitor_info['Monitor']
+
+      width = right - x
+      height = bottom - y
+
+      if width == 0:
+        width = abs(x)
+      
+      if height == 0:
+        height = abs(y)
+
       monitors.append({
-        'rect': monitor_info['Monitor'],
+        'rect': (x, y, width, height),
         'device': monitor_info['Device'],
         'display': i,
         'flags': monitor_info['Flags']
@@ -39,7 +51,7 @@ class System:
     win32gui.EnumWindows(callback, None)
     return apps
   
-  def get_open_app(self, name):
+  def get_open_app_by_name(self, name):
     return win32gui.FindWindowEx(0, 0, 0, name)
 
   def move_app_to_front(self, hwnd):
@@ -97,7 +109,7 @@ class System:
 
   def get_app_pos(self, hwnd):
     x, y, right, bottom = win32gui.GetWindowRect(hwnd)
-    width = abs(x - right)
+    width = abs(right - x)
     height = abs(bottom - y)
 
     return x, y, width, height
@@ -112,7 +124,7 @@ class System:
 
     for monitor in monitors:
       monitor_start_point = monitor['rect'][0]
-      if app_start_point > monitor_start_point:
+      if app_start_point + 9 >= monitor_start_point:
         app_monitor = monitor
 
     return app_monitor

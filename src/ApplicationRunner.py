@@ -1,4 +1,7 @@
 import os
+from time import sleep
+
+from win32api import Sleep
 from src import BotBuilder, InteractionProxy, System
 from multiprocessing import Process
 from src.interaction_proxy.src import proxies
@@ -40,11 +43,19 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
+    sleep(2)
     system = System()
-    lotro = system.get_open_app(LOTRO_APP_NAME)
-    system.move_app_to_front(lotro)
-    system.get_app_monitor(lotro)
-    system.move_app_to_monitor(lotro, 1)
+    open_apps = system.get_open_apps()
+    first_named_app = [x for x in open_apps if x[1] != ''][0][1]
+    target_app = system.get_open_app_by_name(first_named_app)
+    system.move_app_to_front(target_app)
+    system.move_app_to_monitor(target_app, 1)
+    sleep(1)
+    system.move_app_to_monitor(target_app, 2)
+    sleep(1)
+    system.move_app_to_monitor(target_app, 3)
+    # sleep(1)
+    # system.move_app_to_monitor(target_app, 2)
 
 
   @staticmethod
