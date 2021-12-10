@@ -4,9 +4,17 @@ from src.interaction_proxy.src.proxies import BrowserProxy
 
 
 class InstagramProxy(BrowserProxy):
-  def __init__(self, browser_name='brave'):
-    super().__init__(browser_name=browser_name)
-    self._screen._target_monitor = 2
+  def __init__(self, browser=None, target_monitor=None):
+    super().__init__(browser=browser)
+    self._screen._target_monitor = target_monitor or 2
+
+  def start(self):
+    self._open_browser(2)
+    self._navigate_to_url('https://instagram.com')
+    sleep(.5)
+
+  def research_hashtags():
+    pass
 
   def click_search_input(self):
     box = self._screen.find_text('search')
@@ -17,7 +25,7 @@ class InstagramProxy(BrowserProxy):
     self._mouse.click()
 
   def run(self):
-    self.open_browser_on_monitor(2)
+    self.open_browser(2)
     self.navigate_to_url('instagram.com')
     
     sleep(2)

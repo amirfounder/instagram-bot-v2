@@ -4,59 +4,40 @@ from src.utils.constants import *
 
 
 class BrowserProxy(BaseProxy):
-  def __init__(self):
+  def __init__(self, browser: str=None):
     super().__init__()
+    self._browser = browser
+    self._browser_executeable = None
 
-  def open_browser(self):
+    if (type(browser) == str and browser.lower() == 'brave') or browser == BRAVE_EXECUTEABLE:
+      self._browser_executeable = BRAVE_EXECUTEABLE
+    if (type(browser) == str and browser.lower() == 'chrome') or browser == CHROME_EXECUTEABLE:
+      self._browser_executeable = CHROME_EXECUTEABLE
+
+    if self._browser_executeable is None:
+      print("INFO: You have created an instance of BrowserProxy without specifiying a browser. Defaulting to Brave")
+      self._browser = 'brave'
+      self._browser_executeable = BRAVE_EXECUTEABLE
+
+  def _open_browser(self, monitor=1, maximize=True):
     self._system.open_app(BRAVE_EXECUTEABLE)
+    sleep(.5)
+    app = self._system.get_foreground_app()[0]
 
-  def open_browser_on_monitor(self, target_monitor=None):
-    monitor_1_screenshot_1 = self._screen.screenshot(1)
-    monitor_2_screenshot_1 = self._screen.screenshot(2)
-    
-    self.open_browser()
-    sleep(.3)
-    
-    monitor_1_screenshot_2 = self._screen.screenshot(1)
-    monitor_2_screenshot_2 = self._screen.screenshot(2)
-    monitor_1_similarity_score = self._screen.build_similarity_score_between_images(monitor_1_screenshot_1, monitor_1_screenshot_2)
-    monitor_2_similarity_score = self._screen.build_similarity_score_between_images(monitor_2_screenshot_1, monitor_2_screenshot_2)
-    
-    current_browser_monitor = 1 if monitor_2_similarity_score > monitor_1_similarity_score else 2
+    self._system.move_app_to_monitor(app, monitor, maximize)
+    if maximize:
+      self._system.show_app_maximized(app)
 
-    if target_monitor is None or \
-      current_browser_monitor == target_monitor:
-      return
-    
-    self.move_browser_to_monitor(current_browser_monitor, target_monitor)
-
-  def move_browser_to_monitor(self, current_monitor, target_monitor):
-    # TODO Check the system to identify the order of the monitors
-    # TODO Extend support beyond two monitors
-
-    self._keyboard.press('windows')
-
-    for _ in range(3):
-      if current_monitor == 1 and target_monitor == 2:
-        self._keyboard.press_and_release('left')
-      else:
-        self._keyboard.press_and_release('right')
-    
-    self._keyboard.press_and_release('up')
-    self._keyboard.press_and_release('up')
-    self._keyboard.press_and_release('up')
-    self._keyboard.release('windows')
-
-  def navigate_to_url(self, url):
+  def _navigate_to_url(self, url):
     self._keyboard.press('ctrl')
     self._keyboard.press_and_release('l')
     self._keyboard.release('ctrl')
     sleep(.3)
-    self._keyboard.write(url, .01)
+    self._keyboard.write(url, .001)
     sleep(.3)
     self._keyboard.press_and_release('enter')
 
-  def open_dev_tools_console(self):
+  def _open_dev_tools_console(self):
     self._keyboard.press('ctrl')
     self._keyboard.press('shift')
     self._keyboard.press_and_release('j')
@@ -69,6 +50,6 @@ class BrowserProxy(BaseProxy):
     self._keyboard.press_and_release('`')
     self._keyboard.release('ctrl')
 
-  def run_dev_tools_console_script(self, script):
+  def _run_dev_tools_console_script(self, script):
     self._keyboard.write(script, 0.001)
     self._keyboard.press_and_release('enter')

@@ -1,8 +1,9 @@
 import os
 from time import sleep
 
-from src import BotBuilder, InteractionProxy, System
+from src import BotBuilder, InteractionProxy, System, InstagramProxy, builders
 from multiprocessing import Process
+from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
 from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
 
 
@@ -41,21 +42,9 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    system = System()
-    open_apps = system.get_open_apps()
-    first_named_app = [x for x in open_apps if x[1] != ''][0][1]
-    target_app = system.get_open_app_by_name(first_named_app)
-    system.move_app_to_front(target_app)
-    system.move_app_to_monitor(target_app, 1)
-    sleep(1)
-    system.move_app_to_monitor(target_app, 2)
-    sleep(1)
-    system.move_app_to_monitor(target_app, 3)
-    sleep(1)
-    system.move_app_to_monitor(target_app, 2)
-    sleep(1)
-    system.move_app_to_monitor(target_app, 1)
-
+    builder = JavascriptBuilder()
+    script = builder.build_modify_instagram_search_box_styles_script()
+    print(script)
 
   @staticmethod
   def run_multiple(processes):

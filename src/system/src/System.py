@@ -63,6 +63,9 @@ class System:
   def open_app(self, executeable_path):
     os.startfile(executeable_path)
 
+  def close_app(self, hwnd):
+    win32gui.CloseWindow(hwnd)
+
   def show_app_maximized(self, hwnd):
     win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
 
@@ -129,3 +132,6 @@ class System:
 
     return app_monitor
   
+  def get_foreground_app(self):
+    app = win32gui.GetForegroundWindow()
+    return (app, win32gui.GetWindowText(app))
