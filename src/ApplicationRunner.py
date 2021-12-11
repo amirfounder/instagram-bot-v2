@@ -2,9 +2,10 @@ import os
 
 from multiprocessing import Process
 from src import Bot, BotBuilder, DatabaseManager, \
-  DataManager, InteractionProxy, Mouse
+  DataManager, InteractionAgent, Mouse
 from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
-from src.interaction_proxy.src.proxies.InstagramProxy import InstagramProxy \
+from src.interaction_agent.src.agents.InstagramAgent import InstagramAgent
+from src.prompt.src import Prompt \
 
 
 class ApplicationRunner():
@@ -41,14 +42,12 @@ class ApplicationRunner():
 
   @staticmethod
   def run_interaction_proxy():
-    interaction_proxy = InteractionProxy()
+    interaction_proxy = InteractionAgent()
     interaction_proxy.research_hashtags()
   
   @staticmethod
   def run_sandbox():
-    x = InstagramProxy()
-    x.start()
-    x.login()
+    prompt = Prompt()
 
   @staticmethod
   def run_multiple(processes):

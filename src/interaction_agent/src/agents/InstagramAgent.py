@@ -1,13 +1,13 @@
 import os
 import re
 from time import sleep
-from src.interaction_proxy.src.proxies import BrowserProxy
+from src.interaction_agent.src.agents import BrowserAgent
 from pyperclip import paste
 
 from src.utils.enums.colors import Color
 
 
-class InstagramProxy(BrowserProxy):
+class InstagramAgent(BrowserAgent):
   def __init__(self, browser=None, target_monitor=None, username=None):
     super().__init__(browser=browser)
     self._screen._target_monitor = target_monitor or 2

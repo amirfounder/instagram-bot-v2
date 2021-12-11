@@ -1,11 +1,11 @@
 from time import sleep
 from src.builders.script_builder.src.ScriptBuilder import ScriptBuilder
-from src.interaction_proxy.src.proxies import BaseProxy
+from src.interaction_agent.src.agents import BaseAgent
 from pyperclip import copy, paste
 from src.utils.constants import *
 
 
-class BrowserProxy(BaseProxy):
+class BrowserAgent(BaseAgent):
   def __init__(self, browser: str=None):
     super().__init__()
     self._script_builder = ScriptBuilder()
@@ -26,7 +26,7 @@ class BrowserProxy(BaseProxy):
       self._browser_app_name_ext = ' - Google Chrome'
 
     if self._browser_executeable is None:
-      print("INFO: You have created an instance of BrowserProxy without specifiying a browser. Defaulting to Brave")
+      print("INFO: You have created an instance of BrowserAgent without specifiying a browser. Defaulting to Brave")
       self._browser = 'brave'
       self._browser_executeable = BRAVE_EXECUTEABLE
       self._browser_app_name_ext = ' - Brave'

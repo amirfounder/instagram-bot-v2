@@ -1,8 +1,8 @@
 from time import sleep
-from src.interaction_proxy.src.core import *
-from src.interaction_proxy.src.proxies.InstagramProxy import InstagramProxy
+from src.interaction_agent.src.core import *
+from src.interaction_agent.src.agents.InstagramAgent import InstagramAgent
 
-class InteractionProxy(InstagramProxy):
+class InteractionAgent(InstagramAgent):
 
   def __init__(self):
     self.__keyboard = Keyboard()
