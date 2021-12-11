@@ -1,0 +1,7 @@
+--- QUERY_SELECTOR ---
+
+**js_variable**=document.querySelector("**selector**");
+
+--- QUERY_SELECTOR_ALL ---
+
+**js_variable**=document.querySelectorAll("**selector**");

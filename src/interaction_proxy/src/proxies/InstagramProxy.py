@@ -4,6 +4,8 @@ from time import sleep
 from src.interaction_proxy.src.proxies import BrowserProxy
 from pyperclip import paste
 
+from src.utils.enums.colors import Color
+
 
 class InstagramProxy(BrowserProxy):
   def __init__(self, browser=None, target_monitor=None, username=None):
@@ -71,11 +73,42 @@ class InstagramProxy(BrowserProxy):
       self._script_builder.build_select_login_username_script()
     password_input, select_password_script = \
       self._script_builder.build_select_login_password_script()
+    login_button, select_login_button_script = \
+      self._script_builder.build_select_login_login_button_script()
     
     self._execute_dev_tools_console_script(select_username_script)
     self._execute_dev_tools_console_script(select_password_script)
-    print('lol')
+    self._execute_dev_tools_console_script(select_login_button_script)
 
+    clear_all_attributes_script = \
+      self._script_builder.build_clear_all_attributes([
+        username_input,
+        password_input,
+        login_button
+      ])
+    
+    self._execute_dev_tools_console_script(clear_all_attributes_script)
+
+    styles = { 'fontSize': '30px', 'padding': '20px'}
+    script = self._script_builder.build_modify_styles_of_element(username_input, styles)
+    script += self._script_builder.build_modify_styles_of_element(password_input, styles)
+    script += self._script_builder.build_modify_styles_of_element(login_button, styles)
+    self._execute_dev_tools_console_script(script)
+
+    styles = { 'backgroundColor': 'rgb(255, 0, 0)' }
+    script = self._script_builder.build_modify_styles_of_element(username_input, styles)
+    self._execute_dev_tools_console_script(script)
+    img = self._screen.screenshot()
+    box = self._screen.find_color_on_image(img, Color.RED)
+    monitor = self._system.get_monitor(2)
+    mx, _, _, _ = monitor['rect']
+    bx, y, w, h = box
+    box = (bx + mx, y, w, h)
+    self._mouse.move_to_box(box, spacing=10)
+    self._mouse.click()
+    sleep(.5)
+    self._keyboard.write('liamsmith65843')
+    self._keyboard.press_and_release('esc')
 
 
   def start(self):

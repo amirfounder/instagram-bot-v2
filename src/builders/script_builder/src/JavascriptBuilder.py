@@ -94,6 +94,24 @@ class JavascriptBuilder():
     return script
 
 
+  def build_modify_styles_of_element(self, js_variable, css_property_values):
+    script = ''
+    for key, value in css_property_values.items():
+      script += f'{js_variable}.style.{key}="{value}";'
+    return script
+
+
+  def build_clear_all_attributes(self, js_variables):
+    excluded_variables = ', '.join([f"{x}" for x in js_variables])
+    return 'Array.from(document.all)' \
+    '.forEach(x => {' \
+    f'if ([{excluded_variables}].includes(x)) {{ return; }}' \
+    'while (x.attributes.length > 0) {' \
+    'x.removeAttribute(x.attributes[0].name);' \
+    '}' \
+    '});'
+
+
   def build_copy(self, js_expression):
     return f'copy({js_expression})'
 

@@ -2,9 +2,12 @@ import mss
 import numpy as np
 import cv2 as cv
 from PIL import Image
+from numpy.core.numeric import outer
 import pytesseract
 from skimage.metrics import structural_similarity
 from difflib import SequenceMatcher
+
+from src.utils.enums.colors import Color
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -73,6 +76,23 @@ class Screen:
 
     score, _ = structural_similarity(image_one_grayscale, image_two_grayscale, full=True)
     return score
+
+  def find_color_on_image(self, image, color: Color):
+    lower = None
+    upper = None
+
+    if color is Color.RED:
+      lower = np.array([200, 0, 0], dtype='uint8')
+      upper = np.array([255, 50, 50], dtype='uint8')
+    else:
+      return
+    
+    mask = cv.inRange(image, lower, upper)
+    contours, _ = cv.findContours(mask, 1, 1)
+
+    x, y, w, h = cv.boundingRect([x for x in contours if cv.contourArea(x) > 2000][0])
+    return int(x), int(y), int(w), int(h)
+
 
   def screenshot(self, target_monitor=None):
     if target_monitor is None:

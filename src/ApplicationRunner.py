@@ -3,6 +3,7 @@ import os
 from multiprocessing import Process
 from src import Bot, BotBuilder, DatabaseManager, \
   DataManager, InteractionProxy, Mouse
+from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
 from src.interaction_proxy.src.proxies.InstagramProxy import InstagramProxy \
 
 

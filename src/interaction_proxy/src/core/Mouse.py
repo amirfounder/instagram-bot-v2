@@ -11,7 +11,7 @@ class Mouse:
   def current(self):
     return mouse.get_position()
 
-  def move_to_box(self, box, duration=.2):
+  def move_to_box(self, box, duration=.2, spacing=5):
     left, top, width, height = [int(x) for x in box]
     x = self._rand.randint(left, left + width)
     y = self._rand.randint(top, top + height)

@@ -29,7 +29,7 @@ class System:
         height = abs(y)
 
       monitors.append({
-        'rect': (x, y, width, height),
+        'rect': (int(x), int(y), int(width), int(height)),
         'device': monitor_info['Device'],
         'display': i,
         'flags': monitor_info['Flags']
