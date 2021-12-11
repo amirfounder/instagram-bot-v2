@@ -69,9 +69,6 @@ class BrowserProxy(BaseProxy):
     if not self.__dev_tools_is_open:
       self._toggle_dev_tools_console()
       sleep(.5)
-
-    self._focus_dev_tools()
-    sleep(.5)
   
   def _close_dev_tools_console(self):
     if self.__dev_tools_is_open:
@@ -82,14 +79,13 @@ class BrowserProxy(BaseProxy):
     self._keyboard.press('ctrl')
     self._keyboard.press_and_release('`')
     self._keyboard.release('ctrl')
+    sleep(.3)
 
   def _execute_dev_tools_console_script(self, script):
-    self._focus_dev_tools()
     copy(script)
-    self._keyboard.press('ctrl')
-    self._keyboard.press_and_release('v')
-    self._keyboard.release('ctrl')
-    sleep(.1)
+    self._focus_dev_tools()
+    self._keyboard.hotkey(['ctrl', 'v'])
+    sleep(.3)
     self._keyboard.press_and_release('enter')
 
   def _wait_until_webpage_loaded(self):
@@ -110,10 +106,10 @@ class BrowserProxy(BaseProxy):
       print('browser is not open. refusing to check webpage loading status')
 
     self._open_dev_tools_console()
-    script = self._script_builder.build_get_loading_state_script()
+    self._focus_dev_tools()
+    script = self._script_builder.build_copy_ready_state_script()
     self._execute_dev_tools_console_script(script)
-    self._close_dev_tools_console()
-    sleep(1.25)
+    sleep(.3)
     return paste() == 'complete'
 
   def _close_browser(self):

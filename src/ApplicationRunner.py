@@ -2,7 +2,8 @@ import os
 
 from multiprocessing import Process
 from src import Bot, BotBuilder, DatabaseManager, \
-  DataManager, InteractionProxy \
+  DataManager, InteractionProxy, Mouse
+from src.interaction_proxy.src.proxies.InstagramProxy import InstagramProxy \
 
 
 class ApplicationRunner():
@@ -10,10 +11,8 @@ class ApplicationRunner():
   @staticmethod
   def run():
     ApplicationRunner.run_multiple([
-      # ApplicationRunner.run_interaction_proxy,
       # ApplicationRunner.run_http_listener,
-      # ApplicationRunner.run_content_builder
-      ApplicationRunner.run_sandbox()
+      ApplicationRunner.run_sandbox
     ])
   
   @staticmethod
@@ -46,13 +45,9 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    bot = Bot()
-    bot.first_name = "x"
-    bot.last_name = 'last name'
-    bot.username = 'amirsharapov'
-
-    database_manager = DatabaseManager()
-    database_manager.save(bot)
+    x = InstagramProxy()
+    x.start()
+    x.login()
 
   @staticmethod
   def run_multiple(processes):

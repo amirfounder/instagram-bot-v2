@@ -1,5 +1,5 @@
 from src.interaction_proxy.src.core import Keyboard, Screen, Mouse
-from src.system.src.System import System
+from src.utils.system.src.System import System
 
 
 class BaseProxy():

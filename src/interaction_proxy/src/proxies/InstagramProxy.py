@@ -1,17 +1,15 @@
 import os
+import re
 from time import sleep
 from src.interaction_proxy.src.proxies import BrowserProxy
+from pyperclip import paste
 
 
 class InstagramProxy(BrowserProxy):
-  def __init__(self, browser=None, target_monitor=None):
+  def __init__(self, browser=None, target_monitor=None, username=None):
     super().__init__(browser=browser)
     self._screen._target_monitor = target_monitor or 2
-
-  def start(self):
-    self._open_browser(2)
-    self._navigate_to_url('https://instagram.com')
-    self._wait_until_webpage_loaded()
+    self._username = username
 
   def research_hashtags(self):
     script = self._script_builder.build_modify_instagram_search_box_styles_script()
@@ -22,61 +20,68 @@ class InstagramProxy(BrowserProxy):
   def click_search_input(self):
     box = self._screen.find_text('search')
     if box is None:
-      self.shutdown()
+      self.stop()
     
     self._mouse.move_to_box(box)
     self._mouse.click()
 
-  def run(self):
-    self.open_browser(2)
-    self.navigate_to_url('instagram.com')
+  def is_on_login_continue_page(self):
+    var, select_username_script = self._script_builder.build_select_login_continue_as_button_script()
+    copy_script = self._script_builder.build_copy(var)
+    self._execute_dev_tools_console_script(select_username_script)
+    self._execute_dev_tools_console_script(copy_script)
+    return paste() != 'undefined'
     
-    sleep(2)
-    
-    self.open_dev_tools_console()
-    sleep(3)
-    count, boxes = self._screen.find_text('application')
-    if count == 0:
-      return
+  def is_on_login_fresh_page(self):
+    var, select_script = self._script_builder.build_select_login_username_script()
+    copy_script = self._script_builder.build_copy(var)
+    self._execute_dev_tools_console_script(select_script)
+    self._execute_dev_tools_console_script(copy_script)
+    return paste() != 'undefined'
 
-    self._mouse.move_to_box(boxes[0])
-    self._mouse.click()
-
+  def logout(self):
+    var, script = self._script_builder.build_select_profile_picture_script(self._username)
+    self._open_dev_tools_console()
+    self._focus_dev_tools()
+    self._execute_dev_tools_console_script(script)
+    script = self._script_builder.build_click_element_script(var)
+    self._execute_dev_tools_console_script(script)
     sleep(.5)
-
-    count, boxes = self._screen.find_text('cookies')
-    if count == 0:
-      return
-    
-    for box in boxes:
-      self._mouse.move_to_box(box)
-      self._mouse.click()
-      self._mouse.click()
-
-    sleep(.5)
-
-    count, boxes = self._screen.find_text('https://www.instagram.com')
-    if count == 0:
-      return
-
-    self._mouse.move_to_box(boxes[0])
-    self._mouse.click("right")
-    self._mouse.move((20, 20))
-    self._mouse.click()
-    self._keyboard.press('ctrl')
-    self._keyboard.press_and_release('r')
-    self._keyboard.release('ctrl')
-
-    # script = self.build_script_to_modify_instagram_search_input()
-    # self.run_dev_tools_console_script(script)
-
-    # sleep(.3)
-
-    # self.click_search_input()
-
-    # username = 'liamsmith65843'
-    # self.navigate_to_url(f'https://instagram.com/{username}')
-    # sleep(2)
+    var, script = self._script_builder.build_select_logout_link_script()
+    self._execute_dev_tools_console_script(script)
+    script = self._script_builder.build_click_element_script(var)
+    self._execute_dev_tools_console_script(script)
   
-  def shutdown(self):
-    os.exit()
+  def login(self):
+    on_login_fresh_page = self.is_on_login_fresh_page()
+    on_login_continue_page = self.is_on_login_continue_page()
+
+    if on_login_continue_page and on_login_fresh_page:
+      print('there was a problem...')
+    
+    if not on_login_continue_page and not on_login_fresh_page:
+      print('you must be already logged in...')
+    
+    if on_login_fresh_page:
+      self.login_from_fresh_page()
+    
+  
+  def login_from_fresh_page(self):
+    username_input, select_username_script = \
+      self._script_builder.build_select_login_username_script()
+    password_input, select_password_script = \
+      self._script_builder.build_select_login_password_script()
+    
+    self._execute_dev_tools_console_script(select_username_script)
+    self._execute_dev_tools_console_script(select_password_script)
+    print('lol')
+
+
+
+  def start(self):
+    self._open_browser(2)
+    self._navigate_to_url('https://instagram.com')
+    self._wait_until_webpage_loaded()
+
+  def stop(self):
+    self._keyboard.hotkey(['alt', 'f4'])
