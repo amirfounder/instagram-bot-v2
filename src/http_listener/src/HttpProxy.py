@@ -1,4 +1,4 @@
-from src.http_proxy import InstagramResponseHandler
+from src.http_listener import InstagramResponseHandler
 from src.data_manager import FileManager
 from datetime import datetime
 
