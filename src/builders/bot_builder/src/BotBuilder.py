@@ -1,4 +1,4 @@
-from src.data_manager import FileManager
+from src.data_manager.src.FileManager import FileManager
 
 from random import Random
 import datetime
