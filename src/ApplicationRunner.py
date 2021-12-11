@@ -5,7 +5,7 @@ from src import Bot, BotBuilder, DatabaseManager, \
   DataManager, InteractionAgent, Mouse
 from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
 from src.interaction_agent.src.agents.InstagramAgent import InstagramAgent
-from src.prompt.src import Prompt \
+from src.console.src import Console \
 
 
 class ApplicationRunner():
@@ -15,6 +15,7 @@ class ApplicationRunner():
     ApplicationRunner.run_multiple([
       # ApplicationRunner.run_http_listener,
       ApplicationRunner.run_sandbox
+      # ApplicationRunner.run_content_builder
     ])
   
   @staticmethod
@@ -43,11 +44,11 @@ class ApplicationRunner():
   @staticmethod
   def run_interaction_proxy():
     interaction_proxy = InteractionAgent()
-    interaction_proxy.research_hashtags()
+    interaction_proxy.start()
   
   @staticmethod
   def run_sandbox():
-    prompt = Prompt()
+    prompt = Console()
 
   @staticmethod
   def run_multiple(processes):

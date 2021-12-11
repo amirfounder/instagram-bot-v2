@@ -17,3 +17,7 @@ When developing: follow 80/20. If it takes 80% of your time to develop and autom
 ## Farm users & niches
 
 TBD
+
+## Farm popular posts from users in my niche / market
+
+1. 

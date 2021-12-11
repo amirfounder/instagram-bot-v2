@@ -1,8 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.sql.schema import ForeignKey
-
 from src.data_manager.src.database import Base
-from src.data_manager.src.database.entities.Account import Account
 
 
 class Bot(Base):

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node src/content_builder/scripts/start.js",
-    "build": "node src/content_builder/scripts/build.js",
-    "test": "node src/content_builder/scripts/test.js"
+    "start": "node src/builders/content_builder/scripts/start.js",
+    "build": "echo No build configured",
+    "test": "echo No testing configured"
   },
   "repository": {
     "type": "git",

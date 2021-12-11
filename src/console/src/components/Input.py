@@ -3,10 +3,9 @@ from src.utils import System
 from tkinter import *
 
 
-class Prompt:
-  def __init__(self) -> None:
-    self.__system = System()
-    self.__root = Tk()
+class Input:
+  def __init__(self, root) -> None:
+    self.__root = root
     self.__text = Entry(self.__root)
     self.__textvariable = StringVar()
 
@@ -40,7 +39,6 @@ class Prompt:
     return True
   
   def on_return(self, event):
-    self.__text.insert(index=len(event), string='\n')
     print(self.__textvariable)
     print(event)
     return True

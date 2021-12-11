@@ -4,9 +4,9 @@ from sqlalchemy.orm import sessionmaker
 
 
 class DatabaseManager:
-  def __init__(self):
+  def __init__(self, echo=False):
     conn_string = 'postgresql://postgres:root@localhost:5432/x'
-    engine = create_engine(conn_string, echo=True, future=True)
+    engine = create_engine(conn_string, echo=echo, future=True)
     mapper_registry.metadata.create_all(engine)
     
     self.__Session = sessionmaker(bind=engine)
