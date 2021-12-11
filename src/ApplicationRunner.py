@@ -1,6 +1,6 @@
 import os
 
-from src import BotBuilder, InteractionProxy, DatabaseManager, Bot_1
+from src import BotBuilder, InteractionProxy, DatabaseManager, Bot
 from multiprocessing import Process
 from src.data_manager.src.database import database
 from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
@@ -41,12 +41,12 @@ class ApplicationRunner():
   
   @staticmethod
   def run_sandbox():
-    bot = Bot_1()
-    bot.id = 1
+    bot = Bot()
     bot.first_name = "x"
     bot.last_name = 'last name'
+
     database_manager = DatabaseManager()
-    database_manager.update(bot)
+    database_manager.save(bot)
 
   @staticmethod
   def run_multiple(processes):

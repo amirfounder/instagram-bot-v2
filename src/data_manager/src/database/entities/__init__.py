@@ -1,3 +1,3 @@
-from src.data_manager.src.database.entities.bot import *
-from src.data_manager.src.database.entities.account import *
-from src.data_manager.src.database.entities.hashtag import *
+from src.data_manager.src.database.entities.Bot import *
+from src.data_manager.src.database.entities.Account import *
+from src.data_manager.src.database.entities.Hashtag import *

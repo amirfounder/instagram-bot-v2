@@ -1,1 +1,0 @@
-from src.data_manager.src.database.entities.hashtag.Hashtag_1 import *

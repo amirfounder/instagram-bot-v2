@@ -3,7 +3,7 @@ from src.data_manager.src.database import Base
 from sqlalchemy import Column, Integer
 
 
-class Account_1(Base):
-  __tablename__ = 'accounts_1'
+class Account(Base):
+  __tablename__ = 'accounts'
 
   id = Column(Integer, primary_key=True)
