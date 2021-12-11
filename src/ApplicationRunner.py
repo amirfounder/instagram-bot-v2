@@ -1,9 +1,8 @@
 import os
 
-from src import BotBuilder, InteractionProxy, DatabaseManager, Bot
 from multiprocessing import Process
-from src.data_manager.src.database import database
-from src.utils.constants import BRAVE_EXECUTEABLE, LOTRO_APP_NAME
+from src import Bot, BotBuilder, DatabaseManager, \
+  DataManager, InteractionProxy \
 
 
 class ApplicationRunner():
@@ -17,6 +16,12 @@ class ApplicationRunner():
       ApplicationRunner.run_sandbox()
     ])
   
+  @staticmethod
+  def run_data_manager():
+    data_manager = DataManager()
+    data_manager.run()
+    pass
+
   @staticmethod
   def run_http_proxy():
     os.system("mitmdump -s src/http_proxy/src/app.py --set console_eventlog_verbosity=error termlog_verbosity=error")
@@ -44,6 +49,7 @@ class ApplicationRunner():
     bot = Bot()
     bot.first_name = "x"
     bot.last_name = 'last name'
+    bot.username = 'amirsharapov'
 
     database_manager = DatabaseManager()
     database_manager.save(bot)

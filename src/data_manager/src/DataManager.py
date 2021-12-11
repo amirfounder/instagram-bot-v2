@@ -9,8 +9,18 @@ class DataManager:
     self.__database_manager = DatabaseManager()
     self.__backup_manager = BackupManager()
 
-  def run():
+  def run(self):
+    self.run_syncs()
+    self.run_backups()
+
+  def run_syncs(self):
     pass
 
-  def sync_todays_files_with_database(self):
+  def run_backups(self):
+    pass
+
+  def sync_http_requests(self):
+    pass
+
+  def sync_bots(self):
     pass
