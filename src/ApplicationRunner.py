@@ -11,7 +11,7 @@ class ApplicationRunner():
   def run():
     ApplicationRunner.run_multiple([
       # ApplicationRunner.run_interaction_proxy,
-      # ApplicationRunner.run_http_proxy,
+      # ApplicationRunner.run_http_listener,
       # ApplicationRunner.run_content_builder
       ApplicationRunner.run_sandbox()
     ])
@@ -23,8 +23,8 @@ class ApplicationRunner():
     pass
 
   @staticmethod
-  def run_http_proxy():
-    os.system("mitmdump -s src/http_proxy/src/app.py --set console_eventlog_verbosity=error termlog_verbosity=error")
+  def run_http_listener():
+    os.system("mitmdump -s src/http_listener/src/app.py --set console_eventlog_verbosity=error termlog_verbosity=error")
   
   @staticmethod
   def run_interaction_logger():
