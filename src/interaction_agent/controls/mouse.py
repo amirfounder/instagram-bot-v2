@@ -1,6 +1,6 @@
 from random import Random
+from time import sleep
 import mouse
-import time
 
 
 random = Random()
@@ -36,7 +36,7 @@ def move(coords, duration=.2):
 
 def click(control="left", duration=.08):
     press(control)
-    time.sleep(duration)
+    sleep(duration)
     release(control)
 
 

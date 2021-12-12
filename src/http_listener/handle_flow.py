@@ -1,7 +1,7 @@
 from mitmproxy.http import HTTPFlow
 from datetime import datetime
 from json import loads, dumps
-from src.data_manager.src.handle_files import append_to_file_in_directory, save_image_to_file
+from src.data_manager.files import append_to_file_in_directory, save_bytes_to_image_in_directory
 
 
 
@@ -44,7 +44,7 @@ def save_image(flow: HTTPFlow):
 	directory = 'C:/x/logs/mitm-proxy/instagram/images'
 	data = flow.response.content
 
-	save_image_to_file(directory, data)
+	save_bytes_to_image_in_directory(directory, data)
 
 
 def save_json(flow: HTTPFlow):
