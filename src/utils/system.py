@@ -150,28 +150,3 @@ def get_app_monitor(hwnd):
 def get_foreground_app():
   app = win32gui.GetForegroundWindow()
   return (app, win32gui.GetWindowText(app))
-
-
-def close_all_browsers(browser):
-    browser_name_extension = None
-
-    if browser == 'brave':
-      browser_name_extension = ' - Brave'
-    if browser == 'chrome':
-      browser_name_extension = ' - Google Chrome'
-
-    if browser_name_extension is None:
-      print('Could not identify browser: {browser}')    
-
-    apps = get_open_apps()
-    browser_apps = [x for x in apps if x[1].endswith(browser_name_extension)]
-
-    print(apps)
-    print(browser_apps)
-
-    for browser_app in browser_apps:
-      move_app_to_front(browser_app[0])
-      show_app_maximized(browser_app[0])
-      move_app_to_monitor(browser_app[0], 2)
-      sleep(.1)
-      close_app(browser_app[0])

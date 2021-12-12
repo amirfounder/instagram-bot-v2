@@ -1,6 +1,8 @@
 """TODO
 """
 import os
+from PIL import Image
+from numpy import ndarray
 from src.utils.constants import MAX_LOG_FILE_SIZE
 
 
@@ -96,6 +98,11 @@ def save_bytes_to_image(path: str, content: bytearray):
     
     with open(path, 'wb') as f:
         f.write(content)
+
+
+def save_numpy_array_to_image(path: str, nparray: ndarray):
+    image = Image.fromarray(nparray)
+    image.save(path)
 
 
 def create_file(path: str):
