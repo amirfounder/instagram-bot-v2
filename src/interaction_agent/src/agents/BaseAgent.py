@@ -1,5 +1,5 @@
 from src.interaction_agent.src.core import Keyboard, Screen, Mouse
-from src.utils.system.src.System import System
+from src.utils.system.src.system import System
 
 
 class BaseAgent():

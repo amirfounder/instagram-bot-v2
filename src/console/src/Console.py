@@ -2,7 +2,7 @@ from src.console.src.components import Output
 from tkinter import *
 from src.console.src.components.ComponentGrid import ComponentGrid
 
-from src.utils.system.src.System import System
+from src.utils.system.src.system import System
 
 
 class Console:
