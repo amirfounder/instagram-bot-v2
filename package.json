@@ -6,6 +6,7 @@
   "scripts": {
     "start-electron": "electron .",
     "start-react": "node src/builders/content_builder/scripts/start.js",
+    "start": "echo No start command configured",
     "build": "echo No build command configured",
     "test": "echo No test command configured"
   },
