@@ -1,11 +1,19 @@
 import os
 
-from multiprocessing import Process
+from multiprocessing import Process, Value
 from src import Bot, BotBuilder, DatabaseManager, \
   DataManager, InteractionAgent, Mouse
 from src.builders.script_builder.src.JavascriptBuilder import JavascriptBuilder
 from src.interaction_agent.src.agents.InstagramAgent import InstagramAgent
 from src.console.src import Console \
+
+def run() -> Value:
+  
+  # Setup some variables to share among processes
+  http_requests = Value('i', 0)
+  print(http_requests.value)
+
+
 
 
 class ApplicationRunner():

@@ -6,4 +6,4 @@ from src.interaction_logger import *
 from src.console import *
 from src.utils import *
 
-from src.ApplicationRunner import *
+from src.program import *
