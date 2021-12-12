@@ -1,12 +1,18 @@
-from src.data_manager.database_utils import mapper_registry, engine
+from src.data_manager.database_utils import mapper_registry, engine, Session
+from src.data_manager.database_entities import *
 
 
 def setup():
+    register_entities()
+    sync_tables()
+
+
+def register_entities():
     mapper_registry.metadata.create_all(engine)
 
 
 def build_session():
-    pass
+    return Session()
 
 
 def get_all():

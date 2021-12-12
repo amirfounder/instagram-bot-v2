@@ -1,12 +1,12 @@
 import os
 from multiprocessing import Process
 
-from src.data_manager.database import sync_tables
+from src.data_manager.database import setup
 
 
 def run():
 
-	sync_tables()
+	setup()
 
 	processes: list[Process] = []
 	drivers: list[function] = [

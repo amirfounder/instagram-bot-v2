@@ -9,5 +9,5 @@ Base = mapper_registry.generate_base()
 
 CONNECTION_STRING = 'postgresql://postgres:root@localhost:5432/x'
 
-engine: Engine = create_engine(CONNECTION_STRING, echo=False, future=True)
+engine: Engine = create_engine(CONNECTION_STRING, echo=True, future=True)
 Session = sessionmaker(bind=engine)
