@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 from pynput import mouse, keyboard
 from threading import Thread
-from src.data_manager.handle_files import create_directories, append_to_file_in_directory
+from src.data_manager.files import create_directories, append_to_file_in_directory
 from src.utils.constants import LOGS_DIRECTORY_PATH
 
 
