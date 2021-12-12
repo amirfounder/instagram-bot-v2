@@ -1,11 +1,13 @@
 {
   "name": "x",
   "version": "1.0.0",
-  "description": "",
+  "description": "Automation program",
+  "main": "src/console/main.js",
   "scripts": {
-    "start": "node src/builders/content_builder/scripts/start.js",
-    "build": "echo No build configured",
-    "test": "echo No testing configured"
+    "start-electron": "electron .",
+    "start-react": "node src/builders/content_builder/scripts/start.js",
+    "build": "echo No build command configured",
+    "test": "echo No test command configured"
   },
   "repository": {
     "type": "git",

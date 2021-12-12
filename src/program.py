@@ -46,7 +46,7 @@ def run_bot_builder():
 
 
 def run_content_builder():
-    os.system('npm start')
+    os.system('npm start-react')
 
 
 def run_instagram_agent():
