@@ -1,1 +1,1 @@
-from src.interaction_logger.src import *
+from src.interaction_logger.interaction_logger import *

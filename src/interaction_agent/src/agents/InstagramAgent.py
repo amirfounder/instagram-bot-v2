@@ -4,7 +4,7 @@ from time import sleep
 from src.interaction_agent.src.agents import BrowserAgent
 from pyperclip import paste
 
-from src.utils.enums.colors import Color
+from src.utils.enums.enums import Color
 
 
 class InstagramAgent(BrowserAgent):

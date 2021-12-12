@@ -1,0 +1,252 @@
+from datetime import datetime
+from typing import Any
+from pynput import mouse, keyboard
+from threading import Thread
+from src.data_manager.src.handle_files import create_directories, append_to_file_in_directory
+from src.utils.constants import LOGS_DIRECTORY_PATH
+import os
+
+
+class MyException(Exception):
+    pass
+
+
+VERSION = 1
+
+KILL_KEY_ONE = keyboard.Key.shift_r
+KILL_KEY_TWO = keyboard.Key.ctrl_r
+
+MOUSE_PRESS_EVENT = 'mp'
+MOUSE_RELEASE_EVENT = 'mr'
+MOUSE_MOVE_EVENT = 'mm'
+MOUSE_SCROLL_EVENT = 'ms'
+KEY_PRESS_EVENT = 'kp'
+KEY_RELEASE_EVENT = 'kr'
+
+kill_key_one_pressed = False
+kill_key_two_pressed = False
+kill_logger = False
+
+
+def run():
+    create_directories(LOGS_DIRECTORY_PATH)
+
+    thread_one = Thread(target=run)
+    thread_two = Thread(target=run)
+    thread_one.start()
+    thread_two.start()
+    thread_one.join()
+    thread_two.join()
+
+
+def run_keyboard_listener():
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        try:
+            listener.join()
+        except MyException:
+            print('stopping')
+
+
+def run_mouse_listener():
+    with mouse.Listener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as listener:
+        try:
+            listener.join()
+        except MyException:
+            print('stopping')
+
+
+def on_click(x, y, button, pressed):
+    e_type = MOUSE_PRESS_EVENT if pressed else MOUSE_RELEASE_EVENT
+    e_button = 'l' if button == mouse.Button.left else 'r'
+    e = '{},{},{},{}'.format(e_type, x, y, e_button)
+    log(e)
+    try_kill_logger()
+
+
+def on_move(x, y):
+    e = '{},{},{}'.format(MOUSE_MOVE_EVENT, x, y)
+    log(e)
+    try_kill_logger()
+
+
+def on_scroll(x, y, dx, dy):
+    e = '{},{},{},{},{}'.format(MOUSE_SCROLL_EVENT, x, y, dx, dy)
+    log(e)
+    try_kill_logger()
+
+
+def on_press(key):
+    e = '{},{}'.format(KEY_PRESS_EVENT, key)
+    log(e)
+    handle_potential_kill_key(KEY_PRESS_EVENT, key)
+    try_kill_logger()
+
+	
+def on_release(key):
+    e = '{}{}'.format(KEY_RELEASE_EVENT, key)
+    log(e)
+    handle_potential_kill_key(KEY_RELEASE_EVENT, key)
+    try_kill_logger()
+
+
+def log(event: str):
+    now = datetime.now()
+
+    timestamp = 't'.format(now.strftime(r'%H_%M_%S_%f'))
+    version = 'v{}'.format(VERSION)
+    content = '{}{}{}'.format(version, timestamp, event)
+
+    today = now.strftime(r'%Y_%m_%d')
+    directory = '{}/{}'.format(LOGS_DIRECTORY_PATH, today)
+
+    append_to_file_in_directory(directory, content)
+
+
+def try_kill_logger():
+    if kill_logger:
+        raise MyException()
+
+
+def handle_potential_kill_key(event_type: str, key: Any):
+	if event_type == KEY_PRESS_EVENT:
+		if key == KILL_KEY_ONE:
+			kill_key_one_pressed = True
+		if key == KILL_KEY_TWO:
+			kill_key_two_pressed = True
+
+	if event_type == KEY_RELEASE_EVENT:
+		if key == KILL_KEY_ONE:
+			kill_key_one_pressed = False
+		if key == KILL_KEY_TWO:
+			kill_key_two_pressed = False
+	
+	if kill_key_one_pressed and kill_key_two_pressed:
+		kill_logger = True
+	
+	if kill_logger:
+		raise MyException()
+
+
+class InteractionLogger:
+    def __init__(self):
+        directories = self._root_log_directory.split('\\')
+        current = ''
+        for directory in directories:
+            current += directory if current == '' else f'\\{directory}'
+            if not os.path.isdir(current):
+                os.mkdir(current)
+
+    def on_mouse_click(self, x, y, button, pressed):
+        event_type = (
+            self._mouse_release_event_type,
+            self._mouse_press_event_type
+        )[pressed]
+        button = ('r', 'l')[button == mouse.Button.left]
+        event = f'{event_type},{x},{y},{button}'
+        self.log_event(event)
+        self.handle_potential_kill(event_type)
+
+    def on_mouse_move(self, x, y):
+        event = f'{self._mouse_move_event_type},{x},{y}'
+        self.log_event(event)
+        self.handle_potential_kill(self._mouse_move_event_type)
+
+    def on_mouse_scroll(self, x, y, dx, dy):
+        event = f'{self._mouse_scoll_event_type},{x},{y},{dx},{dy}'
+        self.log_event(event)
+        self.handle_potential_kill(self._mouse_scoll_event_type)
+
+    def on_key_press(self, key):
+        event = f'{self._key_press_event_type},{key}'
+        self.log_event(event)
+        self.handle_potential_kill(self._key_press_event_type, key)
+
+    def on_key_release(self, key):
+        event = f'{self._key_release_event_type},{key}'
+        self.log_event(event)
+        self.handle_potential_kill(self._key_release_event_type, key)
+
+    def handle_potential_kill(self, event_type, event_value=None):
+        if event_type == self._key_press_event_type:
+            if event_value == self._kill_key_one:
+                self._kill_key_one_pressed = True
+            if event_value == self._kill_key_two:
+                self._kill_key_two_pressed = True
+
+        if event_type == self._key_release_event_type:
+            if event_value == self._kill_key_one:
+                self._kill_key_one_pressed = False
+            if event_value == self._kill_key_two:
+                self._kill_key_two_pressed = False
+
+        if self._kill_key_two_pressed and self._kill_key_two_pressed:
+            self._kill_logger = True
+        else:
+            self._kill_logger = False
+
+        if self._kill_logger:
+            raise MyException()
+
+    def log_event(self, event, version='1'):
+        timestamp = self.get_timestamp()
+        target_log_file = self.build_log_file()
+
+        version_tag = f'v{version}'
+        timestamp_tag = f't{timestamp}'
+
+        data = ','.join([version_tag, timestamp_tag, event])
+
+        f = open(target_log_file, 'a')
+        f.write(data + '\n')
+        f.close()
+
+    def build_log_file(self):
+        today = datetime.now().strftime(r'%Y_%m_%d')
+        target_directory = self._root_log_directory + f'\\{today}'
+        directory_exists = os.path.isdir(target_directory)
+        target_file_name = '1.log'
+
+        if directory_exists:
+            files = os.listdir(target_directory)
+            files_count = len(files)
+
+            if files_count > 0:
+                last_file = files[files_count - 1]
+                last_file_size = os.path.getsize(
+                    target_directory + f'\\{last_file}')
+
+                if last_file_size >= self._max_log_file_size:
+                    target_file_name = f'{files_count + 1}.log'
+                else:
+                    target_file_name = last_file
+        else:
+            os.mkdir(target_directory)
+
+        return target_directory + f'\\{target_file_name}'
+
+    def get_today(self):
+        return datetime.now().strftime(r'%Y_%m_%d')
+
+    def get_timestamp(self):
+        return datetime.now().strftime(r'%H_%M_%S_%f')
+
+    def run_keyboard_listener(self):
+        with keyboard.Listener(
+            on_press=self.on_key_press,
+            on_release=self.on_key_release,
+        ) as listener:
+            try:
+                listener.join()
+            except MyException:
+                print('stopping')
+
+    def run_mouse_listener(self):
+        with mouse.Listener(
+            on_click=self.on_mouse_click,
+            on_scroll=self.on_mouse_scroll,
+            on_move=self.on_mouse_move
+        ) as listener:
+            try:
+                listener.join()
+            except MyException:
+                print('stopping')

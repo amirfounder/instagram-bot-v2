@@ -7,7 +7,7 @@ import pytesseract
 from skimage.metrics import structural_similarity
 from difflib import SequenceMatcher
 
-from src.utils.enums.colors import Color
+from src.utils.enums.enums import Color
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
