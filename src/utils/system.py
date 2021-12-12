@@ -44,7 +44,7 @@ def get_monitor(display=1):
 
 
 def get_open_apps():
-  apps = []
+  apps = [] 
 
   def callback(hwnd, _):
     if (win32gui.IsWindowVisible(hwnd)):
