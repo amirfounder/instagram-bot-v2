@@ -9,9 +9,7 @@ from src.console.src import Console \
 
 def run() -> Value:
   
-  # Setup some variables to share among processes
-  http_requests = Value('i', 0)
-  print(http_requests.value)
+  os.system("mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error")
 
 
 
