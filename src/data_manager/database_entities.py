@@ -1,5 +1,5 @@
 from src.data_manager.database_utils import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger
 
 
 class Bot(Base):
@@ -14,8 +14,8 @@ class Bot(Base):
   password = Column(String)
 
 
-class Account(Base):
-  __tablename__ = 'accounts'
+class BotAccount(Base):
+  __tablename__ = 'bot_accounts'
 
   id = Column(Integer, primary_key=True)
   bot_id = Column(Integer, ForeignKey(Bot.id))
@@ -23,7 +23,9 @@ class Account(Base):
   password = Column(String)
 
 
-class Hashtag(Base):
-  __tablename__ = 'hashtags'
+class InstagramHashtag(Base):
+  __tablename__ = 'instagram_hashtags'
 
   id = Column(Integer, primary_key=True)
+  name = Column(String)
+  media_count = Column(BigInteger)

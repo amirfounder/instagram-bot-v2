@@ -76,7 +76,7 @@ def sync_table(table):
     if model_columns_length == db_columns_length:
         return
 
-    alter_query = 'ALTER TABLE {}'.format(tablename)
+    alter_query = 'ALTER TABLE {} '.format(tablename)
     column_statements = []
 
     if model_columns_length > db_columns_length:
