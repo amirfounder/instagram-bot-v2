@@ -4,17 +4,25 @@ import os
 from src.utils.constants import MAX_LOG_FILE_SIZE
 
 
-def read_from_file_in_directory_recursively(path: str):
-    pass
+def read_from_file_in_directory_recursively(directory: str):
+    """WARNING: This has not been tested yet.
+    """
+    data_map = {}
+    directories = get_directories_from_directory(directory)
+
+    for dir in directories:
+        new_data_map = read_from_file_in_directory_recursively(dir)
+        data_map.update(new_data_map)
+    
+    new_data_map = read_from_files_in_directory(directory)
+    data_map.update(new_data_map)
+
+    return data_map
 
 
 def read_from_files_in_directory(directory: str):
-    contents = os.listdir(directory)
-    content_paths = ['{}/{}'.format(directory, x) for x in contents]
-    
-    paths = [x for x in content_paths if is_file(x)]
-
-    return read_from_files(paths)
+    files = get_files_from_directory(directory)
+    return read_from_files(files)
 
 
 def read_from_files(paths: list[str]):
@@ -58,19 +66,17 @@ def append_to_file(path: str, content: str):
 
 
 def get_next_file_in_directory(directory: str): 
-    contents = os.listdir(directory)
-    files = [x for x in contents if is_file('{}/{}'.format(directory, x))]
+    files = get_files_from_directory(directory)
     files_count = len(files)
 
     if files_count == 0:
         return '{}/1.txt'.format(directory)
     
-    last_file_name = files[files_count - 1]
-    last_file_path = '{}/{}'.format(directory, last_file_name)
-    last_file_size = os.path.getsize(last_file_path)
+    last_file = files[files_count - 1]
+    last_file_size = os.path.getsize(last_file)
 
     if last_file_size < MAX_LOG_FILE_SIZE:
-        return last_file_path
+        return last_file
 
     return '{}/{}.txt'.format(directory, files_count + 1)
 
@@ -102,6 +108,28 @@ def is_file(path: str):
 
 def is_directory(path: str):
     return os.path.isdir(path)
+
+
+def get_directories_from_directory(directory: str):
+    paths = get_paths_from_directory(directory)
+    return get_directories_from_paths(paths)
+
+
+def get_files_from_directory(directory: str):
+    paths = get_paths_from_directory(directory)
+    return get_files_from_paths(paths)
+
+
+def get_files_from_paths(paths: list[str]):
+    return [x for x in paths if is_file(x)]
+
+
+def get_directories_from_paths(paths: list[str]):
+    return [x for x in paths if is_directory(x)]
+
+
+def get_paths_from_directory(directory: str):
+    return ['{}/{}'.format(directory, x) for x in os.listdir(directory)]
 
 
 def get_file_directory(path: str):
