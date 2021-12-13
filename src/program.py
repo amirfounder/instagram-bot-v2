@@ -62,7 +62,7 @@ def run_console():
     pass
 
 
-def run_multiple_processes(drivers: list[function], blocking: bool = False):
+def run_multiple_processes(drivers: list, blocking: bool = False):
     processes: list[Process] = []
 
     for driver in drivers:
@@ -77,7 +77,7 @@ def run_multiple_processes(drivers: list[function], blocking: bool = False):
             process.join()
 
 
-def spawn_process(target, args: tuple(Any) = None, blocking: bool = False):
+def spawn_process(target, args: tuple[Any] = None, blocking: bool = False):
     p = Process(target=target)
     p.start()
 

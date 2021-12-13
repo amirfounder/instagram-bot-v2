@@ -4,16 +4,16 @@
   "description": "",
   "main": "public/electron.js",
   "scripts": {
-    "dev": "concurrently -k \"npm start\" \"npm:electron\"",
-    "start": "react-scripts start",
-    "eject": "react-scripts eject",
-    "electron": "wait-on tcp:3000 && electron ."
+    "start": "concurrently -k \"npm:start-react\" \"npm:start-electron\"",
+    "start-react": "cross-env BROWSER=none react-scripts start",
+    "start-electron": "wait-on tcp:3000 && electron ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.4.0",
+    "cross-env": "^7.0.3",
     "electron": "^16.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
