@@ -47,7 +47,7 @@ def setup_http_listener():
 
 
 def setup_content_builder():
-    os.system('npm run start-react')
+    os.system('npm --prefix src/builders/content_builder run start')
 
 
 def run_content_builder():
