@@ -2,9 +2,8 @@
   "name": "x",
   "version": "1.0.0",
   "description": "Automation program",
-  "main": "src/console/main.js",
   "scripts": {
-    "start-electron": "electron .",
+    "start-electron": "electron ./src/console/client/main.js",
     "start-react": "node src/builders/content_builder/scripts/start.js",
     "start": "echo No start command configured",
     "build": "echo No build command configured",
@@ -37,6 +36,7 @@
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
+    "electron": "^16.0.4",
     "eslint": "^7.11.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
