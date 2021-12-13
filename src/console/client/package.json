@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "public/electron.js",
+  "scripts": {
+    "dev": "concurrently -k \"npm start\" \"npm:electron\"",
+    "start": "react-scripts start",
+    "eject": "react-scripts eject",
+    "electron": "wait-on tcp:3000 && electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.4.0",
+    "electron": "^16.0.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
+    "wait-on": "^6.0.0"
+  }
+}
