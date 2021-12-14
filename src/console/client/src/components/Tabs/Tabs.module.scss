@@ -1,0 +1,19 @@
+.tabs {
+  display: block;
+}
+
+.tab {
+  display: inline;
+  font-size: 12px;
+  padding: 8px 12px;
+
+  &:hover {
+    background-color: #222;
+  }
+
+  .selected {
+    background-color: #222;
+  }
+}
+
+.tabPanel {}

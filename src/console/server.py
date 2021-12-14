@@ -1,2 +1,2 @@
-def setup_server():
+def run_server():
     pass

@@ -1,17 +1,18 @@
 import os
-from multiprocessing import Process, Value
+from multiprocessing import Process, Manager
 from typing import Any
 
 from src.data_manager.database import setup as setup_database
-from src.console import setup_client as setup_console_client, setup_server as setup_console_server
-
-
-"""Thread safe variables
-"""
-is_running: Value = Value('b', True)
+from src.console import run_client as run_console_client, run_server as run_console_server
 
 
 def run():
+    """Thread safe variables
+    """
+    manager = Manager()
+
+    is_running = manager.Value('b', True)
+    processes: dict[str, Process] = manager.dict()
 
     """Setup database. Register entities and sync tables
     """
@@ -21,20 +22,14 @@ def run():
     Setup Console
     TODO: Pass thread safe variable to ensure client and server successfully started. Timeout=15 seconds
     """
-    spawn_process(setup_console_client)
-    spawn_process(setup_console_server)
-
-    """
-    Runs the console awaiting user input
-    TODO: Pass thread safe variables which will act as the user's actions / inputs
-    """
-    spawn_process(run_console)
+    processes['console_client'] = spawn_process(run_console_client)
+    processes['console_server'] = spawn_process(run_console_server)
 
     """
     Setup HTTP Listener
     TODO: Maybe move this into the main event loop
     """
-    spawn_process(setup_http_listener)
+    processes['http_listener'] = spawn_process(setup_http_listener)
 
     while is_running.value:
         """Main event loop. User defined actions will update 
@@ -51,7 +46,7 @@ def setup_content_builder():
 
 
 def run_content_builder():
-    pass
+    os.system('')
 
 
 def run_instagram_agent():
@@ -62,7 +57,7 @@ def run_console():
     pass
 
 
-def run_multiple_processes(drivers: list, blocking: bool = False):
+def run_multiple_processes(drivers: list):
     processes: list[Process] = []
 
     for driver in drivers:
@@ -71,15 +66,13 @@ def run_multiple_processes(drivers: list, blocking: bool = False):
 
     for process in processes:
         process.start()
-
-    if blocking:
-        for process in processes:
-            process.join()
+    
+    return processes
 
 
-def spawn_process(target, args: tuple[Any] = None, blocking: bool = False):
-    p = Process(target=target)
-    p.start()
 
-    if blocking:
-        p.join()
+def spawn_process(target, args: tuple[Any] = ()):
+    process = Process(target=target, args=args)
+    process.start()
+    
+    return process

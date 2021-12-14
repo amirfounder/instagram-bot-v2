@@ -1,4 +1,4 @@
 import os
 
-def setup_client():
+def run_client():
     os.system('npm --prefix src/console/client run start')
