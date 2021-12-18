@@ -1,4 +1,4 @@
-import os
+import subprocess
 
 def run_client():
-    os.system('npm --prefix src/console/client run start')
+    subprocess.Popen('npm --prefix src/console/client run start', shell=True)
