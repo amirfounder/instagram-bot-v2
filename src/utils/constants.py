@@ -6,4 +6,5 @@ LOTRO_APP_NAME = "The Lord of the Rings Online™"
 
 MAX_LOG_FILE_SIZE = 50 * 1000 * 1000
 
-LOGS_DIRECTORY_PATH = 'C:/x/logs/interaction-logger'
+INTERACTION_LOGGER_LOGS_DIRECTORY_PATH = 'C:/x/logs/interaction-logger'
+MITM_PROXY_LOGS_DIRECTORY_PATH = 'C:/x/logs/mitm-proxy'

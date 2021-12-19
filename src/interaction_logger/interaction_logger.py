@@ -3,7 +3,7 @@ from typing import Any
 from pynput import mouse, keyboard
 from threading import Thread
 from src.data_manager.files import create_directories, append_to_file_in_directory
-from src.utils.constants import LOGS_DIRECTORY_PATH
+from src.utils.constants import INTERACTION_LOGGER_LOGS_DIRECTORY_PATH
 
 
 class MyException(Exception):
@@ -28,7 +28,7 @@ kill_logger = False
 
 
 def run():
-    create_directories(LOGS_DIRECTORY_PATH)
+    create_directories(INTERACTION_LOGGER_LOGS_DIRECTORY_PATH)
 
     thread_one = Thread(target=run)
     thread_two = Thread(target=run)
@@ -96,7 +96,7 @@ def log(event: str):
     content = '{}{}{}'.format(version, timestamp, event)
 
     today = now.strftime(r'%Y_%m_%d')
-    directory = '{}/{}'.format(LOGS_DIRECTORY_PATH, today)
+    directory = '{}/{}'.format(INTERACTION_LOGGER_LOGS_DIRECTORY_PATH, today)
 
     append_to_file_in_directory(directory, content)
 
