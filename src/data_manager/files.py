@@ -158,3 +158,10 @@ def create_directories(path: str):
       if not os.path.isdir(current + '/' + directory):
         os.mkdir(current + '/' + directory)
       current += '/' + directory
+
+
+def convert_data_map_to_map(data_map: dict[str, str]):
+    data_list: list[str] = list(data_map.values())
+    data: str = data_list.join('\n')
+    data: str = data.replace('\n\n', '\n')
+    return data

@@ -1,5 +1,5 @@
 from time import sleep
-from src.data_manager.files import read_from_file, read_from_files_in_directory
+from src.data_manager.files import convert_data_map_to_map, read_from_file, read_from_files_in_directory
 from src.utils.constants import MITM_PROXY_INSTAGRAM_JSON_RESPONSES_LOGS_DIRECTORY_PATH, MITM_PROXY_INSTAGRAM_JSON_RESPONSES_SYNCED_LOGS_DIRECTORY_PATH
 from src.utils.utils import try_parse_json
 from itertools import chain
@@ -7,9 +7,8 @@ from itertools import chain
 
 def sync_instagram_responses_from_files_to_database():
     data_map = read_from_files_in_directory(MITM_PROXY_INSTAGRAM_JSON_RESPONSES_LOGS_DIRECTORY_PATH)
-    string_data_by_file = data_map.values()
-    string_responses_by_file = [x.split('\n') for x in string_data_by_file]
-    string_responses = list(chain(*string_responses_by_file))
+    data = convert_data_map_to_map(data_map)
+    string_responses = data.split('\n')
 
     responses = []
     for string_response in string_responses:
@@ -62,5 +61,8 @@ def save_timestamp_to_synced_txt_file(timestamp):
 
 def run_data_syncs(state: dict):
     while state['data_syncs']['is_running']:
-        sync_instagram_responses_from_files_to_database()
+        try:
+            sync_instagram_responses_from_files_to_database()
+        except:
+            pass
         sleep(1)

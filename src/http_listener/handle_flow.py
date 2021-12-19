@@ -57,12 +57,12 @@ def save_json(flow: HTTPFlow):
 
     try:
         loaded = loads(data)
+        loaded['meta'] = build_metadata(flow)
+        data = dumps(loaded)
     except:
         pass
 
-    loaded['meta'] = build_metadata(flow)
-    new_data = dumps(loaded)
-    append_to_file_in_directory(directory, str(new_data))
+    append_to_file_in_directory(directory, str(data))
 
 
 def build_metadata(flow: HTTPFlow):
