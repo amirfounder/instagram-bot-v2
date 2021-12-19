@@ -6,15 +6,15 @@ from numpy import ndarray
 from src.utils.constants import MAX_LOG_FILE_SIZE
 
 
-def read_from_file_in_directory_recursively(directory: str):
-    """WARNING: This has not been tested yet.
-    """
+def read_from_file_in_directory_recursively(directory: str, excluded_directories: list[str]):
     data_map = {}
     directories = get_directories_from_directory(directory)
 
     for dir in directories:
-        new_data_map = read_from_file_in_directory_recursively(dir)
-        data_map.update(new_data_map)
+
+        if dir not in excluded_directories:
+            new_data_map = read_from_file_in_directory_recursively(dir, excluded_directories)
+            data_map.update(new_data_map)
     
     new_data_map = read_from_files_in_directory(directory)
     data_map.update(new_data_map)
