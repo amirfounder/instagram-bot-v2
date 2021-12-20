@@ -1,6 +1,6 @@
-from time import sleep
-from src.data_manager.database import save_all
-from src.data_manager.database_entities import InstagramUser
+from time import sleep, time
+from src.data_manager.database import build_session, save_all, update_all
+from src.data_manager.database_entities import InstagramHashtag, InstagramPost, InstagramUser
 from src.data_manager.files import append_to_file_in_directory, convert_data_map_to_data, read_from_files_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY
 from src.utils.utils import try_parse_json
@@ -8,11 +8,8 @@ from src.utils.utils import try_parse_json
 
 def run_data_syncs(state: dict):
     while state['data_syncs']['is_running']:
-        try:
-            sync_instagram_responses_from_files_to_database()
-        except Exception as e:
-            print(e)
-            pass
+        try: sync_instagram_responses_from_files_to_database()
+        except: pass
         sleep(2)
 
 
@@ -22,12 +19,11 @@ def sync_instagram_responses_from_files_to_database():
 
     json_responses = data.split('\n')
     json_responses = [x for x in json_responses if x != '']
-    parsed_responses = parse_list_json_responses(json_responses)
 
+    parsed_responses = parse_list_json_responses(json_responses)
     filtered_responses = filter_responses_with_no_timestamp_record(
         parsed_responses)
     filtered_responses = filter_responses_with_no_value(filtered_responses)
-
     unsynced_responses = get_unsynced_responses(filtered_responses)
 
     sync_responses(unsynced_responses)
@@ -101,21 +97,89 @@ def sync_response(response: dict):
 
 def save_useful_data_from_response_to_database(response: dict):
     if response_contains_account_recommendations(response):
-        users = response['users']
-        users_to_save = []
+        save_account_recommendations(response)
+    if response_contains_hashtag_information(response):
+        pass
+    if response_contains_posts_information(response):
+        pass
 
-        for user in users:
 
-            user_to_save = InstagramUser()
-            user_to_save.ig_id = user['pk']
-            user_to_save.username = user['username']
-            user_to_save.full_name = user['full_name']
-            user_to_save.private = user['is_private']
-            user_to_save.verified = user['is_verified']
-            users_to_save.append(user_to_save)
 
-        for user_to_save in users_to_save:
-            pass
+def save_account_recommendations(response: dict):
+    response_timestamp = response['x-metadata']['timestamp']
+    users_from_response = response['users']
+    users_from_response_ig_ids = [int(x['pk']) for x in users_from_response]
+
+    session = build_session()
+    query = session \
+        .query(InstagramUser) \
+        .filter(InstagramUser.ig_id.in_(users_from_response_ig_ids))
+
+    existing_users = query.all()
+    existing_users_ig_ids = [int(x.ig_id) for x in existing_users]
+
+    users_to_save = []
+    users_to_update = []
+
+    for user_from_response in users_from_response:
+        user_from_response_ig_id = user_from_response['pk']
+
+        if user_from_response_ig_id in existing_users_ig_ids:
+            existing_user = [x for x in existing_users if x.ig_id == user_from_response_ig_id][0]
+            
+            if existing_user.timestamp_logged == response_timestamp:
+                continue
+
+            user = build_instagram_user_to_update(existing_user, user_from_response, response_timestamp)
+            users_to_update.append(user)
+
+        else:
+            user = build_instagram_user_to_save(user_from_response, response_timestamp)
+            users_to_save.append(user)
+
+    save_all(users_to_save)
+    update_all(users_to_update)
+
+
+def build_instagram_user_to_save(user_as_dict: dict, timestamp: str):
+    user = InstagramUser()
+    user.ig_id = user_as_dict['pk']
+    user.username = user_as_dict['username']
+    user.full_name = user_as_dict['full_name']
+    user.private = user_as_dict['is_private']
+    user.verified = user_as_dict['is_verified']
+    user.timestamp_logged = timestamp
+    user.timestamp_updated = timestamp
+    return user
+
+
+def build_instagram_user_to_update(user: InstagramUser, user_as_dict: dict, timestamp: str):
+    user.timestamp_updated = timestamp
+    return user
+
+
+def build_instagram_post_to_update(post: InstagramPost, post_as_dict: dict, timestamp: str):
+    pass
+
+
+def build_instagram_post_to_save(post_as_dict: dict, timestamp: str):
+    pass
+
+
+def build_instagram_hashtag_to_save(hashtag_as_dict: dict, timestamp: str):
+    pass
+
+
+def build_instagram_hashtag_to_update(hashtag: InstagramHashtag, hashtag_as_dict: dict, timestamp: str):
+    pass
+
+
+def response_contains_posts_information(response: dict):
+    pass
+
+
+def response_contains_hashtag_information(response: dict):
+    pass
 
 
 def response_contains_account_recommendations(response: dict):

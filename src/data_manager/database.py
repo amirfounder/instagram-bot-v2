@@ -1,3 +1,4 @@
+from types import LambdaType
 import sqlalchemy
 from sqlalchemy.exc import IntegrityError
 from src.data_manager.database_utils import mapper_registry, engine, Session
@@ -17,11 +18,25 @@ def build_session() -> sqlalchemy.orm.Session:
     return Session()
 
 
-def get_all():
+def commit_session(session: sqlalchemy.orm.Session):
+    session.commit()
+
+
+def convert_entity_to_dict(entity):
+    entity_as_dict = entity.__dict__
+    entity_as_dict.pop('_sa_instance_state')
+    return entity_as_dict
+
+
+def find_all() -> list[object]:
     pass
 
 
-def get():
+def find_by_id() -> object:
+    pass
+
+
+def find_by_multiple_ids() -> list[object]:
     pass
 
 
@@ -34,24 +49,24 @@ def save(entity):
 def save_all(entities):
     session = build_session()
     session.add_all(entities)
-    try:
-        session.commit()
-    except IntegrityError as e:
-        pass
+    session.commit()
 
 
 def update(entity):
     session = build_session()
-
-    instance_as_dict = entity.__dict__
-    instance_as_dict.pop('_sa_instance_state')
+    entity_as_dict = convert_entity_to_dict(entity)
 
     session \
         .query(type(entity)) \
         .filter(type(entity).id == entity.id) \
-        .update(instance_as_dict)
+        .update(entity_as_dict)
     
     session.commit()
+
+
+def update_all(entities):
+    pass
+
 
 def delete():
     pass

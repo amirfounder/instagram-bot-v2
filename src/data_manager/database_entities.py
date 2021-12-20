@@ -42,6 +42,8 @@ class InstagramUser(Base):
     private = Column(Boolean)
     verified = Column(Boolean)
     full_name = Column(String)
+    timestamp_logged = Column(String)
+    timestamp_updated = Column(String)
 
 
 class InstagramPost(Base):
