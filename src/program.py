@@ -14,7 +14,7 @@ def run():
     state['is_program_running'] = True
     state['processes'] = manager.dict()
 
-    # setup_database()
+    setup_database()
 
     # state['console_server'] = manager.dict()
     # state['console_client'] = manager.dict()

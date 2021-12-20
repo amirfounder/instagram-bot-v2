@@ -2,7 +2,7 @@ from mitmproxy.http import HTTPFlow
 from datetime import datetime
 from json import loads, dumps
 from src.data_manager.files import append_to_file_in_directory, save_bytes_to_image_in_directory
-from src.utils.constants import MITM_PROXY_INSTAGRAM_JSON_RESPONSES_LOGS_DIRECTORY_PATH
+from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY
 from src.utils.utils import timestamp
 
 
@@ -52,17 +52,19 @@ def save_image(flow: HTTPFlow):
 
 def save_json(flow: HTTPFlow):
     data = flow.response.text
-    directory = MITM_PROXY_INSTAGRAM_JSON_RESPONSES_LOGS_DIRECTORY_PATH
+    directory = IG_JSON_RESPONSES_LOGS_DIRECTORY
     loaded = None
 
     try:
         loaded = loads(data)
-        loaded['meta'] = build_metadata(flow)
+        metadata = build_metadata(flow)
+        loaded['x-metadata'] = metadata
         data = dumps(loaded)
     except:
         pass
 
-    append_to_file_in_directory(directory, str(data))
+    data = '{}\n'.format(data)
+    append_to_file_in_directory(directory, data)
 
 
 def build_metadata(flow: HTTPFlow):

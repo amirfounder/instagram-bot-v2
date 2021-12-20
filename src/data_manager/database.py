@@ -1,3 +1,5 @@
+import sqlalchemy
+from sqlalchemy.exc import IntegrityError
 from src.data_manager.database_utils import mapper_registry, engine, Session
 from src.data_manager.database_entities import *
 
@@ -11,7 +13,7 @@ def register_entities():
     mapper_registry.metadata.create_all(engine)
 
 
-def build_session():
+def build_session() -> sqlalchemy.orm.Session:
     return Session()
 
 
@@ -27,6 +29,15 @@ def save(entity):
     session = build_session()
     session.add(entity)
     session.commit()
+
+
+def save_all(entities):
+    session = build_session()
+    session.add_all(entities)
+    try:
+        session.commit()
+    except IntegrityError as e:
+        pass
 
 
 def update(entity):
@@ -80,14 +91,14 @@ def sync_table(table):
     column_statements = []
 
     if model_columns_length > db_columns_length:
-        differences = [x for x in model_columns if x[0] not in db_column_names]
-        for diff in differences:
+        diffs = [x for x in model_columns if x[0] not in db_column_names]
+        for diff in diffs:
             column_statements.append(
                 'ADD COLUMN {} {}'.format(diff[0], diff[1]))
 
     if db_columns_length > model_columns_length:
-        differences = [x for x in db_columns if x[0] not in model_column_names]
-        for diff in differences:
+        diffs = [x for x in db_columns if x[0] not in model_column_names]
+        for diff in diffs:
             column_statements.append('DROP COLUMN {}'.format(diff[0]))
 
     alter_query += ', '.join(column_statements)

@@ -9,10 +9,10 @@ MAX_LOG_FILE_SIZE = 50 * 1000 * 1000
 TODAY_FORMAT = r'%Y_%m_%d'
 TIMESTAMP_FORMAT = r'%H_%M_%S_%f'
 
-INTERACTION_LOGGER_LOGS_DIRECTORY_PATH = 'C:/x/logs/interaction-logger'
+INTERACTION_LOGGER_LOGS_DIRECTORY = 'C:/x/logs/interaction-logger'
 
-MITM_PROXY_INSTAGRAM_JSON_RESPONSES_LOGS_DIRECTORY_PATH = 'C:/x/logs/mitm-proxy/instagram/json'
-MITM_PROXY_INSTAGRAM_JSON_RESPONSES_SYNCED_LOGS_DIRECTORY_PATH = 'C:/x/logs/mitm-proxy-synced/instagram/json'
+IG_JSON_RESPONSES_LOGS_DIRECTORY = 'C:/x/logs/mitm-proxy/instagram/json'
+IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY = 'C:/x/logs/mitm-proxy-synced/instagram/json'
 
-MITM_PROXY_LOGS_DIRECTORY_PATH = 'C:/x/logs/mitm-proxy'
-MITM_PROXY_LOGS_SYNCED_DIRECTORY_PATH = 'C:/x/logs/mitm-proxy-synced'
+LISTENER_LOGS_DIRECTORY = 'C:/x/logs/mitm-proxy'
+LISTENER_LOGS_SYNCED_DIRECTORY = 'C:/x/logs/mitm-proxy-synced'
