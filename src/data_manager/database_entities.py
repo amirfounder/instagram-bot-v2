@@ -1,6 +1,5 @@
-from sqlalchemy.sql.sqltypes import Boolean
 from src.data_manager.database_utils import Base
-from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger
+from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean
 
 
 class Bot(Base):

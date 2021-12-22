@@ -14,25 +14,25 @@ def run():
     state['is_program_running'] = True
     state['processes'] = manager.dict()
 
-    setup_database()
+    # setup_database()
 
     # state['console_server'] = manager.dict()
     # state['console_client'] = manager.dict()
     state['http_listener'] = manager.dict()
     # state['instagram_agent'] = manager.dict()
-    state['data_syncs'] = manager.dict()
+    # state['data_syncs'] = manager.dict()
 
     # state['console_server']['pid'] = spawn_process(run_console_server, (state,)).pid
     # state['console_client']['pid'] = spawn_process(run_console_client).pid
     state['http_listener']['pid'] = spawn_process(run_http_listener).pid
     # state['instagram_agent']['pid'] = spawn_process(run_instagram_agent, (state,)).pid
-    state['data_syncs']['pid'] = spawn_process(run_data_syncs, (state,)).pid
+    # state['data_syncs']['pid'] = spawn_process(run_data_syncs, (state,)).pid
 
     # state['console_server']['is_running'] = True
     # state['console_client']['is_running'] = True
     state['http_listener']['is_running'] = True
     # state['instagram_agent']['is_running'] = True
-    state['data_syncs']['is_running'] = True
+    # state['data_syncs']['is_running'] = True
 
     while state['is_program_running']:
         pass

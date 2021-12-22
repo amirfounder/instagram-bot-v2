@@ -1,6 +1,4 @@
-from types import LambdaType
-import sqlalchemy
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session as SessionType
 from src.data_manager.database_utils import mapper_registry, engine, Session
 from src.data_manager.database_entities import *
 
@@ -14,18 +12,22 @@ def register_entities():
     mapper_registry.metadata.create_all(engine)
 
 
-def build_session() -> sqlalchemy.orm.Session:
+def build_session() -> SessionType:
     return Session()
 
 
-def commit_session(session: sqlalchemy.orm.Session):
+def commit_session(session: SessionType):
     session.commit()
 
 
 def convert_entity_to_dict(entity):
-    entity_as_dict = entity.__dict__
-    entity_as_dict.pop('_sa_instance_state')
-    return entity_as_dict
+    entity_dict = {}
+    entity_columns = [x.name for x in list(entity.__table__.columns)]
+    for column in entity_columns:
+        column_value = getattr(entity, column, None)
+        if column_value is not None:
+            entity_dict[column] = column_value
+    return entity_dict
 
 
 def find_all() -> list[object]:
@@ -92,7 +94,7 @@ def sync_table(table):
     db_columns = session.execute(columns_query).all()
     db_column_names = [x[0] for x in db_columns]
 
-    model_columns = table.columns._all_columns
+    model_columns = list(table.columns)
     model_columns = [(x.key, x.type.compile()) for x in model_columns]
     model_column_names = [x[0] for x in model_columns]
 
