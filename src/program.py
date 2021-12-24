@@ -24,7 +24,7 @@ def run():
     spawn_thread(run_console_server, (state, ))
     spawn_thread(run_data_syncs)
 
-    while state['main_running']:
+    while state['program_is_running']:
         pass
 
     kill_console_client(state['process_map'])
