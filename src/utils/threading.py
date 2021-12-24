@@ -6,10 +6,3 @@ def spawn_thread(target, args: tuple[Any] = ())-> Thread:
     thread.start()
 
     return thread
-
-
-def terminate_process_by_pid(ident: int):
-    threads = enumerate()
-    for thread in threads:
-        if thread.ident == ident:
-            thread._stop()

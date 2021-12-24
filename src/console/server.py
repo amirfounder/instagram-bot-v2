@@ -20,5 +20,5 @@ async def start_server():
         await asyncio.Future()
     
 
-def run_console_server():
+def run_console_server(state):
     asyncio.run(start_server())
