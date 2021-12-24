@@ -3,7 +3,7 @@ from src.data_manager.database_utils import mapper_registry, engine, Session
 from src.data_manager.database_entities import *
 
 
-def setup():
+def setup_database():
     register_entities()
     sync_tables()
 

@@ -4,9 +4,9 @@
   "description": "",
   "main": "public/electron.js",
   "scripts": {
-    "start": "concurrently -k \"npm:start-react\" \"npm:start-electron\"",
-    "start-react": "cross-env BROWSER=none react-scripts start",
-    "start-electron": "wait-on tcp:3000 && electron ."
+    "start": "concurrently -k npm:x-run-*",
+    "x-run-react": "cross-env BROWSER=none react-scripts start",
+    "x-run-electron": "wait-on tcp:3000 && electron ."
   },
   "keywords": [],
   "author": "",

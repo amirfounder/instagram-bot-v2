@@ -6,6 +6,18 @@ from numpy import ndarray
 from src.utils.constants import MAX_LOG_FILE_SIZE
 
 
+def get_date_from_path():
+    pass
+
+
+def build_dated_directory():
+    pass
+
+
+def build_dated_file():
+    pass
+
+
 def read_from_file_in_directory_recursively(directory: str, excluded_directories: list[str]):
     data_map = {}
     directories = get_directories_from_directory(directory)

@@ -1,4 +1,4 @@
-from tests.files import test_read_from_file_in_directory_recursively
+from test.files import test_read_from_file_in_directory_recursively
 
 
 def run_tests():

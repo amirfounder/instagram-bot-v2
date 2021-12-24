@@ -8,8 +8,10 @@ from src.utils.utils import try_parse_json
 
 def run_data_syncs(state: dict):
     while state['data_syncs']['is_running']:
-        try: sync_instagram_responses_from_files_to_database()
-        except: pass
+        try:
+            sync_instagram_responses_from_files_to_database()
+        except:
+            pass
         sleep(2)
 
 
@@ -21,8 +23,7 @@ def sync_instagram_responses_from_files_to_database():
     json_responses = [x for x in json_responses if x != '']
 
     parsed_responses = parse_list_json_responses(json_responses)
-    filtered_responses = filter_responses_with_no_timestamp_record(
-        parsed_responses)
+    filtered_responses = filter_responses_with_no_timestamp(parsed_responses)
     filtered_responses = filter_responses_with_no_value(filtered_responses)
     unsynced_responses = get_unsynced_responses(filtered_responses)
 
@@ -40,14 +41,20 @@ def parse_list_json_responses(json_responses: list[str]):
     return parsed_responses
 
 
-def filter_responses_with_no_timestamp_record(unfiltered_responses: list[dict]):
+def filter_responses_with_no_timestamp(unfiltered_responses: list[dict]):
     return [x for x in unfiltered_responses if 'x-metadata' in x and 'timestamp' in x['x-metadata']]
 
 
 def filter_responses_with_no_value(responses: list[dict]):
     filter_criteria = [
-        ['checksum', 'config', 'config_owner_id',
-            'app_data', 'qpl_version', 'x-metadata'],
+        [
+            'checksum',
+            'config',
+            'config_owner_id',
+            'app_data',
+            'qpl_version',
+            'x-metadata'
+        ],
         ['status', 'x-metadata', 'fr'],
         ['status', 'x-metadata']
     ]
@@ -104,7 +111,6 @@ def save_useful_data_from_response_to_database(response: dict):
         pass
 
 
-
 def save_account_recommendations(response: dict):
     response_timestamp = response['x-metadata']['timestamp']
     users_from_response = response['users']
@@ -125,16 +131,19 @@ def save_account_recommendations(response: dict):
         user_from_response_ig_id = user_from_response['pk']
 
         if user_from_response_ig_id in existing_users_ig_ids:
-            existing_user = [x for x in existing_users if x.ig_id == user_from_response_ig_id][0]
-            
+            existing_user = [
+                x for x in existing_users if x.ig_id == user_from_response_ig_id][0]
+
             if existing_user.timestamp_logged == response_timestamp:
                 continue
 
-            user = build_instagram_user_to_update(existing_user, user_from_response, response_timestamp)
+            user = build_instagram_user_to_update(
+                existing_user, user_from_response, response_timestamp)
             users_to_update.append(user)
 
         else:
-            user = build_instagram_user_to_save(user_from_response, response_timestamp)
+            user = build_instagram_user_to_save(
+                user_from_response, response_timestamp)
             users_to_save.append(user)
 
     save_all(users_to_save)
