@@ -16,8 +16,10 @@ async def handle_event(websocket: WebSocketServerProtocol):
 
 async def start_server():
     print('starting console server')
-    async with websockets.serve(handle_event, "localhost", 8001):
-        await asyncio.Future()
+    async with websockets.serve(handle_event, "localhost", 8001) as ws:
+        future = asyncio.Future()
+        await future
+        
     
 
 def run_console_server(state):
