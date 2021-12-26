@@ -1,3 +1,5 @@
 export * from './App'
 export * from './Table'
 export * from './Tabs'
+export * from './Input'
+export * from './Button'

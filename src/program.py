@@ -1,15 +1,13 @@
-from os import kill
 from subprocess import Popen
 
 from src.utils.threading import spawn_thread
 from src.utils.subprocessing import kill_subprocess
-from src.console.server import run_console_server
+from src.console.server.server import run_console_server
 from src.data_manager.database import setup_database
 from src.data_manager.data_syncs import run_data_syncs
 
 
 def run():
-
     state = {}
     state['program_is_running'] = True
     state['process_map'] = {}
@@ -17,14 +15,14 @@ def run():
     setup_database()
     spawn_thread(run_console_client, (state['process_map'],))
     spawn_thread(run_console_server, (state, ))
-    # spawn_thread(run_data_syncs)
+    spawn_thread(run_data_syncs)
 
     while state['program_is_running']:
         pass
 
-    # kill_console_client(state['process_map'])
-    # kill_content_builder(state['process_map'])
-    # kill_http_listener(state['process_map'])
+    kill_console_client(state['process_map'])
+    kill_content_builder(state['process_map'])
+    kill_http_listener(state['process_map'])
 
 
 def run_content_builder(process_map: dict[str, Popen]):

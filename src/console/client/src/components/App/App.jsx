@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tab, TabPanel, Tabs } from '..';
-import { DataManager } from '../views/DataManager/DataManager';
-import { InstagramAgentManager } from '../views/InstagramAgentManager/InstagramAgentManager';
-import { ProcessManager } from '../views/ProcessManager/ProcessManager';
+import { DataView } from '../views/DataView/DataView';
+import { InstagramAgentView } from '../views/InstagramAgentView/InstagramAgentView';
+import { ProcessesView } from '../views/ProcessesView/ProcessesView';
 import styles from './App.module.scss';
 
 export const App = () => {
@@ -13,9 +13,9 @@ export const App = () => {
         <Tab id='2'>Processes</Tab>
         <Tab id='3'>Intagram Agent</Tab>
       </Tabs>
-      <TabPanel id='1' component={DataManager} />
-      <TabPanel id='2' component={ProcessManager} />
-      <TabPanel id='3' component={InstagramAgentManager} />
+      <TabPanel id='1' component={DataView} />
+      <TabPanel id='2' component={ProcessesView} />
+      <TabPanel id='3' component={InstagramAgentView} />
     </div>
   )
 }

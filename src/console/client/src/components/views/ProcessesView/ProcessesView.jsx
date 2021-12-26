@@ -1,5 +1,7 @@
 import React from "react";
-export const ProcessManager = () => {
+
+
+export const ProcessesView = () => {
   return (
     <div>
       <table>
