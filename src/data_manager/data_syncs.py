@@ -6,7 +6,7 @@ from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPON
 from src.utils.utils import try_parse_json
 
 
-def run_data_syncs(state: dict):
+def sync_databases(state: dict):
     while state['data_syncs']['is_running']:
         try:
             sync_instagram_responses_from_files_to_database()

@@ -1,28 +1,8 @@
 from subprocess import Popen
-
-from src.utils.threading import spawn_thread
 from src.utils.subprocessing import kill_subprocess
-from src.console.server.server import run_console_server
+from src.console.server.server import start_server
 from src.data_manager.database import setup_database
-from src.data_manager.data_syncs import run_data_syncs
-
-
-def run():
-    state = {}
-    state['program_is_running'] = True
-    state['process_map'] = {}
-
-    setup_database()
-    spawn_thread(run_console_client, (state['process_map'],))
-    spawn_thread(run_console_server, (state, ))
-    spawn_thread(run_data_syncs)
-
-    while state['program_is_running']:
-        pass
-
-    kill_console_client(state['process_map'])
-    kill_content_builder(state['process_map'])
-    kill_http_listener(state['process_map'])
+from src.data_manager.data_syncs import sync_databases
 
 
 def run_content_builder(process_map: dict[str, Popen]):
@@ -40,10 +20,26 @@ def run_console_client(process_map: dict[str, Popen]):
     process_map['console_client'] = process
 
 
+def run_database_setup():
+    setup_database()
+
+
+def run_data_syncs():
+    sync_databases()
+
+
+def run_console_server():
+    start_server()
+
+
 def kill_console_client(process_map: dict[str, Popen]):
     if 'console_client' not in process_map:
         process = process_map['console_client']
         kill_subprocess(process)
+    
+
+def kill_console_server(state):
+    pass
 
 
 def kill_http_listener(process_map: dict[str, Popen]):
