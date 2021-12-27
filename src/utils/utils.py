@@ -33,5 +33,5 @@ def find_differences_between_two_flat_dicts(dict1: FlatterDict, dict2: FlatterDi
     dict2_set = set(dict2.items())
 
     differences = dict1_set ^ dict2_set
-    differences = list(differences)
+    differences = dict(differences)
     return differences
