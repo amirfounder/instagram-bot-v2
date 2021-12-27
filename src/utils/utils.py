@@ -20,3 +20,12 @@ def try_parse_json(json_object: str):
     except:
         print('Could not parse json: {}'.format(json_object))
         return None
+
+
+def recusrively_get_keys_from_dict(dict_object: dict):
+    keys = list(dict_object.keys())
+    for key in keys:
+        if type(dict_object[key]) == dict:
+            local_keys = recusrively_get_keys_from_dict(dict_object[key])
+            keys.extend(local_keys)
+    return keys

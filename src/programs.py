@@ -3,6 +3,7 @@ from src.utils.subprocessing import kill_subprocess
 from src.console.server.server import start_server
 from src.data_manager.database import setup_database
 from src.data_manager.data_syncs import sync_databases
+from src.app_state import state
 
 
 def run_content_builder(process_map: dict[str, Popen]):
@@ -15,9 +16,11 @@ def run_http_listener(process_map: dict[str, Popen]):
     process_map['http_listener'] = process
 
 
-def run_console_client(process_map: dict[str, Popen]):
-    process = Popen('npm --prefix src/console/client run start', shell=True)
-    process_map['console_client'] = process
+def run_console_client():
+    subprocess = Popen('npm --prefix src/console/client run start', shell=True)
+
+    state['console']['client']['is_running'] = True
+    state['console']['client']['subprocess_object'] = subprocess
 
 
 def run_database_setup():
@@ -29,7 +32,7 @@ def run_data_syncs():
 
 
 def run_console_server():
-    start_server()
+    start_server(state)
 
 
 def kill_console_client(process_map: dict[str, Popen]):

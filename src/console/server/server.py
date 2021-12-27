@@ -2,38 +2,35 @@ import asyncio
 from typing import Any
 import websockets
 import json
-from websockets.legacy.server import WebSocketServerProtocol
-from src.console.server.server_handlers import end_activity, start_activity
+from websockets.server import WebSocketServerProtocol, WebSocketServer
+from src.console.server.server_handlers import end_program, start_program
 
 
-program_state = None
-loop = None
-
-async def ws_handler(websocket: WebSocketServerProtocol):
+async def ws_handler(websocket: WebSocketServerProtocol, state):
     while True:
-        global program_state
-
         json_message: str = await websocket.recv()
-
         message: dict[str, Any] = json.loads(json_message)
         message_type: str = message['type']
 
-        if message_type.lower() == 'start_activity':
-            start_activity(message, program_state)
-        elif message_type.lower() == 'end_activity':
-            end_activity(message, program_state)
+        if message_type.lower() == 'start_program':
+            start_program(message, state)
+        elif message_type.lower() == 'end_program':
+            end_program(message, state)
 
 
 def start_server(state):
-    global program_state
-    global loop
-
-    program_state = state
     loop = asyncio.new_event_loop()
-
     asyncio.set_event_loop(loop)
 
-    server = websockets.serve(ws_handler, "localhost", 8001)
+    ws_server: WebSocketServer = websockets.serve(
+        lambda x: ws_handler(x, state),
+        "localhost",
+        8001
+    )
 
-    loop.run_until_complete(server)
-    loop.run_forever()
+    try:
+        loop.run_until_complete(ws_server)
+        loop.run_forever()
+    finally:
+        ws_server.close()
+        loop.stop()
