@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
+from flatdict import FlatDict, FlatterDict
 from src.utils.constants import TIMESTAMP_FORMAT, TODAY_FORMAT
+
 
 
 def today(now: datetime=None):
@@ -22,10 +24,14 @@ def try_parse_json(json_object: str):
         return None
 
 
-def recusrively_get_keys_from_dict(dict_object: dict):
-    keys = list(dict_object.keys())
-    for key in keys:
-        if type(dict_object[key]) == dict:
-            local_keys = recusrively_get_keys_from_dict(dict_object[key])
-            keys.extend(local_keys)
-    return keys
+def build_flat_dict(nested_dict, delimiter='.'):
+    return FlatterDict(nested_dict, delimiter=delimiter)
+
+
+def find_differences_between_two_flat_dicts(dict1: FlatterDict, dict2: FlatterDict):
+    dict1_set = set(dict1.items())
+    dict2_set = set(dict2.items())
+
+    differences = dict1_set ^ dict2_set
+    differences = list(differences)
+    return differences

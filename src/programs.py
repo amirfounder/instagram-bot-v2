@@ -28,7 +28,7 @@ def run_database_setup():
 
 
 def run_data_syncs():
-    sync_databases()
+    sync_databases(state)
 
 
 def run_console_server():
