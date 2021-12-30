@@ -6,7 +6,7 @@ from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY
 from src.utils.utils import timestamp
 
 
-def handle_flow(flow: HTTPFlow):
+def handle_http_flow(flow: HTTPFlow):
     if is_from_instagram(flow):
         handle_instagram_response(flow)
 

@@ -26,6 +26,4 @@ def run():
 
 def adjust_programs(prev_state: FlatterDict, current_state: FlatterDict):
     diffs = get_differences_from_prev_state(prev_state, current_state)
-    print(prev_state['instagram_agent.tasks.research_hashtags.is_running'])
-    print(current_state['instagram_agent.tasks.research_hashtags.is_running'])
     print(diffs)

@@ -4,10 +4,17 @@ const createWindow = () => {
   const win = new BrowserWindow({
     useContentSize: true
   })
-  // win.removeMenu()
   win.loadURL('http://localhost:3000')
 }
 
-app.whenReady().then(() => {
+app.on('ready', () => {
   createWindow()
+})
+
+app.on('render-process-gone', () => {
+  app.quit()
+})
+
+app.on('child-process-gone', () => {
+  app.quit()
 })

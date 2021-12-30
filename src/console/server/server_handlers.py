@@ -13,9 +13,9 @@ def start_program(message: dict[str, Any], state: dict[str, Any]):
 
 
 def start_instagram_agent_hashtag_research_program(seed_hashtag:str, state: dict[str, Any]):
-    state['instagram_agent']['is_running'] = True
-    state['instagram_agent']['tasks']['research_hashtags']['is_running'] = True
-    state['instagram_agent']['tasks']['research_hashtags']['seed_hashtag'] = seed_hashtag
+    state['instagram_agent.is_running'] = True
+    state['instagram_agent.tasks.research_hashtags.is_running'] = True
+    state['instagram_agent.tasks.research_hashtags.seed_hashtag'] = seed_hashtag
     print('started instagram agent hashtag research program')
 
 
@@ -30,7 +30,7 @@ def end_program(message: dict[str, Any], state: dict[str, Any]):
 
 
 def end_instagram_agent_program(state: dict[str, Any]):
-    state['instagram_agent']['is_running'] = False
+    state['instagram_agent.is_running'] = False
 
 
 def end_instagram_agent_hashtag_research_program(state: dict[str, Any]):

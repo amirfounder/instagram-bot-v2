@@ -1,24 +1,38 @@
-from subprocess import Popen
-from src.utils.subprocessing import kill_subprocess
+from subprocess import STDOUT, Popen, PIPE
+from src.utils.subprocessing import kill_subprocess, spawn_subprocess
 from src.console.server.server import start_server
 from src.data_manager.database import setup_database
+from time import sleep, time
 from src.data_manager.data_syncs import sync_databases
 
 
 def run_content_builder(state):
-    popen = Popen('npm --prefix src/builders/content_builder run start', shell=True)
+    popen = Popen('npm --prefix src/builders/content_builder run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['content_builder.is_running'] = True
     state['content_builder.subprocess_object'] = popen
 
 
 def run_http_listener(state):
-    popen = Popen("mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error", shell=True)
+    popen = Popen('mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
 
 
 def run_console_client(state):
-    popen = Popen('npm --prefix src/console/client run start', shell=True)
+    popen = Popen('npm --prefix src/console/client run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    started_time = time()
+    
+    while True:
+        output = popen.stdout.readline()
+        output = output.decode('utf-8')
+        output = output.removesuffix('\n')
+        print(output)
+
+        if '[x-run-react] Compiled successfully!' in output:
+            break
+        if time() - started_time >= 30:
+            raise TimeoutError("30 seconds have passed since starting process and no success message has been received")
+
     state['console.client.is_running'] = True
     state['console.client.subprocess_object'] = popen
 
