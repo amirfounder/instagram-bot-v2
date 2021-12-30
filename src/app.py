@@ -21,9 +21,8 @@ def run():
         adjust_programs(prev_state, state)
         
         prev_state = copy_state(state)
-        sleep(1)
+        sleep(.5)
 
 
 def adjust_programs(prev_state: FlatterDict, current_state: FlatterDict):
-    diffs = get_differences_from_prev_state(prev_state, current_state)
-    print(diffs)
+    differences = get_differences_from_prev_state(prev_state, current_state)

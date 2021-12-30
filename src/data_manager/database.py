@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session as SessionType
-from src.data_manager.database_utils import mapper_registry, engine, Session
+from src.data_manager.database_utils import mapper_registry, engine, Session, build_session
 from src.data_manager.database_entities import *
 
 
@@ -10,10 +10,6 @@ def setup_database():
 
 def register_entities():
     mapper_registry.metadata.create_all(engine)
-
-
-def build_session() -> SessionType:
-    return Session()
 
 
 def commit_session(session: SessionType):
@@ -30,15 +26,15 @@ def convert_entity_to_dict(entity):
     return entity_dict
 
 
-def find_all() -> list[object]:
+def get_all() -> list[object]:
     pass
 
 
-def find_by_id() -> object:
+def get_by_id() -> object:
     pass
 
 
-def find_by_multiple_ids() -> list[object]:
+def get_by_multiple_ids() -> list[object]:
     pass
 
 

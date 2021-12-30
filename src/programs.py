@@ -1,8 +1,8 @@
-from subprocess import STDOUT, Popen, PIPE
-from src.utils.subprocessing import kill_subprocess, spawn_subprocess
+from subprocess import Popen, PIPE
+from src.utils.subprocessing import kill_subprocess
 from src.console.server.server import start_server
 from src.data_manager.database import setup_database
-from time import sleep, time
+from time import time
 from src.data_manager.data_syncs import sync_databases
 
 
@@ -20,16 +20,19 @@ def run_http_listener(state):
 
 def run_console_client(state):
     popen = Popen('npm --prefix src/console/client run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
-    started_time = time()
     
-    while True:
+    started_time = time()
+    start_confirmed = False
+    
+    while not start_confirmed:
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
         print(output)
 
-        if '[x-run-react] Compiled successfully!' in output:
-            break
+        if 'Compiled successfully!' in output:
+            start_confirmed = True
+
         if time() - started_time >= 30:
             raise TimeoutError("30 seconds have passed since starting process and no success message has been received")
 

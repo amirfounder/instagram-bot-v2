@@ -52,8 +52,9 @@ def read_from_files(paths: list[str]):
 def read_from_file(path: str):
     data = None
 
-    with open(path, 'r') as f:
-        data = f.read()
+    file = try_open(path, 'r')
+    data = file.read()
+    file.close()
 
     return data
 
@@ -75,8 +76,9 @@ def append_to_file(path: str, content: str):
     if not is_directory(directory):
         create_directories(directory)
     
-    with open(path, 'a') as f:
-        f.write(content)
+    file = try_open(path, 'a')
+    file.write(content)
+    file.close()
 
 
 def get_next_file_in_directory(directory: str): 
@@ -108,8 +110,9 @@ def save_bytes_to_image(path: str, content: bytearray):
     if not is_directory(directory):
         create_directories(directory)
     
-    with open(path, 'wb') as f:
-        f.write(content)
+    file = try_open(path, 'wb')
+    file.write(content)
+    file.close()
 
 
 def save_numpy_array_to_image(path: str, nparray: ndarray):
@@ -118,7 +121,7 @@ def save_numpy_array_to_image(path: str, nparray: ndarray):
 
 
 def create_file(path: str):
-    open(path, 'x').close()
+    try_open(path, 'x').close()
 
 
 def is_file(path: str):
@@ -177,3 +180,20 @@ def convert_data_map_to_data(data_map: dict[str, str]):
     data: str = '\n'.join(data_list)
     data: str = data.replace('\n\n', '\n')
     return data
+
+
+def try_open(path: str, *args, **kwargs):
+    file = None
+    opened = False
+    
+    while not opened:
+
+        try:
+            file = open(path, *args, **kwargs)
+            opened = True
+        
+        except:
+            print('Could not open file: {}'.format(path))
+    
+    return file
+
