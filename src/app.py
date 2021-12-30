@@ -5,6 +5,7 @@ from src.programs import run_database_setup, run_console_client, run_console_ser
 from src.state import state
 from src.utils.threading import spawn_thread
 from src.utils.utils import find_differences_between_two_flat_dicts
+from copy import deepcopy, copy
 
 
 def run():
@@ -14,11 +15,12 @@ def run():
     spawn_thread(run_console_server, (state,))
     spawn_thread(run_data_syncs, (state,))
 
-    prev_state = state.copy()
+    prev_state = deepcopy(state)
+    
 
     while state['program_is_running']:
         adjust_programs(prev_state, state)
-        prev_state = state
+        prev_state = deepcopy(state)
         sleep(3)
 
 

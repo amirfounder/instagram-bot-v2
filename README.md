@@ -21,3 +21,8 @@ TBD
 ## Farm popular posts from users in my niche / market
 
 1. 
+
+# Commands
+
+```pytest```  
+```python main.py```  

@@ -27,8 +27,16 @@ def test_read_from_file_in_directory_recursively():
     with open(TEST_DIRECTORY + '/top/nested/file2.txt', 'w') as f:
         f.write("one line\ntwo line\nthree line")
     
-    data = read_from_file_in_directory_recursively(TEST_DIRECTORY)
-    print(data)
+    actual = read_from_file_in_directory_recursively(TEST_DIRECTORY, [])
+    expected = {
+        'C:/x/tests/file.txt': 'one line\ntwo line\nthree line',
+        'C:/x/tests/top/file.txt': 'one line\ntwo line\nthree line',
+        'C:/x/tests/top/file2.txt': 'one line\ntwo line\nthree line',
+        'C:/x/tests/top/nested/file.txt': 'one line\ntwo line\nthree line',
+        'C:/x/tests/top/nested/file2.txt': 'one line\ntwo line\nthree line'
+    }
+
+    assert actual == expected
     after_each()
     
 
