@@ -1,7 +1,8 @@
 import json
 from datetime import datetime
-from flatdict import FlatDict, FlatterDict
-from copy import copy
+from flatdict import FlatterDict
+from copy import copy, deepcopy
+from subprocess import Popen
 from src.utils.constants import TIMESTAMP_FORMAT, TODAY_FORMAT
 
 
@@ -29,60 +30,32 @@ def build_flat_dict(nested_dict, delimiter='.'):
     return FlatterDict(nested_dict, delimiter=delimiter)
 
 
-def find_differences_between_two_flat_dicts(dict1: FlatterDict, dict2: FlatterDict):
-    dict1_set = set(dict1.items())
-    dict2_set = set(dict2.items())
+def get_differences_from_prev_state(prev_state: FlatterDict, current_state: FlatterDict):
+    differences = {}
 
-    differences = dict1_set ^ dict2_set
-    differences = dict(differences)
-
+    for key in prev_state.keys():
+        
+        if prev_state[key] != current_state[key]:
+            differences[key] = current_state[key]
+    
     return differences
 
 
-def copy_state():
-    new_state = {}
+def copy_state(initial_state: FlatterDict):
+    initial_state_dict = dict(initial_state)
+
+    initial_state_dict_items = initial_state_dict.items()
+    initial_state_dict_items_with_popen_object = [(k, v) for (k, v) in initial_state_dict_items if type(v) is Popen]
+    initial_state_dict_items_without_popen_object = [(k, v) for (k, v) in initial_state_dict_items if type(v) is not Popen]
+
+    new_state_dict_items = deepcopy(initial_state_dict_items_without_popen_object)
+    new_state_dict_items.extend(initial_state_dict_items_with_popen_object)
+
+    new_state_dict = {}
+
+    for (key, value) in new_state_dict_items:
+        new_state_dict[key] = value
+
+    new_state = build_flat_dict(new_state_dict)
+    return new_state
     
-
-def deep_copy_dictionary(initial_dict: dict, ignore_value_types: list[type] = []):
-    new_dict = {}
-
-    for key, value in initial_dict.items():
-        
-        value_type = type(value)
-
-        if value_type in ignore_value_types:
-            new_dict[key] = value
-        
-        elif value_type is dict:
-            new_value = deep_copy_dictionary(value, ignore_value_types)
-            new_dict[key] = new_value
-        
-        elif value_type is list:
-            new_value = deep_copy_list(value)
-            new_dict[key] = new_value
-        
-        else:
-            new_value = copy(value)
-            new_dict[key] = new_value
-    
-    return new_dict
-
-
-def deep_copy_list(initial_list: list):
-    new_list = []
-
-    for item in initial_list:
-        
-        if type(item) is dict:
-            new_item = deep_copy_dictionary(item)
-            new_list.append(new_item)
-        
-        elif type(item) is list:
-            new_item = deep_copy_list(item)
-            new_list.append(new_item)
-        
-        else:
-            new_item = copy(item)
-            new_list.append(new_item)
-    
-    return new_list

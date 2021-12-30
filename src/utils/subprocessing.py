@@ -4,5 +4,6 @@ from subprocess import Popen
 
 
 def kill_subprocess(process: Popen):
-    pid = process.pid
-    kill(pid, CTRL_C_EVENT)
+    process.terminate()
+    # pid = process.pid
+    # kill(pid, CTRL_C_EVENT)

@@ -1,11 +1,11 @@
-from src.utils.utils import deep_copy_dictionary, deep_copy_list
+from src.utils.utils import deep_copy_dict, deep_copy_list
 
 
 class DummyTestClass:
     pass
 
 
-def test_deep_copy_dictionary_no_ignore_values():
+def test_deep_copy_dict_no_ignore_values():
     original = {
         'dict': {
             'a': 'A',
@@ -16,7 +16,7 @@ def test_deep_copy_dictionary_no_ignore_values():
         'string': 'a',
         'int': 1
     }
-    copy = deep_copy_dictionary(original)
+    copy = deep_copy_dict(original)
 
     copy['dict']['a'] = 'C'
     copy['dict']['b'] = 'D'
@@ -39,7 +39,7 @@ def test_deep_copy_dictionary_no_ignore_values():
     assert original['list'] is not copy['list']
 
 
-def test_deep_copy_dictionary_ignore_class():
+def test_deep_copy_dict_ignore_class():
     original = {
         'copy': 'Copy this!',
         'dict': {
@@ -50,7 +50,7 @@ def test_deep_copy_dictionary_ignore_class():
         }
     }
 
-    copy = deep_copy_dictionary(original, [DummyTestClass])
+    copy = deep_copy_dict(original, [DummyTestClass])
 
     assert original['dict']['no_copy'] is copy['dict']['no_copy']
     assert original is not copy
