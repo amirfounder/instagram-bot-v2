@@ -3,25 +3,20 @@ from time import sleep
 from src.data_manager.database import save_all, update_all
 from src.data_manager.repository import get_instagram_users_by_attr
 from src.data_manager.data_syncs_utils import parse_json_responses
-from src.data_manager.data_syncs_filters import \
-    filter_useless_responses, \
-        filter_responses_with_no_timestamp, \
-            filter_synced_responses
+from src.data_manager.data_syncs_filters import *
 from src.data_manager.data_syncs_entity_builders import build_instagram_user_to_save, build_instagram_user_to_update
 from src.data_manager.files import append_to_file_in_directory, convert_data_map_to_data, read_from_files_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY
 
 
 def sync_databases(state: dict):
-    print('lol')
     while state['program_is_running']:
         if state['data_syncs.is_running']:
             try:
                 sync_instagram_responses_from_files_to_database()
-                print('synced')
             except Exception as e:
                 print(e)
-        sleep(2)
+        sleep(3)
 
 
 def sync_instagram_responses_from_files_to_database():
@@ -42,17 +37,27 @@ def sync_instagram_responses_from_files_to_database():
 
 def sync_responses(responses: list[dict]):
     for response in responses:
-        save_useful_data_from_response_to_database(response)
+        save_response_data_to_database(response)
         save_timestamp_to_synced_txt_file(response['x-metadata']['timestamp'])
 
 
-def save_useful_data_from_response_to_database(response: dict):
+def save_response_data_to_database(response: dict):
     if response_contains_account_recommendations(response):
         save_account_recommendations(response)
+
     if response_contains_hashtag_information(response):
-        pass
+        save_hashtag_information(response)
+
     if response_contains_posts_information(response):
-        pass
+        save_posts_information(response)
+
+
+def save_hashtag_information(response: dict):
+    pass
+
+
+def save_posts_information(response: dict):
+    pass
 
 
 def save_account_recommendations(response: dict):

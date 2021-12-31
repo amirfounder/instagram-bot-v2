@@ -56,4 +56,8 @@ class InstagramUser(Base, XEntity):
 
 
 class InstagramPost(Base, XEntity):
-    pass    
+    pass
+
+
+class InstagramComment(Base, XEntity):
+    pass
