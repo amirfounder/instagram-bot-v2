@@ -1,6 +1,6 @@
 from time import sleep
-
 from flatdict import FlatterDict
+
 from src.programs import run_database_setup, run_console_client, run_console_server, run_data_syncs
 from src.state import state
 from src.utils.threading import spawn_thread
@@ -11,9 +11,9 @@ from src.utils.utils import get_differences_from_prev_state, copy_state
 def run():
     run_database_setup(state)
 
+    spawn_thread(run_data_syncs, (state,))
     spawn_thread(run_console_client, (state,))
     spawn_thread(run_console_server, (state,))
-    spawn_thread(run_data_syncs, (state,))
 
     prev_state = state
 
@@ -26,7 +26,3 @@ def run():
 
 def adjust_programs(prev_state: FlatterDict, current_state: FlatterDict):
     differences = get_differences_from_prev_state(prev_state, current_state)
-
-    from src.data_manager.repository import get_bot_by_id, get_instagram_usernames
-
-    get_bot_by_id(1)

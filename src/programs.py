@@ -45,6 +45,7 @@ def run_database_setup(state):
 
 
 def run_data_syncs(state):
+    state['data_syncs.is_running'] = True
     sync_databases(state)
 
 
