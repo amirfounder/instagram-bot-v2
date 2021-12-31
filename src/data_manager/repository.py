@@ -1,0 +1,3 @@
+from src.data_manager.repository_factory import build_all_entity_repository_fns as __build_repository_fns
+
+__build_repository_fns(globals())

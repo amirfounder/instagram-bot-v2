@@ -7,6 +7,7 @@ from threading import Thread
 
 TEST_DIRECTORY = 'C:/x/tests'
 
+
 def after_each():
     setup_test_directory()
 

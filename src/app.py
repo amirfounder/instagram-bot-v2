@@ -26,3 +26,7 @@ def run():
 
 def adjust_programs(prev_state: FlatterDict, current_state: FlatterDict):
     differences = get_differences_from_prev_state(prev_state, current_state)
+
+    from src.data_manager.repository import get_bot_by_id, get_instagram_usernames
+
+    get_bot_by_id(1)

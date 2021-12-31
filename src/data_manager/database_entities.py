@@ -5,7 +5,6 @@ from inflector import Inflector
 
 
 class XEntity(object):
-
     infl = Inflector()
 
     @declared_attr

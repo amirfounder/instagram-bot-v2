@@ -2,12 +2,11 @@ from src.data_manager.database_entities import Bot, BotAccount, InstagramHashtag
 from src.data_manager.database_utils import build_session
 
 
+def add_to_namespace(name, value, namespace):
+    namespace[name] = value
 
-def add_to_namespace(name, value, namespace=globals()):
-    pass
 
-
-def build_all_entity_repository_fns():
+def build_all_entity_repository_fns(namespace):
     all_entities = [
         Bot,
         BotAccount,
@@ -17,36 +16,52 @@ def build_all_entity_repository_fns():
     ]
     
     for entity in all_entities:
-        build_single_entity_repository_fns(entity)
+        build_single_entity_repository_fns(entity, namespace)
 
 
-def build_single_entity_repository_fns(entity: type[XEntity]):
-    single_label = entity.__singleentity__
-    plural_label = entity.__pluralentity__
+def build_single_entity_repository_fns(entity: type[XEntity], namespace):
+    get_by_id_name, get_by_id_fn = build_get_by_id_fn(entity)
+    get_by_multiple_ids_name, get_by_multiple_ids_fn = build_get_by_multiple_ids_fn(entity)
 
-    get_by_id_fn = build_get_by_id_fn(entity)
-    get_by_id_name = 'get_{}_.by_id'.format(single_label)
-    add_to_namespace(get_by_id_name, get_by_id_fn)
+    add_to_namespace(get_by_id_name, get_by_id_fn, namespace)
+    add_to_namespace(get_by_multiple_ids_name, get_by_multiple_ids_fn, namespace)
 
 
 def build_get_by_id_fn(entity: type[XEntity]):
-    
-    def get_by_id_fn(id: int):
+    fn_label = entity.__singleentity__
+
+    def fn(id: int):
         session = build_session()
-        session.query(entity).get(id)
 
-    return get_by_id_fn
+        result = session \
+            .query(entity) \
+            .get(id)
+
+        session.commit()
+        session.close()
+
+        return result
+
+    name = 'get_{}_by_id'.format(fn_label)
+    return name, fn
 
 
-def build_get_by_multiple_ids_fn():
-    pass
-    add_to_namespace('get_by_multiple_ids', None)
+def build_get_by_multiple_ids_fn(entity: type[XEntity]):
+    fn_label = entity.__pluralentity__
+    
+    def fn(ids: list[int]):
+        session = build_session()
 
+        query = session \
+            .query(entity) \
+            .filter(entity.id.in_(ids))
+        result = query.all()
 
-def build_get_by_attr_fn():
-    pass
-    add_to_namespace('get_by_attr', None)
+        session.commit()
+        session.close()
 
-
-build_all_entity_repository_fns()
+        return result
+    
+    name = 'get_{}_by_multiple_ids'.format(fn_label)
+    return name, fn
 
