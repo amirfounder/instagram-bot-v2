@@ -1,4 +1,4 @@
-from src.data_manager.files import get_files_from_directory, read_from_file, append_to_file
+from src.data.files import get_files_from_directory, read_from_file, append_to_file
 
 from random import Random
 import datetime

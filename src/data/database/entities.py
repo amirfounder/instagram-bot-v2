@@ -1,4 +1,4 @@
-from src.data_manager.database_utils import Base
+from src.data.database.utils import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean
 from sqlalchemy.ext.declarative import declared_attr
 from inflector import Inflector

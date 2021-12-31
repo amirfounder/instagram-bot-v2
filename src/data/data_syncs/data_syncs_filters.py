@@ -1,4 +1,4 @@
-from src.data_manager.data_syncs_utils import get_synced_responses_timestamps
+from src.data.data_syncs.data_syncs_utils import get_synced_responses_timestamps
 
 
 keys_of_responses_with_no_value = [

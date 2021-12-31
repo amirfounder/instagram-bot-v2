@@ -1,6 +1,6 @@
 import os
 import shutil
-from src.data_manager.files import read_from_file_in_directory_recursively, try_open
+from src.data.files import read_from_file_in_directory_recursively, try_open
 from time import sleep, time
 from threading import Thread
 

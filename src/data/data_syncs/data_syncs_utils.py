@@ -1,4 +1,4 @@
-from src.data_manager.files import read_from_files_in_directory, convert_data_map_to_data
+from src.data.files import read_from_files_in_directory, convert_data_map_to_data
 from src.utils.constants import IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY
 from src.utils.utils import try_parse_json
 

@@ -1,11 +1,33 @@
+"""
+Functions:
+- Get All
+- Get By Id
+- Get All By Attribute
+- Save
+- Save All
+- Update By Id
+- Update All By Ids
+- Delete By Id
+- Delete All By Ids
+"""
+
 from typing import Any
-from src.data_manager.database_entities import XEntity
-from src.data_manager.database_utils import build_session
+from src.data.database.entities import XEntity
+from src.data.database.utils import build_session
 from sqlalchemy import column
 
 
-def build_get_by_attr_fn(entity: type[XEntity]):
-    fn_label = entity.__pluralentity__
+"""get_all_by_attr"""
+
+
+def build_get_all_by_attr_fn_name(entity: type[XEntity]):
+    label = entity.__pluralentity__
+    name = 'get_all_{}_by_attr'.format(label)
+    
+    return name
+
+
+def build_get_all_by_attr_fn(entity: type[XEntity]):
 
     def fn(attr: str, val: Any | list[Any]):
         session = build_session()
@@ -17,9 +39,7 @@ def build_get_by_attr_fn(entity: type[XEntity]):
         else:
             criteria = column(attr) == val
 
-        query = session \
-            .query(entity) \
-            .filter(criteria)
+        query = session.query(entity).filter(criteria)
         result = query.all()
 
         session.commit()
@@ -28,11 +48,20 @@ def build_get_by_attr_fn(entity: type[XEntity]):
 
         return result
     
-    name = 'get_{}_by_attr'.format(fn_label)
-    return name, fn
+    return fn
+
+
+"""get_by_id"""
+
+
+def build_get_by_id_fn_name(entity: type[XEntity]):
+    label = entity.__singleentity__
+    name = 'get_{}_by_id'.format(label)
+
+    return name
+
 
 def build_get_by_id_fn(entity: type[XEntity]):
-    fn_label = entity.__singleentity__
 
     def fn(id: int):
         session = build_session()
@@ -46,12 +75,20 @@ def build_get_by_id_fn(entity: type[XEntity]):
 
         return result
 
-    name = 'get_{}_by_id'.format(fn_label)
-    return name, fn
+    return fn
 
 
-def build_get_by_ids_fn(entity: type[XEntity]):
-    fn_label = entity.__pluralentity__
+"""get_all_by_ids"""
+
+
+def build_get_all_by_ids_fn_name(entity: type[XEntity]):
+    label = entity.__pluralentity__
+    name = 'get_all_{}_by_ids'.format(label)
+
+    return name
+
+
+def build_get_all_by_ids_fn(entity: type[XEntity]):
     
     def fn(ids: list[int]):
         session = build_session()
@@ -67,12 +104,19 @@ def build_get_by_ids_fn(entity: type[XEntity]):
 
         return result
     
-    name = 'get_{}_by_ids'.format(fn_label)
-    return name, fn
+    return fn
 
+
+"""save"""
+
+
+def build_save_fn_name(entity: type[XEntity]):
+    label = entity.__singleentity__
+    name = 'save_{}'.format(label)
+
+    return name
 
 def build_save_fn(entity: type[XEntity]):
-    fn_label = entity.__singleentity__
 
     def fn(instance: XEntity):
         session = build_session()
@@ -86,12 +130,20 @@ def build_save_fn(entity: type[XEntity]):
 
         return instance
 
-    name = 'save_{}'.format(fn_label)
-    return name, fn
+    return fn
+
+
+"""save_all"""
+
+
+def build_save_all_fn_name(entity: type[XEntity]):
+    label = entity.__pluralentity__
+    name = 'save_all_{}'.format(label)
+
+    return name
 
 
 def build_save_all_fn(entity: type[XEntity]):
-    fn_label = entity.__pluralentity__
 
     def fn(instances: list[XEntity]):
         session = build_session()
@@ -108,6 +160,8 @@ def build_save_all_fn(entity: type[XEntity]):
     
         return instances
     
-    name = 'save_all_{}'.format(fn_label)
-    return name, fn
+    return fn
+
+
+
 

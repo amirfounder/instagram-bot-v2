@@ -1,11 +1,11 @@
 from time import sleep
 
-from src.data_manager.database import save_all, update_all
-from src.data_manager.repository import get_instagram_users_by_attr
-from src.data_manager.data_syncs_utils import parse_json_responses
-from src.data_manager.data_syncs_filters import *
-from src.data_manager.data_syncs_entity_builders import build_instagram_user_to_save, build_instagram_user_to_update
-from src.data_manager.files import append_to_file_in_directory, convert_data_map_to_data, read_from_files_in_directory
+from src.data.database import save_all, update_all
+from src.data.repository import get_instagram_users_by_attr
+from src.data.data_syncs.data_syncs_utils import parse_json_responses
+from src.data.data_syncs.data_syncs_filters import *
+from src.data.data_syncs.data_syncs_entity_builders import build_instagram_user_to_save, build_instagram_user_to_update
+from src.data.files import append_to_file_in_directory, convert_data_map_to_data, read_from_files_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY
 
 

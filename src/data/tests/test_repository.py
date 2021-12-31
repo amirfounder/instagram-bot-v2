@@ -1,5 +1,5 @@
-from src.data_manager.repository import get_instagram_user_by_id, get_instagram_users_by_ids
-from src.data_manager.database_entities import InstagramUser
+from src.data.repository.repository import get_instagram_user_by_id, get_instagram_users_by_ids
+from src.data.database.entities import InstagramUser
 
 def test_get_by_id():
 

@@ -6,7 +6,7 @@ from numpy import ndarray
 from skimage.metrics import structural_similarity
 from difflib import SequenceMatcher
 
-from src.data_manager.files import save_numpy_array_to_image
+from src.data.files import save_numpy_array_to_image
 from src.utils.enums import Color
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'

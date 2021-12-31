@@ -1,7 +1,7 @@
 from mitmproxy.http import HTTPFlow
 from datetime import datetime
 from json import loads, dumps
-from src.data_manager.files import append_to_file_in_directory, save_bytes_to_image_in_directory
+from src.data.files import append_to_file_in_directory, save_bytes_to_image_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY
 from src.utils.utils import timestamp
 

@@ -1,5 +1,5 @@
-from src.data_manager.database import setup_database
-from src.data_manager.repository_factory import build_all_entity_repository_fns
+from src.data.database import setup_database
+from src.data.repository.repository_factory import build_all_entity_repository_fns
 
 
 def lol():

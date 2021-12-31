@@ -1,9 +1,9 @@
 from subprocess import Popen, PIPE
 from src.utils.subprocessing import kill_subprocess
 from src.console.server.server import start_server
-from src.data_manager.database import setup_database
+from src.data.database import setup_database
 from time import time
-from src.data_manager.data_syncs import sync_databases
+from src.data.data_syncs import sync_databases
 
 
 def run_content_builder(state):

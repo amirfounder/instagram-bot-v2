@@ -1,4 +1,4 @@
-from src.data_manager.database_entities import InstagramUser, InstagramPost, InstagramHashtag
+from src.data.database.entities import InstagramUser, InstagramPost, InstagramHashtag
 
 
 def build_instagram_user_to_save(user_as_dict: dict, timestamp: str):

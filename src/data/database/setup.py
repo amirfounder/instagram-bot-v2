@@ -1,6 +1,4 @@
-from sqlalchemy.orm import Session as SessionType
-from src.data_manager.database_utils import mapper_registry, engine, Session, build_session
-from src.data_manager.database_entities import *
+
 
 
 def setup_database():
@@ -10,64 +8,6 @@ def setup_database():
 
 def register_entities():
     mapper_registry.metadata.create_all(engine)
-
-
-def commit_session(session: SessionType):
-    session.commit()
-
-
-def convert_entity_to_dict(entity):
-    entity_dict = {}
-    entity_columns = [x.name for x in list(entity.__table__.columns)]
-    for column in entity_columns:
-        column_value = getattr(entity, column, None)
-        if column_value is not None:
-            entity_dict[column] = column_value
-    return entity_dict
-
-
-def get_all() -> list[object]:
-    pass
-
-
-def get_by_id() -> object:
-    pass
-
-
-def get_by_multiple_ids() -> list[object]:
-    pass
-
-
-def save(entity):
-    session = build_session()
-    session.add(entity)
-    session.commit()
-
-
-def save_all(entities):
-    session = build_session()
-    session.add_all(entities)
-    session.commit()
-
-
-def update(entity):
-    session = build_session()
-    entity_as_dict = convert_entity_to_dict(entity)
-
-    session \
-        .query(type(entity)) \
-        .filter(type(entity).id == entity.id) \
-        .update(entity_as_dict)
-    
-    session.commit()
-
-
-def update_all(entities):
-    pass
-
-
-def delete():
-    pass
 
 
 def sync_tables():
