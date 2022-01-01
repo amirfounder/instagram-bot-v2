@@ -6,14 +6,14 @@ Functions:
 - Save
 - Save All
 - Update By Id
-- Update All By Ids
-- Delete By Id
-- Delete All By Ids
+- Update All By Ids (TODO)
+- Delete By Id (TODO)
+- Delete All By Ids (TODO)
 """
 
 from typing import Any
 from src.data.database.entities import XEntity
-from src.data.database.utils import build_session
+from src.data.database.utils import build_session, convert_entity_to_dict
 from sqlalchemy import column
 
 
@@ -148,7 +148,7 @@ def build_save_all_fn(entity: type[XEntity]):
     def fn(instances: list[XEntity]):
         session = build_session()
 
-        session.add_all()
+        session.add_all(instances)
 
         session.commit()
 
@@ -163,5 +163,34 @@ def build_save_all_fn(entity: type[XEntity]):
     return fn
 
 
+"""update_by_id"""
 
 
+def build_update_by_id_fn_name(entity: type[XEntity]):
+    label = entity.__singleentity__
+    name = 'update_{}_by_id'.format(label)
+
+    return name
+
+
+def build_update_by_id_fn(entity: type[XEntity]):
+    
+    def fn(instance: list[XEntity]):
+        session = build_session()
+        entity_as_dict = convert_entity_to_dict(instance)
+
+        session \
+            .query(type(entity)) \
+            .filter(type(entity).id == entity.id) \
+            .update(entity_as_dict)
+        
+        session.commit()
+
+    return fn
+
+
+"""update_all_by_id"""
+
+"""delete_by_id""" 
+
+"""delete_all_by_id"""

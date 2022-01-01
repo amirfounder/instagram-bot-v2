@@ -40,3 +40,7 @@ def build_entity_repository_fns(entity: type[XEntity], namespace: dict):
     name = build_save_all_fn_name(entity)
     fn = build_save_all_fn(entity)
     add_fn_to_global_namespace(name, fn, namespace)
+
+    name = build_update_by_id_fn_name(entity)
+    fn = build_update_by_id_fn(entity)
+    add_fn_to_global_namespace(name, fn, namespace)
