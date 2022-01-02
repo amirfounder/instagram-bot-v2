@@ -34,7 +34,7 @@ def move(coords, duration=.2):
     mouse.move(x, y, absolute=False, duration=duration)
 
 
-def click(control="left", duration=.08):
+def click(control='left', duration=.08):
     press(control)
     sleep(duration)
     release(control)

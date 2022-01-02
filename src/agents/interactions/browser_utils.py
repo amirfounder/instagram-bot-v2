@@ -1,5 +1,5 @@
 from time import sleep
-from pyperclip import copy, paste
+from pyperclip import copy
 from src.utils.constants import *
 from src.utils.system import move_app_to_monitor, open_app, close_app, get_foreground_app, show_app_maximized
 from src.controls.keyboard import hotkey, press_and_release, write
@@ -75,7 +75,7 @@ def wait_until_browser_loads():
 
             sleep(1)
 
-        hotkey(['ctrol', 'r'])
+        hotkey(['ctrl', 'r'])
 
 
 def exit(hwnd):

@@ -1,4 +1,3 @@
-from websockets import imports
 from src import run
 
 

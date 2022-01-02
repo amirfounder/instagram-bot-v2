@@ -1,9 +1,9 @@
 from mitmproxy.http import HTTPFlow
-from datetime import datetime
 from json import loads, dumps
+from src.utils.string_literals import APPLICATION_JSON, CONTENT_TYPE, DATETIMESTAMP, IMAGE, INSTAGRAM, URL, X_METADATA
 from src.data.files import append_to_file_in_directory, save_bytes_to_image_in_directory
-from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY
-from src.utils.utils import timestamp
+from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, LISTENER_LOGS_INSTAGRAM_IMAGES_DIRECTORY
+from src.utils.utils import datetimestamp, timestamp
 
 
 def handle_http_flow(flow: HTTPFlow):
@@ -12,7 +12,7 @@ def handle_http_flow(flow: HTTPFlow):
 
 
 def is_from_instagram(flow: HTTPFlow):
-    return 'instagram' in flow.request.pretty_url
+    return INSTAGRAM in flow.request.pretty_url
 
 
 def handle_instagram_response(flow: HTTPFlow):
@@ -27,15 +27,15 @@ def handle_instagram_response(flow: HTTPFlow):
 
 
 def is_json(flow: HTTPFlow):
-    return 'application/json' in get_content_type(flow)
+    return APPLICATION_JSON in get_content_type(flow)
 
 
 def is_image(flow: HTTPFlow):
-    return 'image' in get_content_type(flow)
+    return IMAGE in get_content_type(flow)
 
 
 def get_content_type(flow: HTTPFlow) -> str:
-    return get_header(flow, 'content-type')
+    return get_header(flow, CONTENT_TYPE)
 
 
 def get_header(flow: HTTPFlow, key: str) -> str:
@@ -43,7 +43,7 @@ def get_header(flow: HTTPFlow, key: str) -> str:
 
 
 def save_image(flow: HTTPFlow):
-    directory = 'C:/x/logs/mitm-proxy/instagram/images'
+    directory = LISTENER_LOGS_INSTAGRAM_IMAGES_DIRECTORY
     data = flow.response.content
     ts = timestamp()
 
@@ -58,7 +58,7 @@ def save_json(flow: HTTPFlow):
     try:
         loaded = loads(data)
         metadata = build_metadata(flow)
-        loaded['x-metadata'] = metadata
+        loaded[X_METADATA] = metadata
         data = dumps(loaded)
     except:
         pass
@@ -69,13 +69,13 @@ def save_json(flow: HTTPFlow):
 
 def build_metadata(flow: HTTPFlow):
     return {
-          'url': flow.request.pretty_url,
-          'timestamp': datetime.now().strftime('%Y%m%d_%H%M%S.%f')
+        URL: flow.request.pretty_url,
+        DATETIMESTAMP: datetimestamp()
     }
 
 
 def content_type_is_json(flow: HTTPFlow):
     for key, value in flow.response.headers.items():
-        if key == 'content-type':
-            return 'application/json' in value
+        if key == CONTENT_TYPE:
+            return APPLICATION_JSON in value
     return False

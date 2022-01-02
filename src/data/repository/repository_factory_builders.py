@@ -1,4 +1,4 @@
-"""
+'''
 Functions:
 - Get All
 - Get By Id
@@ -9,15 +9,72 @@ Functions:
 - Update All By Ids (TODO)
 - Delete By Id (TODO)
 - Delete All By Ids (TODO)
-"""
+'''
 
 from typing import Any
 from src.data.database.entities import XEntity
 from src.data.database.utils import build_session, convert_entity_to_dict
 from sqlalchemy import column
+from datetime import datetime
 
 
-"""get_all_by_attr"""
+'''get_by_id'''
+
+
+def build_get_by_id_fn_name(entity: type[XEntity]):
+    label = entity.__singleentity__
+    name = 'get_{}_by_id'.format(label)
+
+    return name
+
+
+def build_get_by_id_fn(entity: type[XEntity]):
+
+    def fn(id: int):
+        session = build_session()
+
+        query = session.query(entity)
+        result = query.get(id)
+
+        session.commit()
+        session.expunge_all()
+        session.close()
+
+        return result
+
+    return fn
+
+
+'''get_all_by_ids'''
+
+
+def build_get_all_by_ids_fn_name(entity: type[XEntity]):
+    label = entity.__pluralentity__
+    name = 'get_all_{}_by_ids'.format(label)
+
+    return name
+
+
+def build_get_all_by_ids_fn(entity: type[XEntity]):
+    
+    def fn(ids: list[int]):
+        session = build_session()
+
+        query = session \
+            .query(entity) \
+            .filter(entity.id.in_(ids))
+        result = query.all()
+
+        session.commit()
+        session.expunge_all()
+        session.close()
+
+        return result
+    
+    return fn
+
+
+'''get_all_by_attr'''
 
 
 def build_get_all_by_attr_fn_name(entity: type[XEntity]):
@@ -51,63 +108,24 @@ def build_get_all_by_attr_fn(entity: type[XEntity]):
     return fn
 
 
-"""get_by_id"""
+'''get_all_after_timestamp'''
 
 
-def build_get_by_id_fn_name(entity: type[XEntity]):
-    label = entity.__singleentity__
-    name = 'get_{}_by_id'.format(label)
-
-    return name
-
-
-def build_get_by_id_fn(entity: type[XEntity]):
-
-    def fn(id: int):
-        session = build_session()
-
-        query = session.query(entity)
-        result = query.get(id)
-
-        session.commit()
-        session.expunge_all()
-        session.close()
-
-        return result
-
-    return fn
-
-
-"""get_all_by_ids"""
-
-
-def build_get_all_by_ids_fn_name(entity: type[XEntity]):
+def build_get_all_after_timestamp_fn_name(entity: type[XEntity]):
     label = entity.__pluralentity__
-    name = 'get_all_{}_by_ids'.format(label)
+    name = 'get_all_{}_after_timestamp'.format(label)
 
     return name
 
 
-def build_get_all_by_ids_fn(entity: type[XEntity]):
+def build_get_all_after_timestamp_fn(entity: type[XEntity]):
     
-    def fn(ids: list[int]):
+    def fn(timestamp: datetime):
+
         session = build_session()
 
-        query = session \
-            .query(entity) \
-            .filter(entity.id.in_(ids))
-        result = query.all()
 
-        session.commit()
-        session.expunge_all()
-        session.close()
-
-        return result
-    
-    return fn
-
-
-"""save"""
+'''save'''
 
 
 def build_save_fn_name(entity: type[XEntity]):
@@ -133,7 +151,7 @@ def build_save_fn(entity: type[XEntity]):
     return fn
 
 
-"""save_all"""
+'''save_all'''
 
 
 def build_save_all_fn_name(entity: type[XEntity]):
@@ -163,7 +181,7 @@ def build_save_all_fn(entity: type[XEntity]):
     return fn
 
 
-"""update_by_id"""
+'''update_by_id'''
 
 
 def build_update_by_id_fn_name(entity: type[XEntity]):
@@ -189,8 +207,8 @@ def build_update_by_id_fn(entity: type[XEntity]):
     return fn
 
 
-"""update_all_by_id"""
+'''update_all_by_id'''
 
-"""delete_by_id""" 
+'''delete_by_id''' 
 
-"""delete_all_by_id"""
+'''delete_all_by_id'''

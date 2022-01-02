@@ -1,9 +1,9 @@
 import json
-from datetime import datetime
+from datetime import date, datetime
 from flatdict import FlatterDict
 from copy import copy, deepcopy
 from subprocess import Popen
-from src.utils.constants import TIMESTAMP_FORMAT, TODAY_FORMAT
+from src.utils.constants import DATETIMESTAMP_FORMAT, TIMESTAMP_FORMAT, TODAY_FORMAT
 
 
 
@@ -12,9 +12,19 @@ def today(now: datetime=None):
     return now.strftime(TODAY_FORMAT)
 
 
-def timestamp(now: datetime=None):
-    now = now if now else datetime.now()
+def timestamp(datetime_object: datetime=None):
+    now = datetime_object if datetime_object else datetime.now()
     return now.strftime(TIMESTAMP_FORMAT)
+
+
+def datetimestamp(datetime_object: datetime):
+    now = datetime_object if datetime_object else datetime.now()
+    return now.strftime(DATETIMESTAMP_FORMAT)
+
+
+def parse_datetimestamp(timestamp: str) -> datetime:
+    return datetime.strptime(timestamp, DATETIMESTAMP_FORMAT)
+
 
 
 def try_parse_json(json_object: str):

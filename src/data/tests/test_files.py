@@ -37,19 +37,19 @@ def test_read_from_file_in_directory_recursively():
     os.mkdir(TEST_DIRECTORY + '/top/nested/nestedagain')
 
     with open(TEST_DIRECTORY + '/file.txt', 'w') as f:
-        f.write("one line\ntwo line\nthree line")
+        f.write('one line\ntwo line\nthree line')
     
     with open(TEST_DIRECTORY + '/top/file.txt', 'w') as f:
-        f.write("one line\ntwo line\nthree line")
+        f.write('one line\ntwo line\nthree line')
     
     with open(TEST_DIRECTORY + '/top/file2.txt', 'w') as f:
-        f.write("one line\ntwo line\nthree line")
+        f.write('one line\ntwo line\nthree line')
     
     with open(TEST_DIRECTORY + '/top/nested/file.txt', 'w') as f:
-        f.write("one line\ntwo line\nthree line")
+        f.write('one line\ntwo line\nthree line')
     
     with open(TEST_DIRECTORY + '/top/nested/file2.txt', 'w') as f:
-        f.write("one line\ntwo line\nthree line")
+        f.write('one line\ntwo line\nthree line')
     
     actual = read_from_file_in_directory_recursively(TEST_DIRECTORY, [])
     expected = {
@@ -85,7 +85,7 @@ def test_try_open_file_given_file_opened_no_error():
 
     file_path = TEST_DIRECTORY + '/test.txt'
 
-    state = { 'content': None }
+    local_state = { 'content': None }
 
     file = try_open(file_path, 'w')
     file.write('test')
@@ -96,14 +96,14 @@ def test_try_open_file_given_file_opened_no_error():
         sleep(2)
         file.close()
 
-    def read_file(state):
+    def read_file(local_state):
         file = try_open(file_path, 'r')
         content = file.read()
         file.close()
-        state['content'] = content
+        local_state['content'] = content
     
     t1 = Thread(target=open_file_2_seconds)
-    t2 = Thread(target=read_file, args=(state,))
+    t2 = Thread(target=read_file, args=(local_state,))
 
     start = time()
 
@@ -115,7 +115,7 @@ def test_try_open_file_given_file_opened_no_error():
     end = time()
 
     assert end - start > 2
-    assert state['content'] == 'test'
+    assert local_state['content'] == 'test'
 
     after_each()
 

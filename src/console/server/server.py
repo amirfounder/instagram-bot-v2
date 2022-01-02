@@ -24,7 +24,7 @@ def start_server(state):
 
     ws_server: WebSocketServer = websockets.serve(
         lambda x: ws_handler(x, state),
-        "localhost",
+        'localhost',
         8001
     )
 

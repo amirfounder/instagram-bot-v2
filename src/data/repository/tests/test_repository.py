@@ -1,4 +1,4 @@
-from src.data.repository.repository import get_instagram_user_by_id, get_instagram_users_by_ids
+from src.data.repository.repository import get_instagram_user_by_id, get_all_instagram_users_by_ids
 from src.data.database.entities import InstagramUser
 
 def test_get_by_id():
@@ -11,7 +11,7 @@ def test_get_by_id():
 
 def test_get_all_by_id():
 
-    x = get_instagram_users_by_ids([1, 2, 3])
+    x = get_all_instagram_users_by_ids([1, 2, 3])
 
     assert type(x) is list
     assert type(x[0]) is InstagramUser

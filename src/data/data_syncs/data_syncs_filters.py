@@ -1,4 +1,5 @@
-from src.data.data_syncs.data_syncs_utils import get_synced_responses_timestamps
+from src.data.data_syncs.data_syncs_utils import get_datetimes_of_synced_responses
+from src.utils.string_literals import X_METADATA, DATETIMESTAMP
 
 
 keys_of_responses_with_no_value = [
@@ -15,7 +16,7 @@ keys_of_responses_with_no_value = [
 ]
 
 
-def filter_useless_responses(responses: list[dict]):
+def filter_useless_responses(responses: list[dict]) -> list[dict]:
     filter_criteria = keys_of_responses_with_no_value
     for criteria in filter_criteria:
         criteria.sort()
@@ -31,15 +32,16 @@ def filter_useless_responses(responses: list[dict]):
     return filtered_responses
 
 
-def filter_responses_with_no_timestamp(unfiltered_responses: list[dict]):
-    return [x for x in unfiltered_responses if 'x-metadata' in x and 'timestamp' in x['x-metadata']]
+def filter_responses_with_no_datetime(unfiltered_responses: list[dict]):
+    return [x for x in unfiltered_responses if X_METADATA in x and DATETIMESTAMP in x[X_METADATA]]
 
 
 def filter_synced_responses(responses: list[dict]):
-    synced_responses_timestamps = get_synced_responses_timestamps()
-
+    datetimes_of_synced_responses = get_datetimes_of_synced_responses()
     unsynced_responses = []
+
     for response in responses:
-        if response['x-metadata']['timestamp'] not in synced_responses_timestamps:
+        if response[X_METADATA][DATETIMESTAMP] not in datetimes_of_synced_responses:
             unsynced_responses.append(response)
+    
     return unsynced_responses

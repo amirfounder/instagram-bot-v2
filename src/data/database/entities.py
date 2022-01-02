@@ -1,3 +1,4 @@
+from sqlalchemy.sql.sqltypes import DateTime
 from src.data.database.utils import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean
 from sqlalchemy.ext.declarative import declared_attr
@@ -21,6 +22,8 @@ class XEntity(object):
         return cls.__pluralentity__
     
     id = Column(Integer, primary_key=True)
+    datetime_of_initial_log = Column(DateTime)
+    datetime_of_updated_log = Column(DateTime)
 
 
 class Bot(Base, XEntity):
@@ -50,8 +53,6 @@ class InstagramUser(Base, XEntity):
     private = Column(Boolean)
     verified = Column(Boolean)
     full_name = Column(String)
-    timestamp_logged = Column(String)
-    timestamp_updated = Column(String)
     is_x_bot = Column(Boolean)
 
 

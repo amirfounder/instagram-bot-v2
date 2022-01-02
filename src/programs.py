@@ -34,7 +34,7 @@ def run_console_client(state):
             start_confirmed = True
 
         if time() - started_time >= 30:
-            raise TimeoutError("30 seconds have passed since starting process and no success message has been received")
+            raise TimeoutError('30 seconds have passed since starting process and no success message has been received')
 
     state['console.client.is_running'] = True
     state['console.client.subprocess_object'] = popen
