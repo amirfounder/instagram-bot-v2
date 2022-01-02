@@ -16,9 +16,7 @@ def run_http_listener(state):
     popen = Popen('mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
-
     start_confirmed = False
-    start_time = time()
     outputs = []
 
     while not start_confirmed:
@@ -35,30 +33,26 @@ def run_http_listener(state):
             'Proxy server listening at http://*:8080'
         ]:
             start_confirmed = True
+            print('Successfully started <HTTP Listener>')
+            break
 
-        if time() - start_time >= 30:
-            raise TimeoutError('30 seconds have passed since starting process and no success message has been received')
-        
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
 
 def run_console_client(state):
     popen = Popen('npm --prefix src/console/client run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
-    
-    started_time = time()
     start_confirmed = False
     
     while not start_confirmed:
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print(output)
+        print('Runner output >> '.format(output))
 
         if 'Compiled successfully!' in output:
             start_confirmed = True
-
-        if time() - started_time >= 30:
-            raise TimeoutError('30 seconds have passed since starting process and no success message has been received')
+            print('Successfully started <Console Client>')
+            break
 
     state['console.client.is_running'] = True
     state['console.client.subprocess_object'] = popen

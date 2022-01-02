@@ -1,12 +1,12 @@
 from src.data.files import get_files_from_directory, read_from_file, append_to_file
+from src.utils.utils import build_datetimestamp
+from src.utils.constants import BOT_DIRECTORY, BOT_FACTORY_PARTS_DIRECTORY
 
 from random import Random
 import datetime
 import string
 import secrets
 
-BOT_DIRECTORY = 'C:/x/bots'
-BOT_FACTORY_PARTS_DIRECTORY = '{}/bot_factory_parts'.format(BOT_DIRECTORY)
 
 random = Random()
 
@@ -27,7 +27,8 @@ def build_bots():
         'gender',
         'birthday',
         'username',
-        'password'
+        'password',
+        'created_at'
     ]
 
     data = [header]
@@ -40,9 +41,10 @@ def build_bots():
             birthday = build_birthday()
             username = build_username(firstname, lastname)
             password = build_password(12)
+            created_at = build_datetimestamp()
 
             row = [firstname, lastname, gender,
-                   birthday, username, password]
+                   birthday, username, password, created_at]
             data.append(row)
 
     return data

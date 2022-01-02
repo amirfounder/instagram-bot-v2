@@ -99,7 +99,6 @@ def build_get_all_by_attr_fn(entity: type[XEntity]):
         query = session.query(entity).filter(criteria)
         result = query.all()
 
-        session.commit()
         session.expunge_all()
         session.close()
 

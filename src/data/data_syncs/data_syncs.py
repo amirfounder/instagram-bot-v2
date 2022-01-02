@@ -69,7 +69,7 @@ def save_account_recommendations(response: dict):
 
     db_users: list[InstagramUser]
     db_users = get_all_instagram_users_by_attr('platform_id', json_users_platform_ids)
-    db_users = [x for x in db_users if x.datetime_of_initial_log != response_timestamp]
+    db_users = [x for x in db_users if x.created_at != response_timestamp]
     db_users_platform_ids = [int(x.platform_id) for x in db_users]
 
     users_to_save = []

@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.sql.sqltypes import DateTime
 from src.data.database.utils import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean
@@ -22,8 +23,8 @@ class XEntity(object):
         return cls.__pluralentity__
     
     id = Column(Integer, primary_key=True)
-    datetime_of_initial_log = Column(DateTime(True))
-    datetime_of_updated_log = Column(DateTime(True))
+    created_at = Column(DateTime(True), default=datetime.utcnow)
+    updated_at = Column(DateTime(True), default=datetime.utcnow)
 
 
 class PlatformEntity(object):
