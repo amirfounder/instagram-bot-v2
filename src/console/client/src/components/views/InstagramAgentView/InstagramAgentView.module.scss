@@ -1,13 +1,24 @@
 .main {
   display: grid;
-  grid-template-columns: 2fr 3fr;
-  column-gap: 1rem;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 3rem;
+  padding: 25px;
 }
 
-.taskContainer {
-  position: relative;
-  z-index: 999;
+.tasksContainer {
+  display: grid;
+  grid-template-rows: repeat(1fr, 2);
+  row-gap: 1rem
+}
+
+.taskBox {
   background-color: white;
-  padding: 15px;
-  box-shadow: 10px 10px 0px rbga(0,0,0,1);
+  padding: 25px 20px;
+  border-radius: 5px;
+}
+
+.queuedTasksContainer {
+  background-color: white;
+  padding: 25px 20px;
+  border-radius: 5px;
 }

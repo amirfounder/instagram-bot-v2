@@ -26,21 +26,36 @@ export const InstagramAgentView = () => {
   return (
     <div className={styles.main}>
       <div>
-        <Heading>Launch New Task</Heading>
-        <div className={styles.taskContainer}>
-          <TextInput
-            label='Enter seed hashtag:'
-            value={seedHashtag}
-            onChange={handleSeedHashtagChange}
-            id='seedHashtag'
-          />
+        <Heading>New Task</Heading>
+        <div className={styles.tasksContainer}>
+          <div className={styles.taskBox}>
+            <TextInput
+              label='Enter seed hashtag:'
+              value={seedHashtag}
+              onChange={handleSeedHashtagChange}
+              id='seedHashtag'
+            />
+            <Button
+              label='Queue Task'
+              onClick={handleStartAgentClick}
+            />
+          </div>
+          <div className={styles.taskBox}>
+            <TextInput
+              label='Enter seed username'
+            />
+            <Button
+              label='Queue Task'
+              onClick={handleStartAgentClick}
+            />
+          </div>
         </div>
-        <Button
-          label='Queue Task'
-          onClick={handleStartAgentClick}
-        />
       </div>
       <div>
+        <Heading>Pending Tasks</Heading>
+        <div className={styles.queuedTasksContainer}>
+
+        </div>
       </div>
     </div>
   )

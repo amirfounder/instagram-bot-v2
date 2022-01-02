@@ -9,7 +9,7 @@
 }
 
 .input {
-  width: 250px;
+  width: calc(100% - 22px);
   border: 1px solid rgb(80, 80, 80);
   background-color: rgb(255, 255, 255);
   border-radius: 100px;
