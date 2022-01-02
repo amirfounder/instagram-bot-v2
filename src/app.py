@@ -11,10 +11,10 @@ from src.utils.utils import get_differences_from_prev_state, copy_state
 def run():
     run_database_setup(state)
 
-    spawn_thread(run_data_syncs, (state,))
+    # spawn_thread(run_data_syncs, (state,))
     spawn_thread(run_console_client, (state,))
     spawn_thread(run_console_server, (state,))
-    spawn_thread(run_http_listener, (state,))
+    # spawn_thread(run_http_listener, (state,))
 
     prev_state = state
 

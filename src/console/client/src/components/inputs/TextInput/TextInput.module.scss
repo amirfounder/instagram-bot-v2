@@ -1,0 +1,25 @@
+.label {
+  line-height: 1.4em;
+  font-size: 18px;
+  
+  & .labelText {
+    margin-bottom: 10px;
+  }
+
+}
+
+.input {
+  width: 250px;
+  border: 1px solid rgb(80, 80, 80);
+  background-color: rgb(255, 255, 255);
+  border-radius: 100px;
+  color: black;
+
+  padding: 5px 10px;
+  font-size: 16px;
+
+  &:focus {
+    border: 1px solid rgb(80, 80, 80);
+    outline: none;
+  }
+}

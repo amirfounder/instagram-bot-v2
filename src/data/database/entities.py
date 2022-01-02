@@ -66,3 +66,9 @@ class InstagramPost(Base, XEntity, PlatformEntity):
 
 class InstagramComment(Base, XEntity, PlatformEntity):
     pass
+
+
+class AgentTask(Base, XEntity):
+    specialty = Column(String)
+    name = Column(String)
+

@@ -4,27 +4,27 @@
 
 .tab {
   display: inline-block;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6em;
-  padding: 10px 12px;
+  padding: 12px 24px;
 
   &:hover {
-    background-color: #333;
+    background-color: rgb(235, 235, 235);
     cursor: pointer;
   }
 }
 
 .selected {
-  background-color: #333;
+  background-color: rgb(235, 235, 235);
 }
 
 .tabPanel {
-  background-color: #333;
+  background-color: rgb(235, 235, 235);
   height: calc(
     100vh
     - 10px * 2
-    - 12px * 1.6
-    - 12px * 2
+    - 14px * 1.6
+    - 14px * 2
   );
   padding: 12px
 }

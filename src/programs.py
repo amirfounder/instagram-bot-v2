@@ -1,37 +1,31 @@
-from subprocess import STDOUT, Popen, PIPE
+from subprocess import Popen, PIPE
 from src.utils.subprocessing import kill_subprocess
 from src.console.server.server import start_server
 from src.data.database import setup_database
-from time import time
 from src.data.data_syncs import sync_databases
+from src.utils.constants import CONSOLE_CLIENT_SCRIPT, CONTENT_BUILDER_SCRIPT, HTTP_LISTENER_SCRIPT
 
 
 def run_content_builder(state):
-    popen = Popen('npm --prefix src/builders/content_builder run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(CONTENT_BUILDER_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['content_builder.is_running'] = True
     state['content_builder.subprocess_object'] = popen
 
 
 def run_http_listener(state):
-    popen = Popen('mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(HTTP_LISTENER_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
     start_confirmed = False
-    outputs = []
 
     while not start_confirmed:
 
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        outputs.append(output)
         print(output)
 
-        if outputs == [
-            'Only processing flows that match "termlog_verbosity=error"',
-            'Loading script src/http_listener/listener.py',
-            'Proxy server listening at http://*:8080'
-        ]:
+        if 'Proxy server listening at' in output:
             start_confirmed = True
             print('Successfully started <HTTP Listener>')
             break
@@ -40,7 +34,7 @@ def run_http_listener(state):
     state['http_listener.subprocess_object'] = popen
 
 def run_console_client(state):
-    popen = Popen('npm --prefix src/console/client run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(CONSOLE_CLIENT_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     start_confirmed = False
     
     while not start_confirmed:
@@ -76,10 +70,6 @@ def kill_console_client(process_map: dict[str, Popen]):
         process = process_map['console_client']
         kill_subprocess(process)
     
-
-def kill_console_server(state):
-    pass
-
 
 def kill_http_listener(process_map: dict[str, Popen]):
     if 'http_listener' in process_map:

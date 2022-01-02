@@ -1,0 +1,17 @@
+.main {
+  padding: 8px 16px;
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  border-radius: 100px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(40, 40, 40);
+    transition-duration: .3s;
+  }
+
+  &:not(:hover) {
+    transition-duration: .3s;
+  }
+}

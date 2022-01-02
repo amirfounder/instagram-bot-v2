@@ -1,4 +1,6 @@
 import React from "react";
+import styles from './Button.module.scss'
+
 
 export const Button = (props) => {
   const {
@@ -10,6 +12,7 @@ export const Button = (props) => {
 
   return (
     <button
+      className={styles.main}
       onClick={onClick}
       {...other}
     >
