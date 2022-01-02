@@ -4,6 +4,7 @@ from pynput import mouse, keyboard
 from threading import Thread
 from src.data.files import create_directories, append_to_file_in_directory
 from src.utils.constants import INTERACTION_LOGGER_LOGS_DIRECTORY
+from src.utils.utils import datetime_utc_now
 
 
 class MyException(Exception):
@@ -89,7 +90,7 @@ def on_release(key):
 
 
 def log(event: str):
-    now = datetime.now()
+    now = datetime_utc_now()
 
     timestamp = 't'.format(now.strftime(r'%H_%M_%S_%f'))
     version = 'v{}'.format(VERSION)

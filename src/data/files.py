@@ -1,6 +1,7 @@
 '''TODO
 '''
 import os
+from typing import Callable
 from PIL import Image
 from numpy import ndarray
 from src.utils.constants import MAX_LOG_FILE_SIZE
@@ -57,6 +58,12 @@ def read_from_file(path: str):
     file.close()
 
     return data
+
+
+def write_to_file(path: str, contents: str):
+    file = try_open(path, 'w')
+    file.write(contents)
+    file.close()
 
 
 def append_to_file_in_directory(directory: str, content: str):
@@ -197,3 +204,10 @@ def try_open(path: str, *args, **kwargs):
     
     return file
 
+
+def rewrite_file_contents(path: str, func: Callable):
+    old_contents = read_from_file(path)
+    new_contents = func(old_contents)
+    write_to_file(path, new_contents)
+
+    return old_contents, new_contents

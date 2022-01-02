@@ -1,9 +1,9 @@
 from mitmproxy.http import HTTPFlow
 from json import loads, dumps
-from src.utils.string_literals import APPLICATION_JSON, CONTENT_TYPE, DATETIMESTAMP, IMAGE, INSTAGRAM, URL, X_METADATA
+from src.utils.string_literals import APPLICATION_JSON, CONTENT_TYPE, DATETIMESTAMP, IMAGE, INSTAGRAM, URL, X_METADATA, VERSION
 from src.data.files import append_to_file_in_directory, save_bytes_to_image_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, LISTENER_LOGS_INSTAGRAM_IMAGES_DIRECTORY
-from src.utils.utils import datetimestamp, timestamp
+from src.utils.utils import build_datetimestamp, build_timestamp
 
 
 def handle_http_flow(flow: HTTPFlow):
@@ -16,14 +16,14 @@ def is_from_instagram(flow: HTTPFlow):
 
 
 def handle_instagram_response(flow: HTTPFlow):
-    print('Handling instagram flow: {}'.format(flow.request.pretty_url))
+    print('Handling instagram flow: {}...'.format(flow.request.pretty_url))
 
     if is_json(flow):
         save_json(flow)
     if is_image(flow):
         save_image(flow)
 
-    print('Handled instagram flow: {}'.format(flow.request.pretty_url))
+    print('Handled instagram flow: {}!'.format(flow.request.pretty_url))
 
 
 def is_json(flow: HTTPFlow):
@@ -45,9 +45,9 @@ def get_header(flow: HTTPFlow, key: str) -> str:
 def save_image(flow: HTTPFlow):
     directory = LISTENER_LOGS_INSTAGRAM_IMAGES_DIRECTORY
     data = flow.response.content
-    ts = timestamp()
+    timestamp = build_timestamp()
 
-    save_bytes_to_image_in_directory(directory, data, ts)
+    save_bytes_to_image_in_directory(directory, data, timestamp)
 
 
 def save_json(flow: HTTPFlow):
@@ -70,7 +70,8 @@ def save_json(flow: HTTPFlow):
 def build_metadata(flow: HTTPFlow):
     return {
         URL: flow.request.pretty_url,
-        DATETIMESTAMP: datetimestamp()
+        DATETIMESTAMP: build_datetimestamp(),
+        VERSION: '1'
     }
 
 

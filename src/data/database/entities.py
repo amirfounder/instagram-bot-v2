@@ -22,8 +22,12 @@ class XEntity(object):
         return cls.__pluralentity__
     
     id = Column(Integer, primary_key=True)
-    datetime_of_initial_log = Column(DateTime)
-    datetime_of_updated_log = Column(DateTime)
+    datetime_of_initial_log = Column(DateTime(True))
+    datetime_of_updated_log = Column(DateTime(True))
+
+
+class PlatformEntity(object):
+    platform_id = Column(BigInteger)
 
 
 class Bot(Base, XEntity):
@@ -41,13 +45,12 @@ class BotAccount(Base, XEntity):
     password = Column(String)
 
 
-class InstagramHashtag(Base, XEntity):
+class InstagramHashtag(Base, XEntity, PlatformEntity):
     name = Column(String)
     media_count = Column(BigInteger)
 
 
-class InstagramUser(Base, XEntity):
-    ig_id = Column(BigInteger, unique=True, nullable=False)
+class InstagramUser(Base, XEntity, PlatformEntity):
     username = Column(String)
     followers = Column(Integer)
     private = Column(Boolean)
@@ -56,9 +59,9 @@ class InstagramUser(Base, XEntity):
     is_x_bot = Column(Boolean)
 
 
-class InstagramPost(Base, XEntity):
+class InstagramPost(Base, XEntity, PlatformEntity):
     pass
 
 
-class InstagramComment(Base, XEntity):
+class InstagramComment(Base, XEntity, PlatformEntity):
     pass

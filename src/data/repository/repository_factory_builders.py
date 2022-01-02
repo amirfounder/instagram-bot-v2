@@ -108,7 +108,7 @@ def build_get_all_by_attr_fn(entity: type[XEntity]):
     return fn
 
 
-'''get_all_after_timestamp'''
+'''get_all_after_datetimestamp'''
 
 
 def build_get_all_after_timestamp_fn_name(entity: type[XEntity]):
@@ -118,9 +118,9 @@ def build_get_all_after_timestamp_fn_name(entity: type[XEntity]):
     return name
 
 
-def build_get_all_after_timestamp_fn(entity: type[XEntity]):
+def build_get_all_after_datetimestamp_fn(entity: type[XEntity]):
     
-    def fn(timestamp: datetime):
+    def fn(datetimestamp: datetime):
 
         session = build_session()
 

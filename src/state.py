@@ -2,6 +2,10 @@ from src.utils.utils import build_flat_dict
 
 state = build_flat_dict({
     'program_is_running': True,
+    'http_listener': {
+        'is_running': False,
+        'subprocess_object': None
+    },
     'instagram_agent': {
         'current_task': None,
         'tasks': {

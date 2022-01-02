@@ -1,4 +1,4 @@
-from subprocess import Popen, PIPE
+from subprocess import STDOUT, Popen, PIPE
 from src.utils.subprocessing import kill_subprocess
 from src.console.server.server import start_server
 from src.data.database import setup_database
@@ -17,6 +17,30 @@ def run_http_listener(state):
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
 
+    start_confirmed = False
+    start_time = time()
+    outputs = []
+
+    while not start_confirmed:
+
+        output = popen.stdout.readline()
+        output = output.decode('utf-8')
+        output = output.removesuffix('\n')
+        outputs.append(output)
+        print(output)
+
+        if outputs == [
+            'Only processing flows that match "termlog_verbosity=error"',
+            'Loading script src/http_listener/listener.py',
+            'Proxy server listening at http://*:8080'
+        ]:
+            start_confirmed = True
+
+        if time() - start_time >= 30:
+            raise TimeoutError('30 seconds have passed since starting process and no success message has been received')
+        
+    state['http_listener.is_running'] = True
+    state['http_listener.subprocess_object'] = popen
 
 def run_console_client(state):
     popen = Popen('npm --prefix src/console/client run start', shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)

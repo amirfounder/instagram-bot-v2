@@ -1,4 +1,5 @@
 from src.data.database.utils import mapper_registry, engine, build_session
+from sqlalchemy import Column
 
 
 def setup_database():
@@ -23,16 +24,17 @@ def sync_table(table):
     session = build_session()
     tablename = table.name
 
-    columns_query = f'SELECT column_name, data_type ' \
+    columns_query = \
+        f'SELECT column_name, data_type ' \
         'FROM information_schema.columns ' \
-        f'WHERE table_name = \'{tablename}\' AND table_schema = \'public\''
+        f'WHERE table_name = \'{tablename}\' \
+        AND table_schema = \'public\''
 
     db_columns = session.execute(columns_query).all()
     db_column_names = [x[0] for x in db_columns]
 
-    model_columns = list(table.columns)
-    model_columns = [(x.key, x.type.compile()) for x in model_columns]
-    model_column_names = [x[0] for x in model_columns]
+    model_columns: list[Column] = list(table.columns)
+    model_column_names = [x.key for x in model_columns]
 
     model_columns_length = len(model_columns)
     db_columns_length = len(db_columns)
@@ -44,15 +46,33 @@ def sync_table(table):
     column_statements = []
 
     if model_columns_length > db_columns_length:
-        diffs = [x for x in model_columns if x[0] not in db_column_names]
-        for diff in diffs:
+
+        different_columns = [x for x in model_columns if x.key not in db_column_names]
+        for column in different_columns:
+
+            name = column.key
+            datatype = column.type
+            datatype_name = datatype.compile()
+
+            '''
+            PGSQL 'datetime' does not exist.
+            Using 'timestamp' instead
+            '''
+            if datatype_name == 'DATETIME':
+                with_timezone = datatype.timezone
+                keyword = 'with' if with_timezone else 'without'
+                datatype_name = 'TIMESTAMP {} time zone'.format(keyword)
+
             column_statements.append(
-                'ADD COLUMN {} {}'.format(diff[0], diff[1]))
+                'ADD COLUMN {} {}'.format(name, datatype_name))
 
     if db_columns_length > model_columns_length:
+
         diffs = [x for x in db_columns if x[0] not in model_column_names]
         for diff in diffs:
-            column_statements.append('DROP COLUMN {}'.format(diff[0]))
+
+            name, _ = diff
+            column_statements.append('DROP COLUMN {}'.format(name))
 
     alter_query += ', '.join(column_statements)
 

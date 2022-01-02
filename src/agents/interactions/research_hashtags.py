@@ -16,7 +16,7 @@ def exit():
 
 
 def research_hashtags(seed_hashtag: str, levels: int):
-    start = datetime.now()
+    start = None
 
     write(seed_hashtag)
     sleep(3)
