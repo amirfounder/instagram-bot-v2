@@ -3,7 +3,7 @@ from typing import Any
 import websockets
 import json
 from websockets.server import WebSocketServerProtocol, WebSocketServer
-from src.console.server.controllers import end_program, start_program
+from src.console.server.services import end_program, start_program
 
 
 async def ws_handler(websocket: WebSocketServerProtocol, state):
