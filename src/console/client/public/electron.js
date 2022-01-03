@@ -2,8 +2,11 @@ const { app, BrowserWindow } = require('electron')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    useContentSize: true
+    useContentSize: true,
   })
+  win.maximize()
+  win.setMenuBarVisibility(false)
+  win.setAutoHideMenuBar(true)
   win.loadURL('http://localhost:3000')
 }
 

@@ -1,26 +1,17 @@
 import React, { useState } from 'react';
 import styles from './InstagramAgentView.module.scss'
 import { Button, Heading, TextInput } from '../..';
-import { startInstagramAgent } from './InstagramAgentViewService';
+import {
+  startInstagramAgent,
+  handleSeedHashtagChangeService
+} from './InstagramAgentViewService';
 
 export const InstagramAgentView = () => {
 
   const [seedHashtag, setSeedHashtag] = useState('');
-  const handleSeedHashtagChange = (e) => {
-    let newValue;
-    newValue = e.target.value;
-    
-    if (newValue === '') {
-      setSeedHashtag(newValue);
-      return;
-    }
+  const handleSeedHashtagChange = (e) => { handleSeedHashtagChangeService(e.target.value, setSeedHashtag) }
+  const handleSeedUsernameChange = (e) => { handleSeedHashtagChangeService(e.target.value, setSeedHashtag) }
 
-    newValue = newValue.startsWith('#') ? newValue : '#' + newValue;
-    newValue = newValue.toLowerCase();
-    newValue = newValue.trim();
-
-    setSeedHashtag(newValue)
-  }
   const handleStartAgentClick = () => { startInstagramAgent(seedHashtag) }
 
   return (
@@ -29,9 +20,18 @@ export const InstagramAgentView = () => {
         <Heading>New Task</Heading>
         <div className={styles.tasksContainer}>
           <div className={styles.taskBox}>
+            <Heading level='3'>Find Hashtags</Heading>
             <TextInput
-              label='Enter seed hashtag:'
+              label='Seed:'
               value={seedHashtag}
+              placeholder='#nutrition'
+              onChange={handleSeedHashtagChange}
+              id='seedHashtag'
+            />
+            <TextInput
+              label='Account:'
+              value={seedHashtag}
+              placeholder='#nutrition'
               onChange={handleSeedHashtagChange}
               id='seedHashtag'
             />
@@ -41,8 +41,10 @@ export const InstagramAgentView = () => {
             />
           </div>
           <div className={styles.taskBox}>
+            <Heading level='3'>Find Users</Heading>
             <TextInput
-              label='Enter seed username'
+              label='Seed:'
+              placeholder='@bodybuilding'
             />
             <Button
               label='Queue Task'

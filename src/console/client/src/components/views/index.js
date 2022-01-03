@@ -1,4 +1,4 @@
 export * from './DataView'
 export * from './InstagramAgentView'
-export * from './MainView'
+export * from './HomeView'
 export * from './ProcessesView'

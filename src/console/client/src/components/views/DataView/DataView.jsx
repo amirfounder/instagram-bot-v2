@@ -1,11 +1,17 @@
 import React from 'react';
-import socket from '../../../utils/sockets';
+import { Button, Heading } from '../..';
 
 
 export const DataView = () => {
   return (
     <div>
-      Data Manager
+      <div>
+        Data Manager
+      </div>
+      <div>
+        <Heading>Run Syncs</Heading>
+        <Button>Run Syncs</Button>
+      </div>
     </div>
   )
 }

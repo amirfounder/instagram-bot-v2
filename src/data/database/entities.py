@@ -1,9 +1,9 @@
 from datetime import datetime
-from sqlalchemy.sql.sqltypes import DateTime
-from src.data.database.utils import Base
-from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean, DateTime
 from sqlalchemy.ext.declarative import declared_attr
 from inflector import Inflector
+
+from src.data.database.core import Base
 
 
 class XEntity(object):
@@ -13,7 +13,7 @@ class XEntity(object):
     def __singleentity__(cls):
         inflector = Inflector()
         return inflector.underscore(cls.__name__)
-    
+
     @declared_attr
     def __pluralentity__(cls):
         return '{}s'.format(cls.__singleentity__)
@@ -21,7 +21,7 @@ class XEntity(object):
     @declared_attr
     def __tablename__(cls):
         return cls.__pluralentity__
-    
+
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime(True), default=datetime.utcnow)
     updated_at = Column(DateTime(True), default=datetime.utcnow)
@@ -51,6 +51,11 @@ class InstagramHashtag(Base, XEntity, PlatformEntity):
     media_count = Column(BigInteger)
 
 
+class InstagramHashtagEpoch(Base, XEntity):
+    instagram_hashtag_id = Column(Integer, ForeignKey(InstagramHashtag.id))
+    media_count = Column(BigInteger)
+
+
 class InstagramUser(Base, XEntity, PlatformEntity):
     username = Column(String)
     followers = Column(Integer)
@@ -60,7 +65,17 @@ class InstagramUser(Base, XEntity, PlatformEntity):
     is_x_bot = Column(Boolean)
 
 
+class InstagramUserEpoch(Base, XEntity):
+    instagram_user_id = Column(Integer, ForeignKey(InstagramUser.id))
+    followers = Column(Integer)
+    private = Column(Boolean)
+
+
 class InstagramPost(Base, XEntity, PlatformEntity):
+    pass
+
+
+class InstagramPostEpoch(Base, XEntity):
     pass
 
 
@@ -71,4 +86,12 @@ class InstagramComment(Base, XEntity, PlatformEntity):
 class AgentTask(Base, XEntity):
     specialty = Column(String)
     name = Column(String)
+    args = Column(String)
 
+
+class AgentTaskResult(Base, XEntity):
+    pass
+
+
+class AgentTaskTemplate(Base, XEntity):
+    pass

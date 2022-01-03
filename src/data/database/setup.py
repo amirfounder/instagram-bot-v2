@@ -1,4 +1,6 @@
-from src.data.database.utils import mapper_registry, engine, build_session
+from src.data.database.core import mapper_registry, engine
+from src.data.database.utils import build_session
+
 from sqlalchemy import Column
 
 

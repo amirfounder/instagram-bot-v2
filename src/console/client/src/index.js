@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { App } from './components'
-import { TabsProvider } from './context/TabsProvider';
+import { TabsProvider } from './components/context/TabsProvider';
+
 
 ReactDOM.render(
   <React.StrictMode>

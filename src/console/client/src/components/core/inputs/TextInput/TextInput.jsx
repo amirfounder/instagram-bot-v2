@@ -18,22 +18,24 @@ export const TextInput = (props) => {
       className={styles.label}
       htmlFor={id}
     >
-      <div
+      <span
         className={styles.labelText}
       >
         {label}
-      </div>
-      <input
-        data-testid='text-input'
-        type="text"
-        className={styles.input}
-        id={id}
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        placeholder={placeholder}
-      />
-      <p className={styles.error}>{error}</p>
+      </span>
+      <span>
+        <input
+          data-testid='text-input'
+          type="text"
+          className={styles.input}
+          id={id}
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          placeholder={placeholder}
+        />
+        {error && <p className={styles.error}>{error}</p>}
+      </span>
     </label>
   )
 }

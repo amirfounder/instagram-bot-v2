@@ -1,6 +1,6 @@
 from subprocess import Popen, PIPE
 from src.utils.subprocessing import kill_subprocess
-from src.console.server.server import start_server
+from src.console.server.app import start_server
 from src.data.database import setup_database
 from src.data.data_syncs import sync_databases
 from src.utils.constants import CONSOLE_CLIENT_SCRIPT, CONTENT_BUILDER_SCRIPT, HTTP_LISTENER_SCRIPT
@@ -33,6 +33,7 @@ def run_http_listener(state):
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
 
+
 def run_console_client(state):
     popen = Popen(CONSOLE_CLIENT_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     start_confirmed = False
@@ -41,7 +42,7 @@ def run_console_client(state):
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print('Runner output >> '.format(output))
+        print('Runner output >> {}'.format(output))
 
         if 'Compiled successfully!' in output:
             start_confirmed = True

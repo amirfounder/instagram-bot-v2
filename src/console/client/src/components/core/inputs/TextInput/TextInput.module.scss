@@ -1,22 +1,22 @@
 .label {
   line-height: 1.4em;
-  font-size: 18px;
-  
-  & .labelText {
-    margin-bottom: 10px;
-  }
-
+  font-size: 16px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  column-gap: .3rem;
+  align-items: center;
+  padding-bottom: 20px;
 }
 
 .input {
-  width: calc(100% - 22px);
+  width: calc(100% - 32px);
   border: 1px solid rgb(80, 80, 80);
   background-color: rgb(255, 255, 255);
   border-radius: 100px;
   color: black;
 
-  padding: 5px 10px;
-  font-size: 16px;
+  padding: 5px 12px;
+  font-size: 13px;
 
   &:focus {
     border: 1px solid rgb(80, 80, 80);

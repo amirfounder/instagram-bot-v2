@@ -5,7 +5,7 @@ const TabsContext = createContext();
 export const TabsProvider = (props) => {
   const { children } = props;
 
-  const [currentTabId, setCurrentTabId] = useState('3');
+  const [currentTabId, setCurrentTabId] = useState('4');
 
   const value = {
     currentTabId, setCurrentTabId

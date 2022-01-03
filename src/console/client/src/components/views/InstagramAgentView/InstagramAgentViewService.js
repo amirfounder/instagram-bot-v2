@@ -19,3 +19,19 @@ export const startInstagramAgent = () => {
   const json = JSON.stringify(message)
   socket.send(json)
 }
+
+export const handleSeedHashtagChangeService = (value, setValue) => {
+  let newValue;
+  newValue = value;
+  
+  if (newValue === '') {
+    setValue(newValue);
+    return;
+  }
+
+  newValue = newValue.startsWith('#') ? newValue : '#' + newValue;
+  newValue = newValue.toLowerCase();
+  newValue = newValue.trim();
+
+  setValue(newValue)
+}
