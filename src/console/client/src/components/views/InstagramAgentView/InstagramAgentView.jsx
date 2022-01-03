@@ -5,6 +5,7 @@ import {
   startInstagramAgent,
   handleSeedHashtagChangeService
 } from './InstagramAgentViewService';
+import { Inputs } from '../../core/inputs/Inputs/Inputs';
 
 export const InstagramAgentView = () => {
 
@@ -21,20 +22,22 @@ export const InstagramAgentView = () => {
         <div className={styles.tasksContainer}>
           <div className={styles.taskBox}>
             <Heading level='3'>Find Hashtags</Heading>
-            <TextInput
-              label='Seed:'
-              value={seedHashtag}
-              placeholder='#nutrition'
-              onChange={handleSeedHashtagChange}
-              id='seedHashtag'
-            />
-            <TextInput
-              label='Account:'
-              value={seedHashtag}
-              placeholder='#nutrition'
-              onChange={handleSeedHashtagChange}
-              id='seedHashtag'
-            />
+            <Inputs>
+              <TextInput
+                label='Seed:'
+                value={seedHashtag}
+                // value={state.researchHashtags.seed}
+                placeholder='#nutrition'
+                onChange={handleSeedHashtagChange}
+                id='research_hashtags_seed'
+              />
+              <TextInput
+                label='Account:'
+                // value={state.researchHashtags.account}
+                placeholder='@researchaccount1'
+                id='research_hashtags_account'
+              />
+            </Inputs>
             <Button
               label='Queue Task'
               onClick={handleStartAgentClick}
