@@ -3,17 +3,17 @@ from src.utils.subprocessing import kill_subprocess
 from src.console.server.app import start_server
 from src.data.database import setup_database
 from src.data.data_syncs import sync_databases
-from src.utils.constants import CONSOLE_CLIENT_SCRIPT, CONTENT_BUILDER_SCRIPT, HTTP_LISTENER_SCRIPT
+from src.utils.constants import CONSOLE_CLIENT_SHELL_SCRIPT, CONTENT_BUILDER_SHELL_SCRIPT, HTTP_LISTENER_SHELL_SCRIPT
 
 
 def run_content_builder(state):
-    popen = Popen(CONTENT_BUILDER_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(CONTENT_BUILDER_SHELL_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['content_builder.is_running'] = True
     state['content_builder.subprocess_object'] = popen
 
 
 def run_http_listener(state):
-    popen = Popen(HTTP_LISTENER_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(HTTP_LISTENER_SHELL_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     state['http_listener.is_running'] = True
     state['http_listener.subprocess_object'] = popen
     start_confirmed = False
@@ -23,7 +23,7 @@ def run_http_listener(state):
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print(output)
+        print('Console Client STDOUT >> {}'.format(output))
 
         if 'Proxy server listening at' in output:
             start_confirmed = True
@@ -35,14 +35,14 @@ def run_http_listener(state):
 
 
 def run_console_client(state):
-    popen = Popen(CONSOLE_CLIENT_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+    popen = Popen(CONSOLE_CLIENT_SHELL_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
     start_confirmed = False
     
     while not start_confirmed:
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print('Runner output >> {}'.format(output))
+        print('Console Client STDOUT >> {}'.format(output))
 
         if 'Compiled successfully!' in output:
             start_confirmed = True

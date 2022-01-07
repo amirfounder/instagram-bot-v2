@@ -25,7 +25,7 @@ research_top_posts_task_template = {
     'platform': 'instagram',
     'user_args': [
         {
-            'label': 'Niches(s)',
+            'label': 'Market(s)',
             'description': 'Accounts to find top posts FOR. Default = all that have no content scheduled',
             'type': 'text',
             'placeholder': None

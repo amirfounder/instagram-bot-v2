@@ -11,7 +11,7 @@ const {
 export const startInstagramAgent = () => {
   const message = {
     type: START_PROGRAM,
-    program: 'instagram_agent',
+    program: 'agent',
     task: 'research_hashtags',
     seed_hashtag: 'happyholidays'
   }

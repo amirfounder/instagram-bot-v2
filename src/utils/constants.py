@@ -7,9 +7,9 @@ CMD_EXECUTEABLE = 'C:/WINDOWS/system32/cmd.exe'
 MITM_PROXY_FILEPATH = 'src/http_listener/listener'
 
 '''SCRIPTS'''
-HTTP_LISTENER_SCRIPT = 'mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error'
-CONSOLE_CLIENT_SCRIPT = 'npm --prefix src/console/client run start'
-CONTENT_BUILDER_SCRIPT = 'npm --prefix src/builders/content_builder run start'
+HTTP_LISTENER_SHELL_SCRIPT = 'mitmdump -s src/http_listener/listener.py --set console_eventlog_verbosity=error termlog_verbosity=error'
+CONSOLE_CLIENT_SHELL_SCRIPT = 'npm --prefix src/console/client run start'
+CONTENT_BUILDER_SHELL_SCRIPT = 'npm --prefix src/builders/content_builder run start'
 
 '''FORMATS'''
 TODAY_FORMAT = r'%Y_%m_%d'

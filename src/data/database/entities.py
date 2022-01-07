@@ -1,22 +1,36 @@
 from datetime import datetime
+from inflector import Inflector
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean, DateTime
 from sqlalchemy.ext.declarative import declared_attr
-from inflector import Inflector
 
 from src.data.database.core import Base
 
 
 class XEntity(object):
-    infl = Inflector()
 
     @declared_attr
     def __singleentity__(cls):
+        classname = cls.__name__
         inflector = Inflector()
-        return inflector.underscore(cls.__name__)
+        
+        return inflector.underscore(classname)
 
     @declared_attr
     def __pluralentity__(cls):
-        return '{}s'.format(cls.__singleentity__)
+        label: str
+        label = cls.__singleentity__
+
+        base: str = None
+        suffix: str = None
+
+        if label.endswith('y'):
+            base = label[:-1]
+            suffix = 'ies'
+        else:
+            base = label
+            suffix = 's'
+        
+        return '{}{}'.format(base, suffix)
 
     @declared_attr
     def __tablename__(cls):
@@ -67,9 +81,10 @@ class InstagramUser(Base, XEntity, PlatformEntity):
 
 class InstagramUserEpoch(Base, XEntity):
     instagram_user_id = Column(Integer, ForeignKey(InstagramUser.id))
+    username = Column(String)
     followers = Column(Integer)
     private = Column(Boolean)
-
+    
 
 class InstagramPost(Base, XEntity, PlatformEntity):
     pass

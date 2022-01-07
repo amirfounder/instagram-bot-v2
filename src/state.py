@@ -6,8 +6,9 @@ state = build_flat_dict({
         'is_running': False,
         'subprocess_object': None
     },
-    'instagram_agent': {
+    'agent': {
         'current_task': None,
+        'queue': [],
         'tasks': {
             'research_hashtags': {
                 'is_running': False,
