@@ -1,21 +1,18 @@
-import asyncio
 from typing import Any
+from flatdict import FlatterDict
+from websockets.server import WebSocketServerProtocol, WebSocketServer
+import asyncio
 import websockets
 import json
-from websockets.server import WebSocketServerProtocol, WebSocketServer
-from src.console.server.services import end_program, start_program
+
+from src.console.server.controllers import handle_message
 
 
-async def ws_handler(websocket: WebSocketServerProtocol, state):
+async def ws_handler(websocket: WebSocketServerProtocol, state: FlatterDict):
     while True:
         json_message: str = await websocket.recv()
         message: dict[str, Any] = json.loads(json_message)
-        message_type: str = message['type']
-
-        if message_type.lower() == 'start_program':
-            start_program(message, state)
-        elif message_type.lower() == 'end_program':
-            end_program(message, state)
+        handle_message(message)
 
 
 def start_server(state):
