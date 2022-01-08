@@ -1,5 +1,5 @@
 from subprocess import Popen, PIPE
-from src.utils.subprocessing import kill_subprocess
+from src.utils.wrappers.subprocessing import kill_subprocess
 from src.console.server.app import start_server
 from src.data.database import setup_database
 from src.data.data_syncs import sync_databases

@@ -1,5 +1,5 @@
 from flatdict import FlatterDict
-from src.agents.dtos import build_research_hashtags_task_dto, build_research_users_task_dto
+from src.utils.dtos.agent_dtos import build_research_hashtags_task_dto, build_research_users_task_dto
 from src.data.database.utils import convert_entity_to_dict
 from src.data.repository import save_task
 

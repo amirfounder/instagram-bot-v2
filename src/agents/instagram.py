@@ -1,14 +1,11 @@
-from src.agents.interactions.browser_utils import *
-from src.controls.keyboard import hotkey, write
+from src.agents.browser import *
+from src.agents.controls.keyboard import hotkey, write
 from src.data.repository import *
-from datetime import datetime
+
 
 def setup():
     open_browser(2)
     navigate_to_url(INSTAGRAM_URL)
-    toggle_dev_tools()
-    focus_dev_tools()
-    wait_until_browser_loads()
 
 
 def exit():
@@ -22,7 +19,3 @@ def research_hashtags(seed_hashtag: str, levels: int):
     sleep(3)
 
     hashtags = 0
-
-
-
-

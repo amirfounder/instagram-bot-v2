@@ -3,7 +3,7 @@ from flatdict import FlatterDict
 
 from src.programs import run_database_setup, run_console_client, run_console_server, run_data_syncs, run_http_listener
 from src.state import state
-from src.utils.threading import spawn_thread
+from src.utils.wrappers.threading import spawn_thread
 from src.utils.utils import get_differences_from_prev_state, copy_state
 
 
