@@ -9,5 +9,5 @@ def response(flow) -> None:
 
 
 def running() -> None:
-    pass
+    print('Started running - confirmed')
 

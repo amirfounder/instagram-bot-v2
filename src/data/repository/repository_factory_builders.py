@@ -36,7 +36,6 @@ def build_get_by_id_fn(entity: type[XEntity]):
         query = session.query(entity)
         result = query.get(id)
 
-        session.commit()
         session.expunge_all()
         session.close()
 
@@ -65,7 +64,6 @@ def build_get_all_by_ids_fn(entity: type[XEntity]):
             .filter(entity.id.in_(ids))
         result = query.all()
 
-        session.commit()
         session.expunge_all()
         session.close()
 
