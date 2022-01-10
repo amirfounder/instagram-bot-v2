@@ -28,11 +28,11 @@ kill_key_two_pressed = False
 kill_logger = False
 
 
-def run():
+def run_interaction_logger():
     create_directories(INTERACTION_LOGGER_LOGS_DIRECTORY)
 
-    thread_one = Thread(target=run)
-    thread_two = Thread(target=run)
+    thread_one = Thread(target=run_keyboard_listener)
+    thread_two = Thread(target=run_mouse_listener)
     thread_one.start()
     thread_two.start()
     thread_one.join()

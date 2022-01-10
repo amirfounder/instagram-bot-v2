@@ -4,9 +4,18 @@ from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, Boolean,
 from sqlalchemy.ext.declarative import declared_attr
 
 from src.data.database.core import Base
+from src.utils.utils import datetime_utc_now
 
 
 class XEntity(object):
+    id = Column(Integer, primary_key=True)
+    created_at = Column(DateTime(True), default=datetime.utcnow)
+    updated_at = Column(DateTime(True), default=datetime.utcnow)
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.created_at = datetime_utc_now()
+        self.updated_at = datetime_utc_now()
 
     @declared_attr
     def __singleentity__(cls):
@@ -36,9 +45,6 @@ class XEntity(object):
     def __tablename__(cls):
         return cls.__pluralentity__
 
-    id = Column(Integer, primary_key=True)
-    created_at = Column(DateTime(True), default=datetime.utcnow)
-    updated_at = Column(DateTime(True), default=datetime.utcnow)
 
 
 class PlatformEntity(object):
@@ -104,9 +110,7 @@ class AgentTask(Base, XEntity):
     args = Column(String)
 
 
-class AgentTaskResult(Base, XEntity):
-    pass
-
-
-class AgentTaskTemplate(Base, XEntity):
-    pass
+class XProcess(Base, XEntity):
+    pid = Column(Integer)
+    name = Column(String)
+    is_open = Column(Boolean)

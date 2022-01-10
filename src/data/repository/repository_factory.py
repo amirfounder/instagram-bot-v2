@@ -14,7 +14,8 @@ def build_all_entity_repository_fns(namespace: dict) -> None:
         InstagramHashtag,
         InstagramUser,
         InstagramPost,
-        InstagramComment
+        InstagramComment,
+        XProcess
     ]
     
     for entity in all_entities:

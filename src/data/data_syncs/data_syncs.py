@@ -10,13 +10,12 @@ from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPON
 from src.utils.string_literals import DATETIMESTAMP, URL
 
 
-def sync_databases(state: dict):
-    while state['program_is_running']:
-        if state['data_syncs.is_running']:
-            try:
-                sync_instagram_responses_from_files_to_database()
-            except Exception as e:
-                print(e)
+def sync_databases():
+    while True:
+        try:
+            sync_instagram_responses_from_files_to_database()
+        except Exception as e:
+            print(e)
         sleep(3)
 
 
