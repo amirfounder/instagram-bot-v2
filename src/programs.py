@@ -14,7 +14,8 @@ def run_content_builder(state):
 
 def run_http_listener(state):
     popen = Popen(HTTP_LISTENER_SHELL_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
-    state['http_listener.is_running'] = True
+
+    state['http_listener.is_running'] = False
     state['http_listener.subprocess_object'] = popen
     start_confirmed = False
 
@@ -23,7 +24,9 @@ def run_http_listener(state):
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print('Console Client STDOUT >> {}'.format(output))
+
+        if output.strip() is not '':
+            print('HTTP Listener STDOUT >> {}'.format(output))
 
         if 'Proxy server listening at' in output:
             start_confirmed = True
@@ -31,18 +34,22 @@ def run_http_listener(state):
             break
 
     state['http_listener.is_running'] = True
-    state['http_listener.subprocess_object'] = popen
 
 
 def run_console_client(state):
     popen = Popen(CONSOLE_CLIENT_SHELL_SCRIPT, shell=True, stdout=PIPE, stderr=PIPE, stdin=PIPE)
+
+    state['console.client.is_running'] = False
+    state['console.client.subprocess_object'] = popen
     start_confirmed = False
     
     while not start_confirmed:
         output = popen.stdout.readline()
         output = output.decode('utf-8')
         output = output.removesuffix('\n')
-        print('Console Client STDOUT >> {}'.format(output))
+
+        if output.strip() is not '':
+            print('Console Client STDOUT >> {}'.format(output))
 
         if 'Compiled successfully!' in output:
             start_confirmed = True
@@ -50,10 +57,9 @@ def run_console_client(state):
             break
 
     state['console.client.is_running'] = True
-    state['console.client.subprocess_object'] = popen
 
 
-def run_database_setup(state):
+def run_database_setup():
     setup_database()
 
 

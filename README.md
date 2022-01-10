@@ -33,31 +33,39 @@ TBD
 ## File Structure
 
 ```
-|_ x
-  |_ .venv
-  |_ .vscode
-  |_ src
-    |_ agents
-      |_ instagram.py
-      |_ browser.py
-      |_ agent.py
-      |_ dtos.py
-    |_ builders
-      |_ content_builder
-        |_ node_modules
-        |_ public
-      |
-      |_ bot_builder.py
-      |_ username_builder.py
-    |_ console
-    |_ controls
-    |_ data
-    |_ http_listener
-    |_ interaction_logger
-    |_ utils
-    |_ virtualization
-    |
-    |_ app.py
-    |_ programs.py
-    |_ state.py
+- x
+  - .pytest_cache
+  - .venv
+  - .vscode
+  - src
+    - agents
+      - controls
+        - keyboard.py
+        - mouse.py
+        - screen.py
+      - instagram.py
+      - browser.py
+      - agent.py
+    - builders
+      - content_builder
+      - bot_builder.py
+      - username_builder.py
+    - console
+    - controls
+    - data
+    - http_listener
+    - interaction_logger
+    - utils
+      - wrappers
+        - multiprocessing
+      - dtos
+        - agent_dtos.py
+    - virtualization
+    - app.py
+    - programs.py
+    - state.py
+  - .gitignore
+  - main.py
+  - README.md
+  - requirements.txt
 ```

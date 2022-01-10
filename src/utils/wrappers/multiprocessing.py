@@ -1,4 +1,4 @@
-from multiprocessing import Manager, active_children
+from multiprocessing import active_children
 from multiprocessing.context import Process
 from typing import Any
 
