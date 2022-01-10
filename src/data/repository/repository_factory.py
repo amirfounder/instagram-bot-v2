@@ -15,7 +15,7 @@ def build_all_entity_repository_fns(namespace: dict) -> None:
         InstagramUser,
         InstagramPost,
         InstagramComment,
-        XProcess
+        ProgramProcess
     ]
     
     for entity in all_entities:
@@ -44,6 +44,6 @@ def build_entity_repository_fns(entity: type[XEntity], namespace: dict) -> None:
     fn = build_save_all_fn(entity)
     add_fn_to_global_namespace(name, fn, namespace)
 
-    name = build_update_by_id_fn_name(entity)
-    fn = build_update_by_id_fn(entity)
+    name = build_update_fn_name(entity)
+    fn = build_update_fn(entity)
     add_fn_to_global_namespace(name, fn, namespace)

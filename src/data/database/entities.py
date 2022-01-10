@@ -35,6 +35,11 @@ class XEntity(object):
         if label.endswith('y'):
             base = label[:-1]
             suffix = 'ies'
+
+        elif label.endswith('s'):
+            base = label
+            suffix = 'es'
+        
         else:
             base = label
             suffix = 's'
@@ -51,7 +56,7 @@ class PlatformEntity(object):
     platform_id = Column(BigInteger)
 
 
-class Bot(Base, XEntity):
+class Bot(XEntity, Base):
     first_name = Column(String)
     last_name = Column(String)
     gender = Column(String)
@@ -60,23 +65,23 @@ class Bot(Base, XEntity):
     password = Column(String)
 
 
-class BotAccount(Base, XEntity):
+class BotAccount(XEntity, Base):
     bot_id = Column(Integer, ForeignKey(Bot.id))
     username = Column(String)
     password = Column(String)
 
 
-class InstagramHashtag(Base, XEntity, PlatformEntity):
+class InstagramHashtag(XEntity, Base, PlatformEntity):
     name = Column(String)
     media_count = Column(BigInteger)
 
 
-class InstagramHashtagEpoch(Base, XEntity):
+class InstagramHashtagEpoch(XEntity, Base):
     instagram_hashtag_id = Column(Integer, ForeignKey(InstagramHashtag.id))
     media_count = Column(BigInteger)
 
 
-class InstagramUser(Base, XEntity, PlatformEntity):
+class InstagramUser(XEntity, Base, PlatformEntity):
     username = Column(String)
     followers = Column(Integer)
     private = Column(Boolean)
@@ -85,32 +90,35 @@ class InstagramUser(Base, XEntity, PlatformEntity):
     is_x_bot = Column(Boolean)
 
 
-class InstagramUserEpoch(Base, XEntity):
+class InstagramUserEpoch(XEntity, Base):
     instagram_user_id = Column(Integer, ForeignKey(InstagramUser.id))
     username = Column(String)
     followers = Column(Integer)
     private = Column(Boolean)
     
 
-class InstagramPost(Base, XEntity, PlatformEntity):
+class InstagramPost(XEntity, Base, PlatformEntity):
     pass
 
 
-class InstagramPostEpoch(Base, XEntity):
+class InstagramPostEpoch(XEntity, Base):
     pass
 
 
-class InstagramComment(Base, XEntity, PlatformEntity):
+class InstagramComment(XEntity, Base, PlatformEntity):
     pass
 
 
-class AgentTask(Base, XEntity):
+class AgentTask(XEntity, Base):
     specialty = Column(String)
     name = Column(String)
     args = Column(String)
 
 
-class XProcess(Base, XEntity):
+class ProgramProcess(XEntity, Base):
+    def __init__(self):
+        super().__init__()
+
     pid = Column(Integer)
     name = Column(String)
     is_open = Column(Boolean)

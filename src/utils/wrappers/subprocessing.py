@@ -1,4 +1,4 @@
-from os import kill
+from os import kill, name
 from signal import CTRL_C_EVENT
 from subprocess import PIPE, Popen
 
@@ -11,13 +11,13 @@ def kill_subprocess(process: Popen):
     process.terminate()
 
 
-def spawn_subprocess(args: str, shell=None, stdout=None, stderr=None, stdin=None):
+def spawn_subprocess(args: str, shell=None, stdout=None, stderr=None, stdin=None) -> Popen:
     popen = Popen(
         args,
-        shell=shell | True,
-        stdout=stdout | PIPE,
-        stderr=stderr | PIPE,
-        stdin=stdin | PIPE
+        shell=shell or True,
+        stdout=stdout or PIPE,
+        stderr=stderr or PIPE,
+        stdin=stdin or PIPE
     )
 
     return popen

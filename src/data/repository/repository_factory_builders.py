@@ -5,8 +5,8 @@ Functions:
 - Get All By Attribute
 - Save
 - Save All
-- Update By Id
-- Update All By Ids (TODO)
+- Update
+- Update All (TODO)
 - Delete By Id (TODO)
 - Delete All By Ids (TODO)
 '''
@@ -178,25 +178,25 @@ def build_save_all_fn(entity: type[XEntity]):
     return fn
 
 
-'''update_by_id'''
+'''update'''
 
 
-def build_update_by_id_fn_name(entity: type[XEntity]):
+def build_update_fn_name(entity: type[XEntity]):
     label = entity.__singleentity__
-    name = 'update_{}_by_id'.format(label)
+    name = 'update_{}'.format(label)
 
     return name
 
 
-def build_update_by_id_fn(entity: type[XEntity]):
+def build_update_fn(entity: type[XEntity]):
     
-    def fn(instance: list[XEntity]):
+    def fn(instance: XEntity):
         session = build_session()
         entity_as_dict = convert_entity_to_dict(instance)
 
         session \
-            .query(type(entity)) \
-            .filter(type(entity).id == entity.id) \
+            .query(entity) \
+            .filter(entity.id == instance.id) \
             .update(entity_as_dict)
         
         session.commit()
@@ -204,7 +204,7 @@ def build_update_by_id_fn(entity: type[XEntity]):
     return fn
 
 
-'''update_all_by_id'''
+'''update_all'''
 
 '''delete_by_id''' 
 
