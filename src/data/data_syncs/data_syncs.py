@@ -1,6 +1,6 @@
 from time import sleep
 
-from src.data.repository import save_all_instagram_users, get_all_instagram_users_by_attr
+from src.data.repository import save_all_instagram_users, get_all_instagram_users_by_column
 from src.data.data_syncs.data_syncs_utils import parse_json_responses
 from src.data.data_syncs.data_syncs_filters import *
 from src.data.data_syncs.data_syncs_entity_builders import build_instagram_user_to_save, build_instagram_user_to_update
@@ -67,7 +67,7 @@ def save_account_recommendations(response: dict):
     response_timestamp = response[X_METADATA][DATETIMESTAMP]
 
     db_users: list[InstagramUser]
-    db_users = get_all_instagram_users_by_attr('platform_id', json_users_platform_ids)
+    db_users = get_all_instagram_users_by_column('platform_id', json_users_platform_ids)
     db_users = [x for x in db_users if x.created_at != response_timestamp]
     db_users_platform_ids = [int(x.platform_id) for x in db_users]
 

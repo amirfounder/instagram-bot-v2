@@ -2,7 +2,7 @@
 Functions:
 - Get All
 - Get By Id
-- Get All By Attribute
+- Get All By Column
 - Save
 - Save All
 - Update
@@ -59,10 +59,10 @@ def build_get_all_by_ids_fn(entity: type[XEntity]):
     def fn(ids: list[int]):
         session = build_session()
 
-        query = session \
+        result = session \
             .query(entity) \
-            .filter(entity.id.in_(ids))
-        result = query.all()
+            .filter(entity.id.in_(ids)) \
+            .all()
 
         session.expunge_all()
         session.close()
@@ -72,30 +72,35 @@ def build_get_all_by_ids_fn(entity: type[XEntity]):
     return fn
 
 
-'''get_all_by_attr'''
+'''get_all_by_column'''
 
 
-def build_get_all_by_attr_fn_name(entity: type[XEntity]):
+def build_get_all_by_column_fn_name(entity: type[XEntity]):
     label = entity.__pluralentity__
-    name = 'get_all_{}_by_attr'.format(label)
+    name = 'get_all_{}_by_column'.format(label)
     
     return name
 
 
-def build_get_all_by_attr_fn(entity: type[XEntity]):
+def build_get_all_by_column_fn(entity: type[XEntity]):
 
-    def fn(attr: str, val: Any | list[Any]):
+    def fn(column_name: str, val: Any | list[Any]):
         session = build_session()
-
         criteria = None
 
-        if type(val) is list:
-            criteria = column(attr).in_(val)
-        else:
-            criteria = column(attr) == val
+        attributes = dir(entity)
+        if column_name not in attributes:
+            return []
 
-        query = session.query(entity).filter(criteria)
-        result = query.all()
+        if type(val) is list:
+            criteria = column(column_name).in_(val)
+        else:
+            criteria = column(column_name) == val
+
+        result = session \
+            .query(entity) \
+            .filter(criteria) \
+            .all()
 
         session.expunge_all()
         session.close()

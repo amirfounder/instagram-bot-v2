@@ -32,8 +32,8 @@ def build_entity_repository_fns(entity: type[XEntity], namespace: dict) -> None:
     fn = build_get_all_by_ids_fn(entity)
     add_fn_to_global_namespace(name, fn, namespace)
 
-    name = build_get_all_by_attr_fn_name(entity)
-    fn = build_get_all_by_attr_fn(entity)
+    name = build_get_all_by_column_fn_name(entity)
+    fn = build_get_all_by_column_fn(entity)
     add_fn_to_global_namespace(name, fn, namespace)
 
     name = build_save_fn_name(entity)
