@@ -8,7 +8,8 @@ import {
 } from '../../../..';
 import {
   handleBotAccountInputChangeService,
-  handleSeedHashtagInputChangeService
+  handleSeedHashtagInputChangeService,
+  handleQueueTaskService
 } from './ScrapeHashtagsCardService';
 
 export const ScrapeHashtagsCard = () => {
@@ -17,7 +18,7 @@ export const ScrapeHashtagsCard = () => {
   const [botAccount, setBotAccount] = useState('')
   const handleSeedHashtagInputChange = (e) => { handleSeedHashtagInputChangeService(e.target.value, setSeedHashtag) }
   const handleBotAccountInputChange = (e) => { handleBotAccountInputChangeService(e.target.value, setBotAccount) }
-  const handleQueueTaskClick = () => {}
+  const handleQueueTaskClick = () => { handleQueueTaskService(seedHashtag, botAccount) }
 
   return (
     <Card>

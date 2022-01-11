@@ -1,3 +1,5 @@
+import { createTask } from "../../../../../sockets/taskController";
+
 export const handleSeedHashtagInputChangeService = (value, setValue) => {
   let newValue = value;
   
@@ -20,4 +22,14 @@ export const handleBotAccountInputChangeService = (value, setValue) => {
   }
 
   setValue(newValue)
+}
+
+export const handleQueueTaskService = (seedHashtag, botAccount) => {
+  const taskObject = {
+    name: 'Scrape Hashtags',
+    seed: seedHashtag,
+    bot: botAccount
+  }
+
+  createTask(taskObject)
 }

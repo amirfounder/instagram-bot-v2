@@ -1,4 +1,4 @@
-import constants from "./constants";
+import constants from "../utils/constants"
 
 const socket = new WebSocket(constants.CONSOLE_SERVER_SOCKET_URL)
 

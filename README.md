@@ -30,6 +30,14 @@ TBD
 
 # Dev Notes
 
+## Terminology
+
+| `TERM`    | `DEFINITION`
+| -         | -
+| app       | The application as a whole
+| program   | Sections of the program that encapsulate different functions of the program
+
+
 ## File Structure
 
 ```

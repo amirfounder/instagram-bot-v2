@@ -1,21 +1,8 @@
 import constants from "../../../utils/constants"
-import socket from "../../../utils/sockets"
 
 const {
-  SOCKET_MESSAGE_TYPES: {
+  SOCKET_MESSAGE_ACTIONS: {
     START_PROGRAM
   }
 } = constants;
 
-
-export const startInstagramAgent = () => {
-  const message = {
-    type: START_PROGRAM,
-    program: 'agent',
-    task: 'research_hashtags',
-    seed_hashtag: 'happyholidays'
-  }
-
-  const json = JSON.stringify(message)
-  socket.send(json)
-}

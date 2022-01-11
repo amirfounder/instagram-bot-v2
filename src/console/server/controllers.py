@@ -7,8 +7,9 @@ from json import loads
 async def ws_controller(websocket: WebSocketServerProtocol):
     while True:
         json_message: str = await websocket.recv()
-        message: dict[str, Any] = loads(json_message)
+        print('Websockets Server received the following message: {}'.format(json_message))
         
+        message: dict[str, Any] = loads(json_message)
         message_type: str = message['type']
         message_data: dict = message['data']
 

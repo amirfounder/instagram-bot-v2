@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './InstagramAgentView.module.scss'
-import { startInstagramAgent } from './InstagramAgentViewService';
 import { ScrapeHashtagsCard, ScrapeUsersCard } from './cards';
 import { QueuedTasksTableContent, QueuedTasksTableHeader } from './QueuedTasksTable';
 

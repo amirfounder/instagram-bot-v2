@@ -51,6 +51,9 @@ class XEntity(object):
         return cls.__pluralentity__
 
 
+class SeedableEntity(object):
+    used_as_seed = Column(Boolean)
+
 
 class PlatformEntity(object):
     platform_id = Column(BigInteger)
@@ -71,7 +74,7 @@ class BotAccount(XEntity, Base):
     password = Column(String)
 
 
-class InstagramHashtag(XEntity, Base, PlatformEntity):
+class InstagramHashtag(XEntity, Base, PlatformEntity, SeedableEntity):
     name = Column(String)
     media_count = Column(BigInteger)
 
@@ -81,7 +84,7 @@ class InstagramHashtagEpoch(XEntity, Base):
     media_count = Column(BigInteger)
 
 
-class InstagramUser(XEntity, Base, PlatformEntity):
+class InstagramUser(XEntity, Base, PlatformEntity, SeedableEntity):
     username = Column(String)
     followers = Column(Integer)
     private = Column(Boolean)
