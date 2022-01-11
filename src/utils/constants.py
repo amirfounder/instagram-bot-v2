@@ -31,3 +31,9 @@ LISTENER_LOGS_INSTAGRAM_IMAGES_DIRECTORY = 'C:/x/logs/mitm-proxy/instagram/image
 
 '''Misc'''
 MAX_LOG_FILE_SIZE = 50 * 1000 * 1000
+
+'''Statuses'''
+QUEUED = 'queued'
+RUNNING = 'running'
+ABORTED = 'aborted'
+COMPLETED = 'completed'

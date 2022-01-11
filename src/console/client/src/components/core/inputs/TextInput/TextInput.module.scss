@@ -10,11 +10,12 @@
 .input {
   width: calc(100% - 32px);
   border: 1px solid rgb(80, 80, 80);
+  border-color: rgb(200, 200, 200);
   background-color: rgb(255, 255, 255);
   border-radius: 100px;
   color: black;
 
-  padding: 5px 12px;
+  padding: 6px 12px;
   font-size: 13px;
 
   &:focus {

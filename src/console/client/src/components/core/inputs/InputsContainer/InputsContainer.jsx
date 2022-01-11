@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './Inputs.module.scss'
+import styles from './InputsContainer.module.scss'
 
-export const Inputs = (props) => {
+export const InputsContainer = (props) => {
   const { children } = props;
   return (
     <div className={styles.main}>

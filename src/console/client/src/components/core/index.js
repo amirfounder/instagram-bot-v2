@@ -1,4 +1,5 @@
 export * from './Button'
+export * from './Card'
 export * from './Heading'
 export * from './inputs'
 export * from './Table'

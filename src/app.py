@@ -11,6 +11,7 @@ from src.utils.wrappers.subprocessing import spawn_subprocess
 
 
 def run():
+    
     run_signal_registration()
     run_database_setup()
 
