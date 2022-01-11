@@ -2,19 +2,21 @@ import React from 'react';
 import styles from './InstagramAgentView.module.scss'
 import { startInstagramAgent } from './InstagramAgentViewService';
 import { ScrapeHashtagsCard, ScrapeUsersCard } from './cards';
+import { QueuedTasksTableContent, QueuedTasksTableHeader } from './QueuedTasksTable';
 
 export const InstagramAgentView = () => {
   return (
     <div className={styles.main}>
       <div>
-        <div className={styles.tasks}>
+        <div className={styles.cards}>
           <ScrapeHashtagsCard />
           <ScrapeUsersCard />
         </div>
       </div>
       <div>
-        <div className={styles.queuedTasksContainer}>
-          
+        <div className={styles.queuedTasks}>
+          <QueuedTasksTableHeader />
+          <QueuedTasksTableContent />
         </div>
       </div>
     </div>
