@@ -11,6 +11,6 @@ Base = mapper_registry.generate_base()
 CONNECTION_STRING = 'postgresql://postgres:root@localhost:5432/x'
 
 engine: Engine
-engine = create_engine(CONNECTION_STRING, echo=True, future=True, connect_args={'options': '-c timezone=utc'})
+engine = create_engine(CONNECTION_STRING, echo=False, future=True, connect_args={'options': '-c timezone=utc'})
 Session: TSession
 Session = sessionmaker(bind=engine)

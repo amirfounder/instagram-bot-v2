@@ -17,6 +17,8 @@ from src.data.database.utils import build_session, convert_entity_to_dict
 from sqlalchemy import column
 from datetime import datetime
 
+from src.utils.utils import build_datetimestamp
+
 
 '''get_by_id'''
 
@@ -136,7 +138,7 @@ def build_save_fn_name(entity: type[XEntity]):
 
     return name
 
-def build_save_fn(entity: type[XEntity]):
+def build_save_fn():
 
     def fn(instance: XEntity):
         session = build_session()
@@ -163,13 +165,12 @@ def build_save_all_fn_name(entity: type[XEntity]):
     return name
 
 
-def build_save_all_fn(entity: type[XEntity]):
+def build_save_all_fn():
 
     def fn(instances: list[XEntity]):
         session = build_session()
 
         session.add_all(instances)
-
         session.commit()
 
         for instance in instances:
@@ -197,7 +198,9 @@ def build_update_fn(entity: type[XEntity]):
     
     def fn(instance: XEntity):
         session = build_session()
+        instance.updated_at = build_datetimestamp()
         entity_as_dict = convert_entity_to_dict(instance)
+        
 
         session \
             .query(entity) \

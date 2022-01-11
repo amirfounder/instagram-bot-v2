@@ -1,4 +1,11 @@
 import { createTask } from "../../../../../sockets/taskController";
+import constants from "../../../../../utils/constants";
+
+const {
+  STATUSES: {
+    QUEUED
+  }
+} = constants
 
 export const handleSeedHashtagInputChangeService = (value, setValue) => {
   let newValue = value;
@@ -28,7 +35,8 @@ export const handleQueueTaskService = (seedHashtag, botAccount) => {
   const taskObject = {
     name: 'Scrape Hashtags',
     seed: seedHashtag,
-    bot: botAccount
+    bot: botAccount,
+    status: QUEUED
   }
 
   createTask(taskObject)

@@ -113,9 +113,9 @@ class InstagramComment(XEntity, Base, PlatformEntity):
 
 
 class AgentTask(XEntity, Base):
-    specialty = Column(String)
     name = Column(String)
     args = Column(String)
+    status = Column(String)
 
 
 class ProgramProcess(XEntity, Base):

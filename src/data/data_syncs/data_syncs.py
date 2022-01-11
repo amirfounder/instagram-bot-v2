@@ -8,12 +8,14 @@ from src.data.database.entities import InstagramUser
 from src.data.files import append_to_file_in_directory, convert_data_map_to_data, read_from_files_in_directory
 from src.utils.constants import IG_JSON_RESPONSES_LOGS_DIRECTORY, IG_JSON_RESPONSES_SYNCED_TIMESTAMP_DIRECTORY
 from src.utils.string_literals import DATETIMESTAMP, URL
+from src.utils.utils import build_datetimestamp
 
 
 def sync_databases():
     while True:
         try:
             sync_instagram_responses_from_files_to_database()
+            print('{} : Successfully synced databases!'.format(build_datetimestamp()))
         except Exception as e:
             print(e)
         sleep(3)

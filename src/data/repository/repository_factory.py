@@ -9,13 +9,14 @@ def add_fn_to_global_namespace(name: str, value: Callable, namespace: dict) -> N
 
 def build_all_entity_repository_fns(namespace: dict) -> None:
     all_entities = [
+        AgentTask,
         Bot,
         BotAccount,
         InstagramHashtag,
         InstagramUser,
         InstagramPost,
         InstagramComment,
-        ProgramProcess
+        ProgramProcess,
     ]
     
     for entity in all_entities:
@@ -37,11 +38,11 @@ def build_entity_repository_fns(entity: type[XEntity], namespace: dict) -> None:
     add_fn_to_global_namespace(name, fn, namespace)
 
     name = build_save_fn_name(entity)
-    fn = build_save_fn(entity)
+    fn = build_save_fn()
     add_fn_to_global_namespace(name, fn, namespace)
 
     name = build_save_all_fn_name(entity)
-    fn = build_save_all_fn(entity)
+    fn = build_save_all_fn()
     add_fn_to_global_namespace(name, fn, namespace)
 
     name = build_update_fn_name(entity)

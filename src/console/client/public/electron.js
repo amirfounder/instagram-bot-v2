@@ -4,10 +4,10 @@ const createWindow = () => {
   const win = new BrowserWindow({
     useContentSize: true,
   })
-  win.maximize()
   win.setMenuBarVisibility(false)
   win.setAutoHideMenuBar(true)
   win.loadURL('http://localhost:3000')
+  win.maximize()
 }
 
 app.on('ready', () => {

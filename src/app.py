@@ -1,6 +1,7 @@
 import os
 import signal
 from src.data.database.entities import ProgramProcess
+from src.utils.utils import build_datetimestamp
 from src.utils.wrappers.threading import spawn_thread
 from src.console.server.app import start_server
 from src.data.database import setup_database
@@ -48,7 +49,9 @@ def run_signal_registration():
 
 
 def run_database_setup():
+    print('{} : Running database setup'.format(build_datetimestamp()))
     setup_database()
+    print('{} : Database setup complete'.format(build_datetimestamp()))
 
 
 def run_content_builder():
@@ -61,6 +64,7 @@ def run_content_builder():
 
 
 def run_data_syncs():
+    print('{} : Starting data syncs'.format(build_datetimestamp()))
     sync_databases()
 
 

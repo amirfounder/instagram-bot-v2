@@ -4,6 +4,13 @@ export default Object.freeze({
     PROGRAM: 'program',
     TASKS: 'tasks'
   },
+  STATUSES: {
+    QUEUED: 'queued',
+    RUNNING: 'running',
+    ABORTED: 'aborted',
+    COMPLETED: 'completed',
+    PAUSED: 'paused'
+  },
   SOCKET_MESSAGE_ACTIONS: {
     START_PROGRAM: 'start_program',
     END_PROGRAM: 'end_program'
