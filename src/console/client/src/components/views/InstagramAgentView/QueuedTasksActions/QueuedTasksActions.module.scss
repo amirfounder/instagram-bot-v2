@@ -1,0 +1,22 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 1rem;
+
+  & > div {
+    align-items: center;
+    display: grid;
+
+    &:first-child {
+      justify-content: start;
+    }
+
+    &:last-child {
+      justify-content: end;
+    }
+
+  }
+}

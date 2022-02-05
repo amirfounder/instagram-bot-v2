@@ -1,5 +1,5 @@
-from src.agents.browser import *
-from src.agents.controls.keyboard import hotkey, write
+from src.controllers.browser import *
+from src.controllers.controls.keyboard import hotkey, write
 from src.data.repository import *
 
 

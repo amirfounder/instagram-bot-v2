@@ -1,4 +1,4 @@
-import { createTask } from "../../../../../sockets/taskController";
+import { createTask } from "../../../../../sockets/controller";
 import constants from "../../../../../utils/constants";
 
 const {

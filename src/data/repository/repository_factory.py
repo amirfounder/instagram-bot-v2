@@ -16,7 +16,8 @@ def build_all_entity_repository_fns(namespace: dict) -> None:
         InstagramUser,
         InstagramPost,
         InstagramComment,
-        ProgramProcess,
+        AppProcess,
+        AppProgram
     ]
     
     for entity in all_entities:

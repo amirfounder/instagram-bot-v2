@@ -1,4 +1,4 @@
-from src.agents import *
+from src.controllers import *
 from src.app import *
 from src.builders import *
 from src.console import *

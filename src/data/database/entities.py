@@ -118,10 +118,15 @@ class AgentTask(XEntity, Base):
     status = Column(String)
 
 
-class ProgramProcess(XEntity, Base):
+class AppProcess(XEntity, Base):
     def __init__(self):
         super().__init__()
 
     pid = Column(Integer)
     name = Column(String)
-    is_open = Column(Boolean)
+    is_running = Column(Boolean)
+
+
+class AppProgram(XEntity, Base):
+    name = Column(String)
+    status = Column(String)

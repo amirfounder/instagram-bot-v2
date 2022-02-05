@@ -2,7 +2,7 @@ from time import sleep
 from pyperclip import copy
 from src.utils.constants import *
 from src.utils.system import move_app_to_monitor, open_app, close_app, get_foreground_app, show_app_maximized
-from src.agents.controls.keyboard import hotkey, press_and_release, write
+from src.controllers.controls.keyboard import hotkey, press_and_release, write
 
 
 BROWSER_EXECUTEABLE = BRAVE_EXECUTEABLE

@@ -12,7 +12,7 @@ When developing: follow 80/20. If it takes 80% of your time to develop and autom
 2. Login to Instagram
 3. Confirm on app. Begin 5 second countdown before hashtag farming begins
 -- app begins farming hashtags around a certain niche
--- interactions with the terminal can occur to change the queue? << FUTURE UPGRADE >>
+-- interMETHODS with the terminal can occur to change the queue? << FUTURE UPGRADE >>
 
 ## Farm users & niches
 
