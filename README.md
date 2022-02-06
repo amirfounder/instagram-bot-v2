@@ -1,10 +1,10 @@
-# NOTES:
+# Instagram Bot v2
 
-When developing: follow 80/20. If it takes 80% of your time to develop and automate something that provides only 20% values, drop it and implement `terminal`.
+This is version 2 of a bot that was built to automate tedious and boring Instagram tasks.
 
 # Main Flow
 
-## Farm hashtags
+## Farm hashtags (Not implemented for production)
 
 1. Start the application
 -- app starts and opens up the browsers
@@ -16,27 +16,20 @@ When developing: follow 80/20. If it takes 80% of your time to develop and autom
 
 ## Farm users & niches
 
-TBD
+N/A
 
 ## Farm popular posts from users in my niche / market
 
-1. 
+N/A
 
 # Commands
 
 ```pytest```  
 ```python main.py```  
 
-
 # Dev Notes
 
-## Terminology
-
-| `TERM`    | `DEFINITION`
-| -         | -
-| app       | The application as a whole
-| program   | Sections of the program that encapsulate different functions of the program
-
+Motivation for this project was to see If it was posssible to automate tedious tasks with Instagram. Yes. Python makes it very easy to do so... far easier than anticipated.
 
 ## File Structure
 
